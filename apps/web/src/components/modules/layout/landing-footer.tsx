@@ -1,0 +1,47 @@
+import { Typography } from "@/components/ui/typography";
+import { ProjectUrls } from "@/const/url";
+import { Github } from "lucide-react";
+import Link from "next/link";
+
+const currentYear = new Date().getFullYear();
+
+export const LandingFooter = () => {
+  const landingNavigationLinks = [
+    { label: "Home", href: ProjectUrls.home },
+    { label: "Road Map", href: ProjectUrls.roadMap },
+  ];
+
+  return (
+    <footer className="container py-28 flex flex-col items-center">
+      <nav className="flex flex-wrap items-center justify-center gap-8 pb-8">
+        {landingNavigationLinks.map((link, index) => (
+          <ul key={index}>
+            <li>
+              <Typography
+                asChild
+                weight="medium"
+                className="text-muted-foreground hover:underline underline-offset-4"
+              >
+                <Link href={link.href}>{link.label}</Link>
+              </Typography>
+            </li>
+          </ul>
+        ))}
+      </nav>
+      <Typography className="mt-6 text-muted-foreground">
+        Copyright &copy; {currentYear} Client-care
+      </Typography>
+      <div className="flex items-center gap-3 mt-6">
+        <Typography styling="xxs" className="text-muted-foreground">
+          Created for educational purposes
+        </Typography>
+        <Link
+          href="https://github.com/sezardino/client-care"
+          className="hover:text-muted-foreground"
+        >
+          <Github className="w-4 h-4" />
+        </Link>
+      </div>
+    </footer>
+  );
+};
