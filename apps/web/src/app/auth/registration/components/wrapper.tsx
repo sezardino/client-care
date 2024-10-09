@@ -24,7 +24,7 @@ export const RegistrationPageWrapper = () => {
 
   return (
     <Card className="md:w-96">
-      <CardHeader className="gap-2">
+      <CardHeader className="gap-2 flex-col items-start">
         <Typography level="h1" styling="h3">
           Create new account
         </Typography>

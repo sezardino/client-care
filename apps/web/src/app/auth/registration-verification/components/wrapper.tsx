@@ -23,7 +23,7 @@ export const RegistrationVerificationPageWrapper = () => {
 
   return (
     <Card className="md:w-96">
-      <CardHeader className="gap-4">
+      <CardHeader className="gap-4 flex-col items-start">
         <div className="flex flex-col">
           <Typography level="h1" styling="h3">
             Verification Code

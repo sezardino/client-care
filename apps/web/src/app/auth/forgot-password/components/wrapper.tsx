@@ -17,7 +17,7 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata, NextPage } from "next";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
-import { useForgotPassword } from "./use-forgot-password";
+import { useForgotPassword } from "../use-forgot-password";
 
 const FORGOT_PASSWORD_FORM_ID = "forgot-password-form-id";
 
@@ -42,7 +42,7 @@ export const ForgotPasswordPageWrapper: NextPage = () => {
 
   return (
     <Card className="md:w-96">
-      <CardHeader className="gap-4">
+      <CardHeader className="gap-4 flex-col items-start">
         <Typography level="h1" styling="h3">
           Forgot Password?
         </Typography>

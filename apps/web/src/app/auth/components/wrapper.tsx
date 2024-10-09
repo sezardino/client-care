@@ -34,7 +34,7 @@ export const LoginPageWrapper = () => {
 
   return (
     <Card className="md:w-96">
-      <CardHeader className="gap-4">
+      <CardHeader className="gap-4 flex-col items-start">
         <Typography level="h1" styling="h3">
           Sign in to your account
         </Typography>

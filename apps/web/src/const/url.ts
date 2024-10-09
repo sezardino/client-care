@@ -3,8 +3,12 @@ export const ProjectUrls = {
   roadMap: "/road-map",
 
   // auth
-  login: "/auth/login",
+  login: "/auth",
   registration: "/auth/registration",
   registrationVerification: "/auth/registration-verification",
   forgotPassword: "/auth/forgot-password",
+};
+
+export const ProjectRoutesUrls = {
+  auth: "api/auth",
 };
