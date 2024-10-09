@@ -7,6 +7,10 @@ export const ProjectUrls = {
   registration: "/auth/registration",
   registrationVerification: "/auth/registration-verification",
   forgotPassword: "/auth/forgot-password",
+  newOrganization: "/auth/new-organization",
+
+  // organization
+  orgDashboard: "/organization",
 };
 
 export const ProjectRoutesUrls = {

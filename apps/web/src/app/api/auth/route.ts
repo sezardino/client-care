@@ -1,5 +1,5 @@
 import { ProjectUrls } from "@/const/url";
-import { prisma } from "@/utils/prisma";
+import { prisma } from "@/libs/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
@@ -24,6 +24,8 @@ export async function GET() {
           email: clerkUser.emailAddresses[0].emailAddress,
         },
       });
+
+      return redirect(ProjectUrls.newOrganization);
     } catch (error) {
       console.log(error);
       return redirect(ProjectUrls.registration);

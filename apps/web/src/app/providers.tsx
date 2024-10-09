@@ -1,11 +1,21 @@
 "use client";
 
+import { getQueryClient } from "@/libs/react-query";
 import { ClerkProvider } from "@clerk/nextjs";
 import { NextUIProvider } from "@nextui-org/react";
-import { PropsWithChildren } from "react";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { PropsWithChildren, useState } from "react";
+import { Toaster } from "sonner";
 
-export const ClientProviders = (props: PropsWithChildren) => (
-  <ClerkProvider>
-    <NextUIProvider>{props.children}</NextUIProvider>
-  </ClerkProvider>
-);
+export const ClientProviders = (props: PropsWithChildren) => {
+  const [queryClient] = useState(getQueryClient());
+
+  return (
+    <ClerkProvider>
+      <QueryClientProvider client={queryClient}>
+        <NextUIProvider>{props.children}</NextUIProvider>
+        <Toaster />
+      </QueryClientProvider>
+    </ClerkProvider>
+  );
+};
