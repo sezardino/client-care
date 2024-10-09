@@ -10,7 +10,7 @@ const Page = async () => {
   const user = await getCurrentUserData();
 
   if (!user || "message" in user) redirect(ProjectUrls.login);
-  if (user.organizationId) redirect(ProjectUrls.orgDashboard);
+  if (user.organizationId) redirect(ProjectUrls.dashboard);
 
   return (
     <main>

@@ -12,7 +12,7 @@ export const useCreateOrganizationMutation = () => {
     mutationFn: createOrganization,
     onSuccess: () => {
       toast.success(<ToastInner message="Organization created successfully" />);
-      router.replace(ProjectUrls.orgDashboard);
+      router.replace(ProjectUrls.dashboard);
     },
     onError: (error) =>
       toast.success(

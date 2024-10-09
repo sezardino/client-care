@@ -10,7 +10,11 @@ export const ProjectUrls = {
   newOrganization: "/auth/new-organization",
 
   // organization
-  orgDashboard: "/organization",
+  dashboard: "/organization",
+  users: "/users",
+  projects: "/projects",
+
+  settings: "/settings",
 };
 
 export const ProjectRoutesUrls = {
