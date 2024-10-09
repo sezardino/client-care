@@ -4,7 +4,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { MessageCircle, Star } from "lucide-react";
+// import { MessageCircle, Star } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -20,12 +20,12 @@ export type FeedbackWidgetProps = {
 export const FeedbackWidget = (props: FeedbackWidgetProps) => {
   const { projectId } = props;
 
-  const [rating, setRating] = useState(3);
+  // const [rating, setRating] = useState(3);
   const [submitted, setSubmitted] = useState(false);
 
-  const onSelectStar = (index: number) => {
-    setRating(index + 1);
-  };
+  // const onSelectStar = (index: number) => {
+  //   setRating(index + 1);
+  // };
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
         <Popover>
           <PopoverTrigger asChild>
             <Button className="rounded-full shadow-lg hover:scale-105">
-              <MessageCircle className="mr-2 h-5 w-5" />
+              {/* <MessageCircle className="mr-2 h-5 w-5" /> */}
               Feedback
             </Button>
           </PopoverTrigger>
@@ -86,7 +86,7 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      {[...Array(5)].map((_, index) => (
+                      {/* {[...Array(5)].map((_, index) => (
                         <Star
                           key={index}
                           className={`h-5 w-5 cursor-pointer ${
@@ -96,7 +96,7 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
                           }`}
                           onClick={() => onSelectStar(index)}
                         />
-                      ))}
+                      ))} */}
                     </div>
                     <Button type="submit">Submit</Button>
                   </div>
