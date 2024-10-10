@@ -9,7 +9,7 @@ const normalizeAttribute = (attribute: string) => {
   return attribute.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
 };
 
-export class FeedbackWidgetWebComponent extends HTMLElement {
+class FeedbackWidgetWebComponent extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
@@ -29,3 +29,5 @@ export class FeedbackWidgetWebComponent extends HTMLElement {
     return props;
   }
 }
+
+export default FeedbackWidgetWebComponent;

@@ -1,3 +1,3 @@
-import { FeedbackWidgetWebComponent } from "./widget";
+import FeedbackWidgetWebComponent from "./widget";
 
 customElements.define("feedback-widget", FeedbackWidgetWebComponent);
