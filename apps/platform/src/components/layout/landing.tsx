@@ -5,7 +5,7 @@ import { PropsWithChildren } from "react";
 import { LandingFooter } from "../modules/layout/landing-footer";
 import { LandingHeader } from "../modules/layout/landing-header";
 
-type Props = PropsWithChildren & {};
+type Props = PropsWithChildren;
 
 export const LandingLayout = (props: Props) => {
   const { children } = props;
