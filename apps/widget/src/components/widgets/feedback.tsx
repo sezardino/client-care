@@ -14,12 +14,11 @@ import { Textarea } from "../ui/textarea";
 import tailwindStyles from "@/styles/index.css?inline";
 
 export type FeedbackWidgetProps = {
-  projectId: string;
+  token: string;
 };
 
 export const FeedbackWidget = (props: FeedbackWidgetProps) => {
-  const { projectId } = props;
-
+  const { token } = props;
   const [rating, setRating] = useState(3);
   const [submitted, setSubmitted] = useState(false);
 
@@ -27,10 +26,36 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
     setRating(index + 1);
   };
 
-  const submit = async (e: FormEvent) => {
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.target as unknown as {
+      name: { value: string };
+      email: { value: string };
+      feedback: { value: string };
+    };
 
-    console.log(projectId);
+    const data = {
+      rating,
+      name: form.name.value,
+      email: form.email.value,
+      message: form.feedback.value,
+    };
+    console.log(data);
+
+    const response = await fetch(
+      `${import.meta.env.VITE_PUBLIC_URL}/api/feedback`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    const content = await response.json();
+    console.log(content);
 
     setSubmitted(true);
   };
@@ -107,7 +132,7 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
             <div className="text-gray-600">
               Powered by{" "}
               <a
-                href="https://client-care-seven.vercel.app/"
+                href="https://client-care-pratform.vercel.app/"
                 target="_blank"
                 className="text-indigo-600 hover:underline"
               >

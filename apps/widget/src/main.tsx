@@ -5,6 +5,6 @@ import "./styles/index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <FeedbackWidget projectId="test" />
+    <FeedbackWidget token="" />
   </StrictMode>
 );
