@@ -22,7 +22,7 @@ export const OrganizationProjectsTemplate = () => {
     !isProjectsLoading &&
     (projectsResponse?.projects.length || MAX_ORGANIZATION_PROJECTS_COUNT) >=
       MAX_ORGANIZATION_PROJECTS_COUNT;
-
+  console.log(canCreateMoreProjects);
   const createNewProjectHandler = useCallback(
     async (values: NewProjectDto) => {
       try {
@@ -71,8 +71,8 @@ export const OrganizationProjectsTemplate = () => {
               isBlurred
               isHoverable
               isPressable
-              isDisabled={canCreateMoreProjects}
-              disabled={canCreateMoreProjects}
+              isDisabled={!canCreateMoreProjects}
+              disabled={!canCreateMoreProjects}
               className="border-none bg-background/60 dark:bg-default-100/50 w-full h-full min-h-40"
               shadow="sm"
               onClick={() => setIsNewProjectModalOpen(true)}

@@ -67,7 +67,7 @@ model Organization {
   owner   User   @relation("organization-owner", fields: [ownerId], references: [id])
 
   projects Project[]
-  widget   Widget[]
+  widgets  Widget[]
 
   logo   File?   @relation(fields: [logoId], references: [id])
   logoId String? @map("logo_id")
@@ -87,7 +87,7 @@ model Project {
 
   description String @default("")
 
-  widget Widget[]
+  widgets Widget[]
 
   organizationId String       @map("organization_id")
   organization   Organization @relation(fields: [organizationId], references: [id])
