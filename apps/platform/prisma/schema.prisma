@@ -112,6 +112,8 @@ model Widget {
   slug String     @unique
   type WidgetType
 
+  isActive Boolean @map("is_active")
+
   organizationId String       @map("organization_id")
   organization   Organization @relation(fields: [organizationId], references: [id])
 

@@ -11,7 +11,10 @@ const ValidationSchema = z.object({
   id: z.string(),
 });
 
-type ReturnType = Pick<Project, "id" | "name"> & { logoUrl: string | null };
+type ReturnType = Pick<Project, "id" | "name"> & {
+  logoUrl: string | null;
+  widgetsCount: number;
+};
 
 export const getProjectData = async (
   argument: unknown
@@ -32,16 +35,22 @@ export const getProjectData = async (
   try {
     const project = await prisma.project.findUnique({
       where: { id, organization: { members: { some: { id: userId } } } },
-      select: { id: true, name: true, logo: { select: { publicPath: true } } },
+      select: {
+        id: true,
+        name: true,
+        logo: { select: { publicPath: true } },
+        _count: { select: { widgets: true } },
+      },
     });
 
     if (!project) return { message: "Project not found" };
 
-    const { logo, ...rest } = project;
+    const { logo, _count, ...rest } = project;
 
     return {
       ...rest,
       logoUrl: logo?.publicPath || null,
+      widgetsCount: _count.widgets,
     };
   } catch (error) {
     console.log("error", error);
