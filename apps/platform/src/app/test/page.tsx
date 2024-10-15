@@ -7,7 +7,7 @@ const Page = () => {
       <main>test page with widget</main>
       {/* @ts-ignore */}
       <feedback-widget token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdhbml6YXRpb25JZCI6IjEiLCJwcm9qZWN0SWQiOiIyIiwiaWF0IjoxNzI4NTUxMjU4LCJleHAiOjMzMjU0NTkzNjU4fQ.IMZOkUo2tfFBkHjJruxvuuKmzd2M_JcPVEWUFFQbaKk"></feedback-widget>
-      <Script src="https://client-care-widget.vercel.app/widget.umd.js" />
+      <Script src="http://localhost:4173/widget.umd.js" />
     </>
   );
 };

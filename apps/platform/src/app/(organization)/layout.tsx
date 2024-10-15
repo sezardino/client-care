@@ -1,4 +1,4 @@
-import { ApplicationLayout } from "@/components/layout/application";
+import { OrganizationLayout } from "@/components/layout/organization";
 import { ProjectUrls } from "@/const/url";
 import { redirect } from "next/navigation";
 import { PropsWithChildren } from "react";
@@ -10,7 +10,7 @@ const Layout = async ({ children }: PropsWithChildren) => {
   if ("message" in user) redirect(ProjectUrls.login);
   if (!user.organizationId) redirect(ProjectUrls.newOrganization);
 
-  return <ApplicationLayout>{children}</ApplicationLayout>;
+  return <OrganizationLayout>{children}</OrganizationLayout>;
 };
 
 export default Layout;
