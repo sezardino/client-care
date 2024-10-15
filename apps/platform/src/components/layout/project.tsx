@@ -25,6 +25,7 @@ export const ProjectLayout = (props: Props) => {
   const links = [
     { href: ProjectUrls.project(projectId), title: "General" },
     { href: ProjectUrls.projectSubmissions(projectId), title: "Submissions" },
+    { href: ProjectUrls.projectTasks(projectId), title: "Tasks" },
     { href: ProjectUrls.projectWidgets(projectId), title: "Widgets" },
     { href: ProjectUrls.projectSettings(projectId), title: "Settings" },
   ];
