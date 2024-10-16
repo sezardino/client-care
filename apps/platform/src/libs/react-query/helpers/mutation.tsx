@@ -1,14 +1,13 @@
+import { ToastInner } from "@/components/ui/toast-inner";
 import { ServerActionError, ServerActionResponse } from "@/types/base";
 import {
   QueryKey,
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-  useQuery,
   useQueryClient,
-  UseQueryOptions,
-  UseQueryResult,
 } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 type UseServerMutationArguments<Response, Arguments> = Omit<
   UseMutationOptions<Response, ServerActionError, Arguments>,
@@ -21,7 +20,8 @@ type UseServerMutationArguments<Response, Arguments> = Omit<
 export const useServerMutation = <Response, Arguments = undefined>(
   args: UseServerMutationArguments<Response, Arguments>
 ): UseMutationResult<Response, ServerActionError, Arguments> => {
-  const { mutationFn, onSuccess, getQueriesToInvalidate, ...rest } = args;
+  const { mutationFn, onSuccess, onError, getQueriesToInvalidate, ...rest } =
+    args;
   const client = useQueryClient();
 
   return useMutation({
@@ -33,6 +33,13 @@ export const useServerMutation = <Response, Arguments = undefined>(
 
       return result as Response;
     },
+    onError: (error, ...rest) => {
+      if (onError) return onError(error, ...rest);
+
+      toast.success(
+        <ToastInner message={error.message} errors={error.errors} />
+      );
+    },
     onSuccess: (data, response, ctx) => {
       onSuccess?.(data, response, ctx);
 
@@ -42,33 +49,6 @@ export const useServerMutation = <Response, Arguments = undefined>(
       queriesToInvalidate.forEach((query) =>
         client.invalidateQueries({ queryKey: query })
       );
-    },
-    ...rest,
-  });
-};
-
-type UseServerQueryArguments<Response> = Omit<
-  UseQueryOptions<Response, ServerActionError>,
-  "queryFn"
-> & {
-  queryFn: () => Promise<ServerActionResponse<Response>>;
-  props?: Record<string, unknown>;
-};
-
-export const useServerQuery = <Response>(
-  args: UseServerQueryArguments<Response>
-): UseQueryResult<Response, ServerActionError> => {
-  const { queryFn, queryKey, props, ...rest } = args;
-
-  return useQuery({
-    queryKey: [...queryKey, ...(props ? Object.values(props) : [])],
-    queryFn: async () => {
-      const result = await queryFn();
-
-      if (typeof result === "object" && result !== null && "message" in result)
-        throw result;
-
-      return result as Response;
     },
     ...rest,
   });
