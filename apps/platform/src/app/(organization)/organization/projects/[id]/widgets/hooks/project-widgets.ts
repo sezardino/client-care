@@ -3,11 +3,17 @@ import { getProjectWidgets } from "../actions/project-widgets";
 
 export const PROJECT_WIDGETS_QUERY_KEY = "project-widgets-query-key";
 
-export const getProjectWidgetsQuery = (id: string) => ({
-  queryKey: [PROJECT_WIDGETS_QUERY_KEY, id],
-  queryFn: async () => getProjectWidgets(id),
-  enabled: !!id,
+type Args = {
+  id: string;
+  page?: number;
+  limit?: number;
+};
+
+export const getProjectWidgetsQuery = (args: Args) => ({
+  queryKey: [PROJECT_WIDGETS_QUERY_KEY, args.id, args.page, args.limit],
+  queryFn: async () => getProjectWidgets(args),
+  enabled: !!args.id,
 });
 
-export const useProjectWidgetsQuery = (id: string) =>
-  useServerQuery(getProjectWidgetsQuery(id));
+export const useProjectWidgetsQuery = (args: Args) =>
+  useServerQuery(getProjectWidgetsQuery(args));

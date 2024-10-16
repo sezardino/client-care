@@ -39,13 +39,14 @@ export type DataTableProps<T extends object> = TableProps & {
   data: T[];
   columns: Column<T, any>[]; // eslint-disable-line @typescript-eslint/no-explicit-any
   emptyContent: string;
+  label: string;
 };
 
 export const DataTable = <T extends object>(props: DataTableProps<T>) => {
-  const { columns, data, emptyContent, ...rest } = props;
+  const { columns, data, emptyContent, label, ...rest } = props;
 
   return (
-    <Table {...rest}>
+    <Table {...rest} aria-label={label}>
       <TableHeader>
         {columns.map((column) => (
           <TableColumn key={column.key as string}>{column.label}</TableColumn>
