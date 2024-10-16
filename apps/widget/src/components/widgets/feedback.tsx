@@ -12,6 +12,7 @@ import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 
 import tailwindStyles from "@/styles/index.css?inline";
+import { WidgetWrapper } from "./wrapper";
 
 export type FeedbackWidgetProps = {
   token: string;
@@ -61,7 +62,7 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
   };
 
   return (
-    <>
+    <WidgetWrapper token={token}>
       <style>{tailwindStyles}</style>
       <div className="widget fixed bottom-4 right-4 z-50">
         <Popover>
@@ -142,6 +143,6 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
           </PopoverContent>
         </Popover>
       </div>
-    </>
+    </WidgetWrapper>
   );
 };
