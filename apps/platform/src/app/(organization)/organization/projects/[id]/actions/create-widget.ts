@@ -3,14 +3,15 @@
 import { MAX_PROJECT_TEST_WIDGETS_COUNT } from "@/const/limits";
 import { NewWidgetDtoSchemaWithProjectId } from "@/dto/widget";
 import { prisma } from "@/libs/prisma";
-import { ServerActionResponse, SuccessResponse } from "@/types/base";
+import { ServerActionResponse } from "@/types/base";
+import { generateWidgetCodeSnippet } from "@/utils/generate-widget-code-snippet";
 import { zodValidateAndFormatErrors } from "@/utils/zod";
 import { auth } from "@clerk/nextjs/server";
 import { WidgetType } from "@prisma/client";
 
 export const createWidget = async (
   args: unknown
-): Promise<ServerActionResponse<SuccessResponse>> => {
+): Promise<ServerActionResponse<{ id: string; snippet: string[] }>> => {
   const { userId } = auth();
 
   if (!userId) return { message: "Unauthorized" };
@@ -49,7 +50,7 @@ export const createWidget = async (
         message: `Projects test widgets limit is ${MAX_PROJECT_TEST_WIDGETS_COUNT}`,
       };
 
-    await prisma.widget.create({
+    const widget = await prisma.widget.create({
       data: {
         name,
         isTest,
@@ -58,10 +59,16 @@ export const createWidget = async (
         organization: { connect: { id: neededProject.organizationId } },
         project: { connect: { id: neededProject.id } },
       },
-      select: { id: true },
+      select: { id: true, organizationId: true, projectId: true },
     });
 
-    return { success: true };
+    const snippet = generateWidgetCodeSnippet({
+      organizationId: widget.organizationId,
+      projectId: widget.projectId,
+      widgetId: widget.id,
+    });
+
+    return { id: widget.id, snippet };
   } catch (error) {
     console.log(error);
     return { message: "There was error when try to create widget" };

@@ -1,8 +1,8 @@
 "use server";
 
-import { jwtGenerate } from "@/libs/jwt";
 import { prisma } from "@/libs/prisma";
 import { ServerActionResponse } from "@/types/base";
+import { generateWidgetCodeSnippet } from "@/utils/generate-widget-code-snippet";
 import { zodValidateAndFormatErrors } from "@/utils/zod";
 import { auth } from "@clerk/nextjs/server";
 import { z } from "zod";
@@ -10,11 +10,6 @@ import { z } from "zod";
 const ValidationSchema = z.object({
   id: z.string(),
 });
-
-const getWidgetCodeSnippetString = (token: string): string[] => [
-  `<feedback-widget token="${token}"></feedback-widget>`,
-  `<script src="${process.env.WIDGET_SCRIPT_PATH}" />`,
-];
 
 export const getWidgetCodeSnippet = async (
   argument: unknown
@@ -43,15 +38,13 @@ export const getWidgetCodeSnippet = async (
     });
 
     if (!neededWidget) return { message: "Widget not found" };
-    const token = jwtGenerate({
-      payload: {
-        projectId: neededWidget.projectId,
-        organizationId: neededWidget.organizationId,
-        widgetId: neededWidget.id,
-      },
+    const snippet = generateWidgetCodeSnippet({
+      projectId: neededWidget.projectId,
+      organizationId: neededWidget.organizationId,
+      widgetId: neededWidget.id,
     });
 
-    return { snippet: getWidgetCodeSnippetString(token) };
+    return { snippet };
   } catch (error) {
     console.log("error", error);
     return {

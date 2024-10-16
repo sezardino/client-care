@@ -3,7 +3,7 @@
 import { useProjectQuery } from "@/app/(organization)/organization/projects/[id]/hooks/project";
 import { Avatar, Button, Card, CardBody, Tab, Tabs } from "@nextui-org/react";
 import { AppWindowMac, Folder, Plus } from "lucide-react";
-import { PropsWithChildren, useCallback, useEffect } from "react";
+import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { Typography } from "../ui/typography";
 
 import { useCreateWidgetMutation } from "@/app/(organization)/organization/projects/[id]/hooks/create-widget";
@@ -17,6 +17,7 @@ import {
   PageHeader,
   PageHeaderDescription,
 } from "../modules/layout/page-header";
+import { WidgetCodeSnippetModal } from "../modules/projects/widget-code-snippet-modal";
 import { ModalWithForm } from "../ui/modal-with-form";
 
 const WIDGET_FORM_ID = "layout-widget-form-id";
@@ -41,6 +42,7 @@ export const ProjectLayout = (props: Props) => {
     clearProjectId,
     setProjectId,
   } = useProjectSubPagesStore();
+  const [codeSnippet, setCodeSnippet] = useState<string[] | null>(null);
 
   const { data: projectData } = useProjectQuery(projectId);
   const { mutateAsync: createWidget, isPending: isCreatingWidget } =
@@ -56,9 +58,10 @@ export const ProjectLayout = (props: Props) => {
   const createWidgetHandler = useCallback(
     async (values: NewWidgetDto) => {
       try {
-        await createWidget({ ...values, projectId });
+        const response = await createWidget({ ...values, projectId });
 
         closeModal();
+        setCodeSnippet(response.snippet);
       } catch (error) {
         console.log(error);
       }
@@ -172,6 +175,14 @@ export const ProjectLayout = (props: Props) => {
       >
         <WidgetForm id={WIDGET_FORM_ID} onFormSubmit={createWidgetHandler} />
       </ModalWithForm>
+
+      <WidgetCodeSnippetModal
+        isOpen={!!codeSnippet?.length}
+        onClose={() => setCodeSnippet(null)}
+        snippet={codeSnippet || undefined}
+        title="Widget Integration Code"
+        description="Copy the code snippet below and paste it into the HTML of your website where you want the widget to appear. This will enable the widget functionality for your site."
+      />
     </>
   );
 };
