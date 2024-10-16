@@ -1,4 +1,5 @@
-import { ModalContent } from "@nextui-org/react";
+import { ModalBody, ModalContent } from "@nextui-org/react";
+import { PropsWithChildren } from "react";
 import {
   ModalDescription,
   ModalDescriptionProps,
@@ -8,11 +9,13 @@ import {
   ModalWrapperProps,
 } from "./modal";
 
-type AlertModalProps = ModalDescriptionProps &
-  Omit<ModalFooterWithActionsProps, "onCancel"> &
-  Omit<ModalWrapperProps, "children"> & { onCancel?: () => void };
+type ModalWithFormProps = ModalDescriptionProps &
+  Omit<ModalFooterWithActionsProps, "onCancel" | "form"> &
+  Omit<ModalWrapperProps, "children"> & {
+    formId: string;
+  } & PropsWithChildren & { onCancel?: () => void };
 
-export const AlertModal = (props: AlertModalProps) => {
+export const ModalWithForm = (props: ModalWithFormProps) => {
   const {
     title,
     description,
@@ -25,6 +28,8 @@ export const AlertModal = (props: AlertModalProps) => {
     confirmColor,
     isActionPending,
     isClosePrevented,
+    formId,
+    children,
     ...rest
   } = props;
 
@@ -44,6 +49,8 @@ export const AlertModal = (props: AlertModalProps) => {
       <ModalContent>
         <ModalDescription title={title} description={description} />
 
+        <ModalBody>{children}</ModalBody>
+
         <ModalFooterWithActions
           isActionPending={isActionPending}
           cancel={cancel}
@@ -52,6 +59,7 @@ export const AlertModal = (props: AlertModalProps) => {
           onConfirm={onConfirm}
           cancelColor={cancelColor}
           confirmColor={confirmColor}
+          form={formId}
         />
       </ModalContent>
     </ModalWrapper>

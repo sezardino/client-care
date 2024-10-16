@@ -1,21 +1,27 @@
 "use client";
 
-import { NewWidgetFormProps } from "@/components/form/new-widget";
+import { WidgetForm } from "@/components/form/widget";
+import { WidgetStatusForm } from "@/components/form/widget-status";
 import { ProjectWidgetsTable } from "@/components/modules/projects/project-widgets-table";
-import { WidgetFormModal } from "@/components/modules/projects/widget-modal";
 import { AlertModal } from "@/components/ui/alert-modal";
+import { ModalWithForm } from "@/components/ui/modal-with-form";
 import { DEFAULT_ITEMS_PER_PAGE } from "@/const/base";
-import { NewWidgetDto } from "@/dto/widget";
+import { NewWidgetDto, WidgetStatusDto } from "@/dto/widget";
 import { useGenerateSearchParamsUrl } from "@/hooks/use-generate-search-params-url";
 import { useProjectSubPagesStore } from "@/store/project-sub-pages";
+import { ProjectWidget } from "@/types/widget";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { useCreateWidgetMutation } from "../../hooks/create-widget";
+import { useChangeWidgetStatusMutation } from "../hooks/change-widget-status";
 import { useDeleteWidgetMutation } from "../hooks/delete-widget";
 import { useProjectWidgetsQuery } from "../hooks/project-widgets";
 
 type ActionType = "active" | "code" | "delete" | "duplicate";
 type Action = { type: ActionType; id: string };
+
+const WIDGET_FORM_ID = "template-widget-form-id";
+const WIDGET_STATUS_FORM_ID = "widget-status-form-id";
 
 export const ProjectWidgetsTemplate = () => {
   const projectId = useProjectSubPagesStore((store) => store.projectId);
@@ -38,6 +44,10 @@ export const ProjectWidgetsTemplate = () => {
     useDeleteWidgetMutation();
   const { mutateAsync: createWidget, isPending: isCreatingPending } =
     useCreateWidgetMutation();
+  const {
+    mutateAsync: changeWidgetStatus,
+    isPending: isChangingWidgetStatusPending,
+  } = useChangeWidgetStatusMutation();
 
   const onChangePage = useCallback(
     (page: number) => router.push(generatePathname("page", page)),
@@ -59,17 +69,15 @@ export const ProjectWidgetsTemplate = () => {
     }
   }, [action, deleteWidget]);
 
-  const widgetToClone = useMemo<
-    NewWidgetFormProps["initialValues"] | undefined
-  >(() => {
+  const selectedWidget = useMemo<ProjectWidget | undefined>(() => {
     if (!action) return;
-    if (action.type !== "duplicate") return;
+    if (!["duplicate", "active"].includes(action.type)) return;
 
     const neededWidget = projectWidgetsResponse?.data.find(
       (w) => w.id === action?.id
     );
 
-    return { name: neededWidget?.name, isTest: neededWidget?.isTest };
+    return neededWidget;
   }, [action, projectWidgetsResponse?.data]);
 
   const createWidgetHandler = useCallback(
@@ -87,6 +95,23 @@ export const ProjectWidgetsTemplate = () => {
       }
     },
     [projectId, action, createWidget]
+  );
+
+  const changeWidgetStatusHandler = useCallback(
+    async (values: WidgetStatusDto) => {
+      if (!projectId || !action || action.type !== "active") return;
+      if (!selectedWidget) return;
+      if (selectedWidget.isActive === values.isActive) return setAction(null);
+
+      try {
+        await changeWidgetStatus({ ...values, widgetId: action.id });
+
+        setAction(null);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [projectId, action, selectedWidget, changeWidgetStatus]
   );
 
   return (
@@ -117,19 +142,42 @@ export const ProjectWidgetsTemplate = () => {
         onClose={() => setAction(null)}
       />
 
-      <WidgetFormModal
-        isOpen={action?.type === "duplicate"}
-        isCopy
-        isActionPending={isCreatingPending}
-        isClosePrevented={isCreatingPending}
-        onClose={() => setAction(null)}
+      <ModalWithForm
         title="Clone and Customize Widget"
         description="Create a customized clone of this widget by adjusting the necessary settings below. You can modify its name, type, and any specific configurations."
         cancel="Cancel"
-        onFormSubmit={createWidgetHandler}
-        initialValues={widgetToClone}
         confirm="Clone and Create"
-      />
+        isOpen={action?.type === "duplicate"}
+        isActionPending={isCreatingPending}
+        isClosePrevented={isCreatingPending}
+        onClose={() => setAction(null)}
+        formId={WIDGET_FORM_ID}
+      >
+        <WidgetForm
+          id={WIDGET_FORM_ID}
+          isCopy
+          initialValues={selectedWidget}
+          onFormSubmit={createWidgetHandler}
+        />
+      </ModalWithForm>
+
+      <ModalWithForm
+        title="Toggle Widget Status"
+        description="Enable or disable this widget instantly. When disabled, it will stop functioning on your site until re-enabled."
+        cancel="Cancel"
+        confirm="Save Changes"
+        isOpen={action?.type === "active"}
+        isActionPending={isChangingWidgetStatusPending}
+        isClosePrevented={isChangingWidgetStatusPending}
+        onClose={() => setAction(null)}
+        formId={WIDGET_STATUS_FORM_ID}
+      >
+        <WidgetStatusForm
+          id={WIDGET_STATUS_FORM_ID}
+          initialValues={selectedWidget}
+          onFormSubmit={changeWidgetStatusHandler}
+        />
+      </ModalWithForm>
     </>
   );
 };

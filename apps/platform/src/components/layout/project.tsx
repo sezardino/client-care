@@ -12,11 +12,14 @@ import { NewWidgetDto } from "@/dto/widget";
 import { useProjectSubPagesStore } from "@/store/project-sub-pages";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { WidgetFormModal } from "../modules/projects/widget-modal";
+import { WidgetForm } from "../form/widget";
+import { ModalWithForm } from "../ui/modal-with-form";
 
 type Props = PropsWithChildren & {
   projectId: string;
 };
+
+const WIDGET_FORM_ID = "layout-widget-form-id";
 
 export const ProjectLayout = (props: Props) => {
   const { projectId, children } = props;
@@ -147,7 +150,7 @@ export const ProjectLayout = (props: Props) => {
         </>
       )}
 
-      <WidgetFormModal
+      <ModalWithForm
         isOpen={isCreateModalOpen}
         isActionPending={isCreatingWidget}
         isClosePrevented={isCreatingWidget}
@@ -156,8 +159,10 @@ export const ProjectLayout = (props: Props) => {
         cancel="Cancel"
         confirm="Create Widget"
         onClose={closeModal}
-        onFormSubmit={createWidgetHandler}
-      />
+        formId={WIDGET_FORM_ID}
+      >
+        <WidgetForm id={WIDGET_FORM_ID} onFormSubmit={createWidgetHandler} />
+      </ModalWithForm>
     </>
   );
 };

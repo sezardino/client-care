@@ -8,7 +8,7 @@ export type ModalWrapperProps = PropsWithChildren &
     isClosePrevented?: boolean;
   };
 
-export const ModalWrapper = (props: ModalWrapperProps) => {
+export const ExtendedModal = (props: ModalWrapperProps) => {
   const { isOpen, onClose, isClosePrevented, children } = props;
 
   const closeHandler = () => {
