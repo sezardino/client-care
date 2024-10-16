@@ -1,4 +1,3 @@
-import { ModalContent } from "@nextui-org/react";
 import {
   ModalDescription,
   ModalDescriptionProps,
@@ -41,19 +40,17 @@ export const AlertModal = (props: AlertModalProps) => {
       onClose={onClose}
       size="lg"
     >
-      <ModalContent>
-        <ModalDescription title={title} description={description} />
+      <ModalDescription title={title} description={description} />
 
-        <ModalFooterWithActions
-          isActionPending={isActionPending}
-          cancel={cancel}
-          confirm={confirm}
-          onCancel={cancelHandler}
-          onConfirm={onConfirm}
-          cancelColor={cancelColor}
-          confirmColor={confirmColor}
-        />
-      </ModalContent>
+      <ModalFooterWithActions
+        isActionPending={isActionPending}
+        cancel={cancel}
+        confirm={confirm}
+        onCancel={cancelHandler}
+        onConfirm={onConfirm}
+        cancelColor={cancelColor}
+        confirmColor={confirmColor}
+      />
     </ModalWrapper>
   );
 };

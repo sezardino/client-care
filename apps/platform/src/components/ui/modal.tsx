@@ -2,6 +2,7 @@ import {
   Button,
   ButtonProps,
   Modal,
+  ModalContent,
   ModalFooter,
   ModalHeader,
   ModalProps,
@@ -99,7 +100,40 @@ export type ModalWrapperProps = PropsWithChildren &
   };
 
 export const ModalWrapper = (props: ModalWrapperProps) => {
-  const { isOpen, onClose, isClosePrevented, children } = props;
+  const { isOpen, onClose, isClosePrevented, children, ...rest } = props;
+
+  const closeHandler = () => {
+    if (isClosePrevented) return;
+    onClose();
+  };
+
+  console.log(rest.size);
+
+  return (
+    <Modal size="lg" {...rest} isOpen={isOpen} onClose={closeHandler}>
+      <ModalContent>{children}</ModalContent>
+    </Modal>
+  );
+};
+
+export type ModalWithDescriptionProps = PropsWithChildren &
+  ModalProps &
+  ModalDescriptionProps & {
+    isOpen: boolean;
+    onClose: () => void;
+    isClosePrevented?: boolean;
+  };
+
+export const ModalWithDescription = (props: ModalWithDescriptionProps) => {
+  const {
+    title,
+    description,
+    isOpen,
+    onClose,
+    isClosePrevented,
+    children,
+    ...rest
+  } = props;
 
   const closeHandler = () => {
     if (isClosePrevented) return;
@@ -107,8 +141,9 @@ export const ModalWrapper = (props: ModalWrapperProps) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={closeHandler} size="lg">
+    <ModalWrapper {...rest} isOpen={isOpen} onClose={closeHandler}>
+      <ModalDescription title={title} description={description} />
       {children}
-    </Modal>
+    </ModalWrapper>
   );
 };

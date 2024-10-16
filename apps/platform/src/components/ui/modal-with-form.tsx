@@ -1,4 +1,4 @@
-import { ModalBody, ModalContent } from "@nextui-org/react";
+import { ModalBody } from "@nextui-org/react";
 import { PropsWithChildren } from "react";
 import {
   ModalDescription,
@@ -44,24 +44,21 @@ export const ModalWithForm = (props: ModalWithFormProps) => {
       {...rest}
       isClosePrevented={isClosePrevented}
       onClose={onClose}
-      size="lg"
     >
-      <ModalContent>
-        <ModalDescription title={title} description={description} />
+      <ModalDescription title={title} description={description} />
 
-        <ModalBody>{children}</ModalBody>
+      <ModalBody>{children}</ModalBody>
 
-        <ModalFooterWithActions
-          isActionPending={isActionPending}
-          cancel={cancel}
-          confirm={confirm}
-          onCancel={cancelHandler}
-          onConfirm={onConfirm}
-          cancelColor={cancelColor}
-          confirmColor={confirmColor}
-          form={formId}
-        />
-      </ModalContent>
+      <ModalFooterWithActions
+        isActionPending={isActionPending}
+        cancel={cancel}
+        confirm={confirm}
+        onCancel={cancelHandler}
+        onConfirm={onConfirm}
+        cancelColor={cancelColor}
+        confirmColor={confirmColor}
+        form={formId}
+      />
     </ModalWrapper>
   );
 };

@@ -4,18 +4,23 @@ import { WidgetForm } from "@/components/form/widget";
 import { WidgetStatusForm } from "@/components/form/widget-status";
 import { ProjectWidgetsTable } from "@/components/modules/projects/project-widgets-table";
 import { AlertModal } from "@/components/ui/alert-modal";
+import { ModalWithDescription } from "@/components/ui/modal";
 import { ModalWithForm } from "@/components/ui/modal-with-form";
+import { Typography } from "@/components/ui/typography";
 import { DEFAULT_ITEMS_PER_PAGE } from "@/const/base";
 import { NewWidgetDto, WidgetStatusDto } from "@/dto/widget";
 import { useGenerateSearchParamsUrl } from "@/hooks/use-generate-search-params-url";
 import { useProjectSubPagesStore } from "@/store/project-sub-pages";
 import { ProjectWidget } from "@/types/widget";
+import { formatWidgetSnippet } from "@/utils/format-widget-snippet";
+import { Button, ModalBody, ModalFooter, Snippet } from "@nextui-org/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { useCreateWidgetMutation } from "../../hooks/create-widget";
 import { useChangeWidgetStatusMutation } from "../hooks/change-widget-status";
 import { useDeleteWidgetMutation } from "../hooks/delete-widget";
 import { useProjectWidgetsQuery } from "../hooks/project-widgets";
+import { useWidgetCodeSnippetQuery } from "../hooks/widget-code-snippet";
 
 type ActionType = "active" | "code" | "delete" | "duplicate";
 type Action = { type: ActionType; id: string };
@@ -39,6 +44,9 @@ export const ProjectWidgetsTemplate = () => {
     limit,
     page,
   });
+  const { data: widgetCodeSnippet } = useWidgetCodeSnippetQuery(
+    action?.type === "code" ? action.id : undefined!
+  );
 
   const { mutateAsync: deleteWidget, isPending: isDeletingPending } =
     useDeleteWidgetMutation();
@@ -178,6 +186,37 @@ export const ProjectWidgetsTemplate = () => {
           onFormSubmit={changeWidgetStatusHandler}
         />
       </ModalWithForm>
+
+      <ModalWithDescription
+        isOpen={action?.type === "code"}
+        onClose={() => setAction(null)}
+        size="3xl"
+        title="Widget Integration Code"
+        description="Copy the code snippet below and paste it into the HTML of your website where you want the widget to appear. This will enable the widget functionality for your site."
+      >
+        <ModalBody className="flex flex-col gap-4">
+          <Snippet size="lg" codeString={widgetCodeSnippet?.snippet.join("")}>
+            {widgetCodeSnippet?.snippet.map((code, index) => (
+              <span key={index}>{formatWidgetSnippet(code)}</span>
+            ))}
+          </Snippet>
+
+          <Typography
+            styling="xs"
+            isMuted
+            className="mx-auto max-w-[80%] text-center"
+          >
+            Make sure to replace the placeholder values (if any) with your
+            actual data. If you're using a test widget, it will work on any
+            domain, but the number of submissions will be limited.
+          </Typography>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={() => setAction(null)}>
+            Close
+          </Button>
+        </ModalFooter>
+      </ModalWithDescription>
     </>
   );
 };
