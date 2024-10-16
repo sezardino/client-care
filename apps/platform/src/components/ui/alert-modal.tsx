@@ -1,19 +1,15 @@
 import {
   Button,
   ButtonProps,
-  Modal,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalProps,
   Spinner,
 } from "@nextui-org/react";
+import { ModalWrapper, ModalWrapperProps } from "./modal-wrapper";
 import { Typography } from "./typography";
 
-type PickedProps = Pick<ModalProps, "isOpen" | "onClose">;
-
-type AlertModalProps = PickedProps & {
-  isClosePrevented?: boolean;
+type AlertModalProps = Omit<ModalWrapperProps, "children"> & {
   title: string;
   description: string;
   confirm: string;
@@ -21,8 +17,8 @@ type AlertModalProps = PickedProps & {
   onConfirm: () => void;
   onCancel?: () => void;
   confirmColor?: ButtonProps["color"];
-  cancelColor?: ButtonProps["color"];
   isActionPending?: boolean;
+  cancelColor?: ButtonProps["color"];
 };
 
 export const AlertModal = (props: AlertModalProps) => {
@@ -31,7 +27,6 @@ export const AlertModal = (props: AlertModalProps) => {
     description,
     confirm,
     cancel,
-    isOpen,
     onConfirm,
     onCancel,
     onClose,
@@ -39,20 +34,22 @@ export const AlertModal = (props: AlertModalProps) => {
     confirmColor,
     isActionPending,
     isClosePrevented,
+    ...rest
   } = props;
 
-  const closeHandler = () => {
-    if (isClosePrevented) return;
-    onClose?.();
-  };
-
   const cancelHandler = () => {
+    if (isClosePrevented) return;
     onCancel?.();
-    closeHandler();
+    onClose();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={closeHandler} size="lg">
+    <ModalWrapper
+      {...rest}
+      isClosePrevented={isClosePrevented}
+      onClose={onClose}
+      size="lg"
+    >
       <ModalContent>
         <ModalHeader className="flex flex-col gap-2">
           <Typography level="h3" styling="h4" weight="medium">
@@ -88,6 +85,6 @@ export const AlertModal = (props: AlertModalProps) => {
           </Button>
         </ModalFooter>
       </ModalContent>
-    </Modal>
+    </ModalWrapper>
   );
 };

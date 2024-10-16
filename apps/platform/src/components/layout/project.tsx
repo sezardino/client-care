@@ -12,7 +12,7 @@ import { NewWidgetDto } from "@/dto/widget";
 import { useProjectSubPagesStore } from "@/store/project-sub-pages";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { CreateWidgetModal } from "../modules/projects/create-widget-modal";
+import { WidgetFormModal } from "../modules/projects/widget-modal";
 
 type Props = PropsWithChildren & {
   projectId: string;
@@ -30,7 +30,8 @@ export const ProjectLayout = (props: Props) => {
   } = useProjectSubPagesStore();
 
   const { data: projectData } = useProjectQuery(projectId);
-  const { mutateAsync: createWidget } = useCreateWidgetMutation();
+  const { mutateAsync: createWidget, isPending: isCreatingWidget } =
+    useCreateWidgetMutation();
 
   useEffect(() => {
     if (!projectId) clearProjectId();
@@ -61,9 +62,6 @@ export const ProjectLayout = (props: Props) => {
     { href: ProjectUrls.projectWidgets(projectId), title: "Widgets" },
     { href: ProjectUrls.projectSettings(projectId), title: "Settings" },
   ];
-
-  // const canAddMoreWidgets =
-  //   projectData.widgetsCount < MAX_PROJECT_WIDGETS_COUNT;
 
   return (
     <>
@@ -149,8 +147,14 @@ export const ProjectLayout = (props: Props) => {
         </>
       )}
 
-      <CreateWidgetModal
+      <WidgetFormModal
         isOpen={isCreateModalOpen}
+        isActionPending={isCreatingWidget}
+        isClosePrevented={isCreatingWidget}
+        title="Create New Widget"
+        description="Set up a new widget to start collecting submissions. You can create a test widget to explore its functionality or a live widget for actual use."
+        cancel="Cancel"
+        confirm="Create Widget"
         onClose={closeModal}
         onFormSubmit={createWidgetHandler}
       />

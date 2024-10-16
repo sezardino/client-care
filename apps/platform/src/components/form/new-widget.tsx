@@ -10,14 +10,25 @@ import { Form, FormField, FormItem, FormMessage } from "../ui/form";
 
 export type NewWidgetFormProps = ComponentPropsWithoutRef<"form"> & {
   onFormSubmit: (values: NewWidgetDto) => void;
+  initialValues?: Partial<NewWidgetDto>;
+  isCopy?: boolean;
 };
 
 export const NewWidgetForm = (props: NewWidgetFormProps) => {
-  const { onFormSubmit, className, ...rest } = props;
+  const { onFormSubmit, initialValues, className, ...rest } = props;
 
   const form = useForm<NewWidgetDto>({
     resolver: zodResolver(NewWidgetDtoSchema),
-    defaultValues: { isTest: false },
+    defaultValues: {
+      name:
+        typeof initialValues?.name !== "undefined"
+          ? `${initialValues.name} Copy`
+          : "",
+      isTest:
+        typeof initialValues?.isTest !== "undefined"
+          ? initialValues.isTest
+          : false,
+    },
   });
 
   const onSubmit = (data: NewWidgetDto) => {
@@ -54,7 +65,7 @@ export const NewWidgetForm = (props: NewWidgetFormProps) => {
             <FormItem>
               <Switch
                 {...field}
-                checked={value}
+                isSelected={value}
                 classNames={{
                   base: cn(
                     "inline-flex flex-row-reverse w-full max-w-md bg-content1 hover:bg-content2 items-center",
