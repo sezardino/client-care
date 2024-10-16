@@ -3,13 +3,13 @@
 import { useProjectQuery } from "@/app/(organization)/organization/projects/[id]/hooks/project";
 import { Avatar, Button, Card, CardBody, Tab, Tabs } from "@nextui-org/react";
 import { AppWindowMac, Folder, Plus } from "lucide-react";
-import { PropsWithChildren, useCallback } from "react";
+import { PropsWithChildren, useCallback, useEffect } from "react";
 import { Typography } from "../ui/typography";
 
 import { useCreateWidgetMutation } from "@/app/(organization)/organization/projects/[id]/hooks/create-widget";
 import { ProjectUrls } from "@/const/url";
 import { NewWidgetDto } from "@/dto/widget";
-import { useProjectLayoutStore } from "@/store/project-layout";
+import { useProjectSubPagesStore } from "@/store/project-sub-pages";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { CreateWidgetModal } from "../modules/projects/create-widget-modal";
@@ -21,10 +21,23 @@ type Props = PropsWithChildren & {
 export const ProjectLayout = (props: Props) => {
   const { projectId, children } = props;
   const pathname = usePathname();
-  const { closeModal, isCreateModalOpen, openModal } = useProjectLayoutStore();
+  const {
+    closeModal,
+    isCreateModalOpen,
+    openModal,
+    clearProjectId,
+    setProjectId,
+  } = useProjectSubPagesStore();
 
   const { data: projectData } = useProjectQuery(projectId);
   const { mutateAsync: createWidget } = useCreateWidgetMutation();
+
+  useEffect(() => {
+    if (!projectId) clearProjectId();
+    else setProjectId(projectId);
+
+    return () => clearProjectId();
+  }, [projectId]);
 
   const createWidgetHandler = useCallback(
     async (values: NewWidgetDto) => {
@@ -36,7 +49,7 @@ export const ProjectLayout = (props: Props) => {
         console.log(error);
       }
     },
-    [projectId, createWidget]
+    [createWidget, projectId, closeModal]
   );
 
   if (!projectData) return null;
@@ -49,30 +62,40 @@ export const ProjectLayout = (props: Props) => {
     { href: ProjectUrls.projectSettings(projectId), title: "Settings" },
   ];
 
+  // const canAddMoreWidgets =
+  //   projectData.widgetsCount < MAX_PROJECT_WIDGETS_COUNT;
+
   return (
     <>
       <header className="flex flex-col gap-4 pb-4">
-        <div className="flex gap-2 items-center">
-          <div className="flex flex-col gap-1">
-            <Typography level="h1" styling="h2">
-              {projectData.name}
-            </Typography>
-            <Typography styling="small">
-              Here you can found all data based to this project
-            </Typography>
+        <div className="flex items-center gap-3 flex-wrap justify-between">
+          <div className="flex gap-2 items-center">
+            <div className="flex flex-col gap-1">
+              <Typography level="h1" styling="h2">
+                {projectData.name}
+              </Typography>
+              <Typography styling="small">
+                Here you can found all data based to this project
+              </Typography>
+            </div>
+            <Avatar
+              src={projectData.logoUrl || undefined}
+              fallback={<Folder />}
+              size="lg"
+              className="-order-1"
+            />
           </div>
-          <Avatar
-            src={projectData.logoUrl || undefined}
-            fallback={<Folder />}
-            size="lg"
-            className="-order-1"
-          />
+
+          <Button color="primary" onClick={openModal}>
+            <Plus className="w-5 h-5" />
+            Create Widget
+          </Button>
         </div>
 
         <Tabs
           variant="underlined"
           selectedKey={pathname}
-          isDisabled={projectData.widgetsCount === 0}
+          // isDisabled={projectData.widgetsCount === 0}
           aria-label="Navigation on project"
         >
           {links.map((link) => (
@@ -86,9 +109,9 @@ export const ProjectLayout = (props: Props) => {
         </Tabs>
       </header>
 
-      {projectData.widgetsCount > 0 && children}
+      {projectData.widgets.total > 0 && children}
 
-      {projectData.widgetsCount === 0 && (
+      {projectData.widgets.total === 0 && (
         <>
           <Card className="min-h-[560px]">
             <CardBody className="text-center flex items-center justify-center gap-8">

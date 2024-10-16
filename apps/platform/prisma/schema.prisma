@@ -111,7 +111,7 @@ model Widget {
   name String
   type WidgetType
 
-  isActive Boolean @default(true) @map("is_active")
+  isActive Boolean @default(false) @map("is_active")
   isTest   Boolean @default(false) @map("is_test")
 
   organizationId String       @map("organization_id")

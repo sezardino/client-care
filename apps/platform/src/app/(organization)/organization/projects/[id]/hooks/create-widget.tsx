@@ -3,6 +3,7 @@ import { NewWidgetDtoWithProjectId } from "@/dto/widget";
 import { useServerMutation } from "@/libs/react-query/helpers";
 import { toast } from "sonner";
 import { createWidget } from "../actions/create-widget";
+import { PROJECT_WIDGETS_QUERY_KEY } from "../widgets/hooks/project-widgets";
 import { PROJECT_QUERY_KEY } from "./project";
 
 export const useCreateWidgetMutation = () =>
@@ -11,7 +12,10 @@ export const useCreateWidgetMutation = () =>
       createWidget(values),
     onSuccess: () =>
       toast.success(<ToastInner message="Widget created successfully" />),
-    getQueriesToInvalidate: (_, v) => [[PROJECT_QUERY_KEY, v.projectId]],
+    getQueriesToInvalidate: (_, v) => [
+      [PROJECT_QUERY_KEY, v.projectId],
+      [PROJECT_WIDGETS_QUERY_KEY, v.projectId],
+    ],
     onError: (error) =>
       toast.success(
         <ToastInner message={error.message} errors={error.errors} />

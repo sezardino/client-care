@@ -1,6 +1,6 @@
 "use server";
 
-import { MAX_PROJECT_WIDGETS_COUNT } from "@/const/limits";
+import { MAX_PROJECT_TEST_WIDGETS_COUNT } from "@/const/limits";
 import { NewWidgetDtoSchemaWithProjectId } from "@/dto/widget";
 import { prisma } from "@/libs/prisma";
 import { ServerActionResponse, SuccessResponse } from "@/types/base";
@@ -35,21 +35,25 @@ export const createWidget = async (
         id: true,
         organizationId: true,
         _count: {
-          select: { widgets: { where: { deletedAt: null, isTest: false } } },
+          select: { widgets: { where: { deletedAt: null, isTest: true } } },
         },
       },
     });
 
     if (!neededProject) return { message: "Project not found" };
-    if (neededProject._count.widgets >= MAX_PROJECT_WIDGETS_COUNT)
+    if (
+      isTest &&
+      neededProject._count.widgets >= MAX_PROJECT_TEST_WIDGETS_COUNT
+    )
       return {
-        message: `Projects widgets limit is ${MAX_PROJECT_WIDGETS_COUNT}`,
+        message: `Projects test widgets limit is ${MAX_PROJECT_TEST_WIDGETS_COUNT}`,
       };
 
     await prisma.widget.create({
       data: {
         name,
         isTest,
+        isActive: false,
         type: WidgetType.FEEDBACK,
         organization: { connect: { id: neededProject.organizationId } },
         project: { connect: { id: neededProject.id } },

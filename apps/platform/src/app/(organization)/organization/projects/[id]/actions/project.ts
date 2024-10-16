@@ -13,7 +13,13 @@ const ValidationSchema = z.object({
 
 type ReturnType = Pick<Project, "id" | "name"> & {
   logoUrl: string | null;
-  widgetsCount: number;
+  widgets: {
+    total: number;
+    test: number;
+    notTest: number;
+    active: number;
+    notActive: number;
+  };
 };
 
 export const getProjectData = async (
@@ -33,24 +39,42 @@ export const getProjectData = async (
   const { id } = validationResponse.data;
 
   try {
+    const projectWhere = {
+      id,
+      organization: { members: { some: { id: userId } } },
+    };
+
     const project = await prisma.project.findUnique({
-      where: { id, organization: { members: { some: { id: userId } } } },
+      where: projectWhere,
       select: {
         id: true,
         name: true,
         logo: { select: { publicPath: true } },
-        _count: { select: { widgets: true } },
+        _count: { select: { widgets: { where: { deletedAt: null } } } },
       },
     });
 
     if (!project) return { message: "Project not found" };
+
+    const testWidgetsCount = await prisma.widget.count({
+      where: { projectId: project.id, deletedAt: null, isTest: true },
+    });
+    const activeWidgetsCount = await prisma.widget.count({
+      where: { projectId: project.id, deletedAt: null, isActive: true },
+    });
 
     const { logo, _count, ...rest } = project;
 
     return {
       ...rest,
       logoUrl: logo?.publicPath || null,
-      widgetsCount: _count.widgets,
+      widgets: {
+        total: _count.widgets,
+        test: testWidgetsCount,
+        notTest: _count.widgets - testWidgetsCount,
+        active: activeWidgetsCount,
+        notActive: _count.widgets - activeWidgetsCount,
+      },
     };
   } catch (error) {
     console.log("error", error);
