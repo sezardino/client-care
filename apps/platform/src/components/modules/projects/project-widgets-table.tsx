@@ -43,6 +43,7 @@ export const ProjectWidgetsTable = (props: Props) => {
     onCodeRequest,
     onDeleteRequest,
     onDuplicateRequest,
+    ...rest
   } = props;
 
   const columns = [
@@ -104,7 +105,7 @@ export const ProjectWidgetsTable = (props: Props) => {
               key="delete"
               className="text-danger"
               color="danger"
-              onClick={() => onDuplicateRequest}
+              onClick={() => onDeleteRequest(value)}
             >
               Delete Widget
             </DropdownItem>
@@ -116,7 +117,7 @@ export const ProjectWidgetsTable = (props: Props) => {
 
   return (
     <TableWidget
-      {...props}
+      {...rest}
       columns={columns}
       data={widgets}
       tableLabel="Table with all widgets what included in current project"
