@@ -38,8 +38,8 @@ export const WidgetCodeSnippetModal = (props: Props) => {
           className="mx-auto max-w-[80%] text-center"
         >
           Make sure to replace the placeholder values (if any) with your actual
-          data. If you're using a test widget, it will work on any domain, but
-          the number of submissions will be limited.
+          data. If you&apos;re using a test widget, it will work on any domain,
+          but the number of submissions will be limited.
         </Typography>
       </ModalBody>
       <ModalFooter>
