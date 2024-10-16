@@ -13,13 +13,23 @@ import { useProjectSubPagesStore } from "@/store/project-sub-pages";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { WidgetForm } from "../form/widget";
+import {
+  PageHeader,
+  PageHeaderDescription,
+} from "../modules/layout/page-header";
 import { ModalWithForm } from "../ui/modal-with-form";
+
+const WIDGET_FORM_ID = "layout-widget-form-id";
+
+const breadcrumbs = [
+  { label: "Organization", href: ProjectUrls.dashboard },
+  { label: "Projects", href: ProjectUrls.projects },
+  { label: "Project" },
+];
 
 type Props = PropsWithChildren & {
   projectId: string;
 };
-
-const WIDGET_FORM_ID = "layout-widget-form-id";
 
 export const ProjectLayout = (props: Props) => {
   const { projectId, children } = props;
@@ -69,16 +79,13 @@ export const ProjectLayout = (props: Props) => {
   return (
     <>
       <header className="flex flex-col gap-4 pb-4">
-        <div className="flex items-center gap-3 flex-wrap justify-between">
-          <div className="flex gap-2 items-center">
-            <div className="flex flex-col gap-1">
-              <Typography level="h1" styling="h2">
-                {projectData.name}
-              </Typography>
-              <Typography styling="small">
-                Here you can found all data based to this project
-              </Typography>
-            </div>
+        <PageHeader as="div" breadcrumbs={breadcrumbs}>
+          <div className="grid grid-cols-[auto_1fr] gap-3 items-center">
+            <PageHeaderDescription
+              title={projectData.name}
+              description="This is your project's control hub. Customize your settings, manage widgets, and track progress to ensure everything runs smoothly. Use this space to oversee all aspects of your project and make updates as needed."
+            />
+
             <Avatar
               src={projectData.logoUrl || undefined}
               fallback={<Folder />}
@@ -86,28 +93,30 @@ export const ProjectLayout = (props: Props) => {
               className="-order-1"
             />
           </div>
+        </PageHeader>
 
+        <div className="flex items-center gap-3 flex-wrap justify-between">
+          <Tabs
+            as="nav"
+            variant="underlined"
+            selectedKey={pathname}
+            isDisabled={projectData.widgets.total === 0}
+            aria-label="Navigation on project"
+          >
+            {links.map((link) => (
+              <Tab
+                key={link.href}
+                as={NextLink}
+                href={link.href}
+                title={link.title}
+              />
+            ))}
+          </Tabs>
           <Button color="primary" onClick={openModal}>
             <Plus className="w-5 h-5" />
             Create Widget
           </Button>
         </div>
-
-        <Tabs
-          variant="underlined"
-          selectedKey={pathname}
-          // isDisabled={projectData.widgetsCount === 0}
-          aria-label="Navigation on project"
-        >
-          {links.map((link) => (
-            <Tab
-              key={link.href}
-              as={NextLink}
-              href={link.href}
-              title={link.title}
-            />
-          ))}
-        </Tabs>
       </header>
 
       {projectData.widgets.total > 0 && children}

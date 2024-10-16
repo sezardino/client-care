@@ -1,16 +1,26 @@
 "use client";
 
 import { NewProjectForm } from "@/components/form/new-project";
+import {
+  PageHeader,
+  PageHeaderDescription,
+} from "@/components/modules/layout/page-header";
 import { ProjectCard } from "@/components/modules/projects/project-card";
 import { ModalWithForm } from "@/components/ui/modal-with-form";
 import { Typography } from "@/components/ui/typography";
 import { MAX_ORGANIZATION_PROJECTS_COUNT } from "@/const/limits";
+import { ProjectUrls } from "@/const/url";
 import { NewProjectDto } from "@/dto/project";
 import { Card, CardBody, Tooltip } from "@nextui-org/react";
 import { PlusCircle } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useCreateNewProjectMutation } from "../hooks/create-new-project";
 import { useOrganizationProjectsQuery } from "../hooks/projects";
+
+const breadcrumbs = [
+  { label: "Organization", href: ProjectUrls.dashboard },
+  { label: "Projects" },
+];
 
 const FORM_ID = "create-project-form-id";
 
@@ -40,16 +50,12 @@ export const OrganizationProjectsTemplate = () => {
 
   return (
     <>
-      <header className="flex items-center gap-3 flex-wrap justify-between">
-        <div className="flex flex-col gap-1">
-          <Typography level="h1" weight="medium" styling="h2">
-            Your projects
-          </Typography>
-          <Typography styling="small">
-            Here you can manage your projects
-          </Typography>
-        </div>
-      </header>
+      <PageHeader breadcrumbs={breadcrumbs}>
+        <PageHeaderDescription
+          title="Your projects"
+          description="Here are all the projects you’ve created. Manage your projects, add new ones, and easily access all related widgets and settings. Start a new project to continue growing your platform."
+        />
+      </PageHeader>
 
       <section className="mt-8">
         <ul className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
