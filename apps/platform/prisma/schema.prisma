@@ -109,10 +109,10 @@ enum WidgetType {
 model Widget {
   id   String     @id @default(cuid())
   name String
-  slug String     @unique
   type WidgetType
 
-  isActive Boolean @map("is_active")
+  isActive Boolean @default(true) @map("is_active")
+  isTest   Boolean @default(false) @map("is_test")
 
   organizationId String       @map("organization_id")
   organization   Organization @relation(fields: [organizationId], references: [id])

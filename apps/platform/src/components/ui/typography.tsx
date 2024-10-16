@@ -79,7 +79,7 @@ const TypographyComponent: ForwardRefRenderFunction<
         stylingMap[styling],
         weightMap[weight],
         isUnderlined && "underline",
-        isMuted && "text-muted-foreground",
+        isMuted && "text-default-500",
         isUppercase && "uppercase",
         className
       )}

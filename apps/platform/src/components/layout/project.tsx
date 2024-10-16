@@ -3,12 +3,16 @@
 import { useProjectQuery } from "@/app/(organization)/organization/projects/[id]/hooks/project";
 import { Avatar, Button, Card, CardBody, Tab, Tabs } from "@nextui-org/react";
 import { AppWindowMac, Folder, Plus } from "lucide-react";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useCallback } from "react";
 import { Typography } from "../ui/typography";
 
+import { useCreateWidgetMutation } from "@/app/(organization)/organization/projects/[id]/hooks/create-widget";
 import { ProjectUrls } from "@/const/url";
+import { NewWidgetDto } from "@/dto/widget";
+import { useProjectLayoutStore } from "@/store/project-layout";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
+import { CreateWidgetModal } from "../modules/projects/create-widget-modal";
 
 type Props = PropsWithChildren & {
   projectId: string;
@@ -17,8 +21,23 @@ type Props = PropsWithChildren & {
 export const ProjectLayout = (props: Props) => {
   const { projectId, children } = props;
   const pathname = usePathname();
+  const { closeModal, isCreateModalOpen, openModal } = useProjectLayoutStore();
 
   const { data: projectData } = useProjectQuery(projectId);
+  const { mutateAsync: createWidget } = useCreateWidgetMutation();
+
+  const createWidgetHandler = useCallback(
+    async (values: NewWidgetDto) => {
+      try {
+        await createWidget({ ...values, projectId });
+
+        closeModal();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [projectId, createWidget]
+  );
 
   if (!projectData) return null;
 
@@ -93,7 +112,11 @@ export const ProjectLayout = (props: Props) => {
                   Click the button below to set up a new widget tailored to your
                   project’s needs.
                 </Typography>
-                <Button color="primary" className="self-center">
+                <Button
+                  color="primary"
+                  className="self-center"
+                  onClick={openModal}
+                >
                   <Plus className="w-5 h-5" />
                   Add Your First Widget
                 </Button>
@@ -102,6 +125,12 @@ export const ProjectLayout = (props: Props) => {
           </Card>
         </>
       )}
+
+      <CreateWidgetModal
+        isOpen={isCreateModalOpen}
+        onClose={closeModal}
+        onFormSubmit={createWidgetHandler}
+      />
     </>
   );
 };

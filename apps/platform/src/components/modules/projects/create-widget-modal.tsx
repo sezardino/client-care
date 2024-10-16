@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  NewProjectForm,
-  NewProjectFormProps,
-} from "@/components/form/new-project";
+  NewWidgetForm,
+  NewWidgetFormProps,
+} from "@/components/form/new-widget";
 import { Typography } from "@/components/ui/typography";
 import {
   Button,
@@ -18,12 +18,12 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   onCancel?: () => void;
-  onFormSubmit: NewProjectFormProps["onFormSubmit"];
+  onFormSubmit: NewWidgetFormProps["onFormSubmit"];
 };
 
-const FORM_ID = "new-project-form-id";
+const FORM_ID = "new-widget-form-id";
 
-export const CreateProjectModal = (props: Props) => {
+export const CreateWidgetModal = (props: Props) => {
   const { isOpen, onClose, onCancel, onFormSubmit } = props;
 
   const cancelHandler = () => {
@@ -36,15 +36,17 @@ export const CreateProjectModal = (props: Props) => {
       <ModalContent>
         <ModalHeader className="flex-col">
           <Typography level="h2" styling="h3" weight="medium">
-            Create new Project
+            Create New Widget
           </Typography>
           <Typography styling="small" isMuted>
-            Fill needed fields to create new project.
+            Set up a new widget to start collecting submissions. You can create
+            a test widget to explore its functionality or a live widget for
+            actual use.
           </Typography>
         </ModalHeader>
 
         <ModalBody>
-          <NewProjectForm id={FORM_ID} onFormSubmit={onFormSubmit} />
+          <NewWidgetForm id={FORM_ID} onFormSubmit={onFormSubmit} />
         </ModalBody>
 
         <ModalFooter>
@@ -52,7 +54,7 @@ export const CreateProjectModal = (props: Props) => {
             Cancel
           </Button>
           <Button form={FORM_ID} type="submit" color="primary">
-            Create new Project
+            Create Widget
           </Button>
         </ModalFooter>
       </ModalContent>
