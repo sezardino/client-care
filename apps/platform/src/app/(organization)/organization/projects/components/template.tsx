@@ -1,7 +1,8 @@
 "use client";
 
-import { CreateProjectModal } from "@/components/modules/projects/create-project-modal";
+import { NewProjectForm } from "@/components/form/new-project";
 import { ProjectCard } from "@/components/modules/projects/project-card";
+import { ModalWithForm } from "@/components/ui/modal-with-form";
 import { Typography } from "@/components/ui/typography";
 import { MAX_ORGANIZATION_PROJECTS_COUNT } from "@/const/limits";
 import { NewProjectDto } from "@/dto/project";
@@ -10,6 +11,8 @@ import { PlusCircle } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useCreateNewProjectMutation } from "../hooks/create-new-project";
 import { useOrganizationProjectsQuery } from "../hooks/projects";
+
+const FORM_ID = "create-project-form-id";
 
 export const OrganizationProjectsTemplate = () => {
   const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
@@ -20,9 +23,9 @@ export const OrganizationProjectsTemplate = () => {
 
   const canCreateMoreProjects =
     !isProjectsLoading &&
-    (projectsResponse?.projects.length || MAX_ORGANIZATION_PROJECTS_COUNT) >=
+    (projectsResponse?.projects.length || MAX_ORGANIZATION_PROJECTS_COUNT) <
       MAX_ORGANIZATION_PROJECTS_COUNT;
-  console.log(canCreateMoreProjects);
+
   const createNewProjectHandler = useCallback(
     async (values: NewProjectDto) => {
       try {
@@ -88,11 +91,17 @@ export const OrganizationProjectsTemplate = () => {
         </ul>
       </section>
 
-      <CreateProjectModal
+      <ModalWithForm
+        title="Create New Project"
+        description="Set up a new project by providing the necessary details. Once created, you can start adding widgets to your project."
+        confirm="Create Project"
+        cancel="Cancel"
         isOpen={isNewProjectModalOpen}
         onClose={() => setIsNewProjectModalOpen(false)}
-        onFormSubmit={createNewProjectHandler}
-      />
+        formId={FORM_ID}
+      >
+        <NewProjectForm id={FORM_ID} onFormSubmit={createNewProjectHandler} />
+      </ModalWithForm>
     </>
   );
 };

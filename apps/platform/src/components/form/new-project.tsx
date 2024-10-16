@@ -6,7 +6,13 @@ import { useForm } from "react-hook-form";
 
 import { NewProjectDto, NewProjectDtoSchema } from "@/dto/project";
 import { cn, Input, Textarea } from "@nextui-org/react";
-import { Form, FormField, FormItem, FormMessage } from "../ui/form";
+import {
+  Form,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
 import { ImageFormField } from "../ui/image-field";
 
 export type NewProjectFormProps = ComponentPropsWithoutRef<"form"> & {
@@ -72,9 +78,12 @@ export const NewProjectForm = (props: NewProjectFormProps) => {
               <Input
                 {...field}
                 type="text"
-                label="Name"
-                placeholder="Next-blog"
+                label="Project Name"
+                placeholder="Enter the project name"
               />
+              <FormDescription>
+                Give your project a unique and descriptive name.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -88,9 +97,13 @@ export const NewProjectForm = (props: NewProjectFormProps) => {
               <Input
                 {...field}
                 type="text"
-                label="Url"
-                placeholder="example.com"
+                label="Project URL"
+                placeholder="Enter the project URL"
               />
+              <FormDescription>
+                Specify the URL where this project will be hosted. Ensure
+                it&apos;s accurate.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -105,8 +118,12 @@ export const NewProjectForm = (props: NewProjectFormProps) => {
                 {...field}
                 type="text"
                 label="Description"
-                placeholder="Blogging platform for content makers"
+                placeholder="Enter a brief description"
               />
+              <FormDescription>
+                Describe the project and its purpose. This will help you and
+                your team to stay aligned.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
