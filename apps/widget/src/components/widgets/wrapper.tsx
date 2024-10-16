@@ -14,7 +14,7 @@ export const WidgetWrapper = (props: Props) => {
         const response = await fetch(
           `${import.meta.env.VITE_PUBLIC_URL}/api/widget-status`,
           {
-            method: "POST",
+            method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
               Accept: "application/json",
