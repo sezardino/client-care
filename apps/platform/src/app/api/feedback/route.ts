@@ -1,30 +1,8 @@
 import { FeedbackWidgetDtoSchema } from "@/dto/feedback";
-import { jwtVerify } from "@/libs/jwt";
 import { prisma } from "@/libs/prisma";
-import { JWTWidgetPayload } from "@/types/jwt";
 import { zodValidateAndFormatErrors } from "@/utils/zod";
-import { JsonWebTokenError } from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
-
-const handleToken = (token: string) => {
-  if (!token || !token.includes("Bearer")) throw new Error("No token provided");
-
-  const tokenWithoutBearer = token.split(" ")[1];
-
-  try {
-    const verifiedToken = jwtVerify(tokenWithoutBearer);
-
-    if (!verifiedToken) throw new Error("Verification failed");
-
-    return verifiedToken as JWTWidgetPayload;
-  } catch (error) {
-    if (error instanceof JsonWebTokenError) throw new Error(error.message);
-
-    if (typeof error === "string") throw new Error(error);
-
-    throw new Error("Something went wrong when try to extract token");
-  }
-};
+import { verifyAuthToken } from "../helpers/auth-token";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -38,17 +16,32 @@ export async function POST(req: NextRequest) {
   if (!validationResponse.success)
     return NextResponse.json(validationResponse, { status: 400 });
 
-  try {
-    const { organizationId, projectId } = handleToken(authTokenWithBearer);
+  const { email, message, fullName, rating } = validationResponse.data;
 
-    const project = await prisma.project.findUnique({
-      where: { id: projectId, organizationId: organizationId },
+  try {
+    const { organizationId, projectId, widgetId } =
+      verifyAuthToken(authTokenWithBearer);
+
+    const neededWidget = await prisma.widget.findUnique({
+      where: {
+        id: widgetId,
+        organizationId: organizationId,
+        projectId: projectId,
+      },
     });
 
-    if (!project)
-      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    if (!neededWidget)
+      return NextResponse.json(
+        { message: "Widget not found" },
+        { status: 404 }
+      );
 
-    // save data
+    await prisma.submission.create({
+      data: {
+        widget: { connect: { id: widgetId } },
+        feedback: { create: { email, fullName, message, rating } },
+      },
+    });
 
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (error) {
@@ -60,8 +53,4 @@ export async function POST(req: NextRequest) {
       { status: 403 }
     );
   }
-
-  console.log(body);
-
-  return NextResponse.json({ success: true, body }, { status: 201 });
 }

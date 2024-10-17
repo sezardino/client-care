@@ -107,8 +107,6 @@ export const ModalWrapper = (props: ModalWrapperProps) => {
     onClose();
   };
 
-  console.log(rest.size);
-
   return (
     <Modal size="lg" {...rest} isOpen={isOpen} onClose={closeHandler}>
       <ModalContent>{children}</ModalContent>

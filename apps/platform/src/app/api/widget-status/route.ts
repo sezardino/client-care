@@ -1,36 +1,13 @@
-import { jwtVerify } from "@/libs/jwt";
 import { prisma } from "@/libs/prisma";
-import { JWTWidgetPayload } from "@/types/jwt";
-import { body } from "framer-motion/client";
-import { JsonWebTokenError } from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
-
-const handleToken = (token: string) => {
-  if (!token || !token.includes("Bearer")) throw new Error("No token provided");
-
-  const tokenWithoutBearer = token.split(" ")[1];
-
-  try {
-    const verifiedToken = jwtVerify(tokenWithoutBearer);
-
-    if (!verifiedToken) throw new Error("Verification failed");
-
-    return verifiedToken as JWTWidgetPayload;
-  } catch (error) {
-    if (error instanceof JsonWebTokenError) throw new Error(error.message);
-
-    if (typeof error === "string") throw new Error(error);
-
-    throw new Error("Something went wrong when try to extract token");
-  }
-};
+import { verifyAuthToken } from "../helpers/auth-token";
 
 export const GET = async (req: NextRequest) => {
   const authTokenWithBearer = req.headers.get("Authorization") || "";
 
   try {
     const { organizationId, projectId, widgetId } =
-      handleToken(authTokenWithBearer);
+      verifyAuthToken(authTokenWithBearer);
 
     const widget = await prisma.widget.findUnique({
       where: { id: widgetId, organizationId, projectId, deletedAt: null },
@@ -50,8 +27,4 @@ export const GET = async (req: NextRequest) => {
       { status: 403 }
     );
   }
-
-  console.log(body);
-
-  return NextResponse.json({ success: true, body }, { status: 201 });
 };

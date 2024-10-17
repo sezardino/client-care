@@ -30,18 +30,17 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as unknown as {
-      name: { value: string };
+      fullName: { value: string };
       email: { value: string };
       feedback: { value: string };
     };
 
     const data = {
       rating,
-      name: form.name.value,
+      fullName: form.fullName.value,
       email: form.email.value,
       message: form.feedback.value,
     };
-    console.log(data);
 
     const response = await fetch(
       `${import.meta.env.VITE_PUBLIC_URL}/api/feedback`,
@@ -90,8 +89,8 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
                 <form className="space-y-2" onSubmit={submit}>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Name</Label>
-                      <Input id="name" placeholder="Enter your name" />
+                      <Label htmlFor="fullName">Full Name</Label>
+                      <Input id="fullName" placeholder="Enter your full name" />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
