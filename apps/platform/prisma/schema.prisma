@@ -50,7 +50,9 @@ model File {
   logo    Organization[]
   project Project[]
 
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt          DateTime @default(now()) @map("created_at")
+  Report             Report?  @relation(fields: [reportSubmissionId], references: [submissionId])
+  reportSubmissionId String?
 
   @@map("files")
 }
@@ -66,8 +68,9 @@ model Organization {
   ownerId String @unique @map("owner_id")
   owner   User   @relation("organization-owner", fields: [ownerId], references: [id])
 
-  projects Project[]
-  widgets  Widget[]
+  projects    Project[]
+  widgets     Widget[]
+  submissions Submission[]
 
   logo   File?   @relation(fields: [logoId], references: [id])
   logoId String? @map("logo_id")
@@ -87,7 +90,8 @@ model Project {
 
   description String @default("")
 
-  widgets Widget[]
+  widgets     Widget[]
+  submissions Submission[]
 
   organizationId String       @map("organization_id")
   organization   Organization @relation(fields: [organizationId], references: [id])
@@ -104,6 +108,9 @@ model Project {
 
 enum WidgetType {
   FEEDBACK
+  REPORT
+  CONTACT
+  SURVEY
 }
 
 model Widget {
@@ -135,29 +142,71 @@ model Submission {
   widget   Widget @relation(fields: [widgetId], references: [id])
   widgetId String
 
-  feedback   Feedback? @relation(fields: [feedbackId], references: [id])
-  feedbackId String?   @map("feedback_id")
+  feedback Feedback? @relation("submission-feedback")
+  report   Report?   @relation("submission-report")
+  contact  Contact?  @relation("submission-contact")
+  survey   Survey?   @relation("submission-survey")
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId String  @map("project_id")
+
+  organizationId String       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
   @@map("submissions")
 }
 
+// widgets
+
 model Feedback {
-  id String @id @default(cuid())
+  submissionId String     @id @default(cuid()) @map("submission_id")
+  submission   Submission @relation("submission-feedback", fields: [submissionId], references: [id])
 
   fullName String @map("full_name")
   email    String
   message  String
   rating   Int
 
-  submission Submission[]
-
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
-
   @@map("feedbacks")
+}
+
+model Report {
+  submissionId String     @id @default(cuid()) @map("submission_id")
+  submission   Submission @relation("submission-report", fields: [submissionId], references: [id])
+
+  fullName String @map("full_name")
+  email    String
+  message  String
+  files    File[]
+
+  @@map("reports")
+}
+
+model Contact {
+  submissionId String     @id @default(cuid()) @map("submission_id")
+  submission   Submission @relation("submission-contact", fields: [submissionId], references: [id])
+
+  fullName String  @map("full_name")
+  email    String
+  phone    String?
+  subject  String?
+  message  String
+
+  @@map("contacts")
+}
+
+model Survey {
+  submissionId String     @id @default(cuid()) @map("submission_id")
+  submission   Submission @relation("submission-survey", fields: [submissionId], references: [id])
+
+  fullName     String   @map("full_name")
+  email        String
+  satisfaction Int
+  options      String[]
+
+  @@map("surveys")
 }
