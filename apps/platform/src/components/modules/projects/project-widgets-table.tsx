@@ -2,6 +2,7 @@
 
 import { createColumnHelper } from "@/components/ui/data-table";
 import { TableWidget, TableWidgetProps } from "@/components/ui/table-widget";
+import { TextWithEllipsis } from "@/components/ui/text-with-ellipsis";
 import { Typography } from "@/components/ui/typography";
 import { DEFAULT_DATE_FORMAT } from "@/const/base";
 import { WidgetTable } from "@/types/table";
@@ -11,9 +12,15 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Tooltip,
 } from "@nextui-org/react";
 import dayjs from "dayjs";
-import { CheckCircle2, MoreVertical, XCircle } from "lucide-react";
+import {
+  AlertOctagon,
+  CheckCircle2,
+  MoreVertical,
+  XCircle,
+} from "lucide-react";
 
 type PickerProps = Pick<
   TableWidgetProps<WidgetTable>,
@@ -47,7 +54,30 @@ export const ProjectWidgetsTable = (props: Props) => {
   } = props;
 
   const columns = [
-    columnHelper("name", { label: "Name" }),
+    columnHelper("name", {
+      label: "Name",
+      cell: ({ value, row }) => {
+        const valueJSX = (
+          <TextWithEllipsis
+            text={value}
+            level="span"
+            styling="xs"
+            length={24}
+          />
+        );
+
+        return row.isTest ? (
+          <div className="flex items-center gap-2">
+            <Tooltip content="This is test widget">
+              <AlertOctagon className="text-warning-400 w-5 h-5" />
+            </Tooltip>
+            {valueJSX}
+          </div>
+        ) : (
+          valueJSX
+        );
+      },
+    }),
     columnHelper("type", { label: "Type" }),
     columnHelper("createdAt", {
       label: "Created Date",
@@ -67,21 +97,12 @@ export const ProjectWidgetsTable = (props: Props) => {
           <XCircle className="text-danger-500" />
         ),
     }),
-    columnHelper("isTest", {
-      label: "Is Test Widget",
-      cell: ({ value }) =>
-        value ? (
-          <CheckCircle2 className="text-success-500" />
-        ) : (
-          <XCircle className="text-danger-500" />
-        ),
-    }),
     columnHelper("id", {
       label: "",
       cell: ({ value, row }) => (
         <Dropdown aria-label={`Actions on widget ${row.name}`}>
           <DropdownTrigger>
-            <Button isIconOnly size="sm" variant="bordered">
+            <Button isIconOnly size="sm" variant="bordered" className="ml-auto">
               <MoreVertical className="w-4 h-4" />
             </Button>
           </DropdownTrigger>

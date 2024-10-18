@@ -2,6 +2,7 @@
 
 import { createColumnHelper } from "@/components/ui/data-table";
 import { TableWidget, TableWidgetProps } from "@/components/ui/table-widget";
+import { TextWithEllipsis } from "@/components/ui/text-with-ellipsis";
 import { Typography } from "@/components/ui/typography";
 import { DEFAULT_DATE_FORMAT } from "@/const/base";
 import { SubmissionTable } from "@/types/table";
@@ -11,9 +12,10 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Tooltip,
 } from "@nextui-org/react";
 import dayjs from "dayjs";
-import { CheckCircle2, MoreVertical, XCircle } from "lucide-react";
+import { AlertOctagon, MoreVertical, PowerOff } from "lucide-react";
 
 type PickerProps = Pick<
   TableWidgetProps<SubmissionTable>,
@@ -36,7 +38,24 @@ export const ProjectSubmissionsTable = (props: Props) => {
   const { submissions, ...rest } = props;
 
   const columns = [
-    columnHelper("widget", { label: "Widget" }),
+    columnHelper("widget", {
+      label: "Widget",
+      cell: ({ value }) => (
+        <div className="flex items-center gap-2">
+          {!value.isTest && !value.isActive ? (
+            <Tooltip content="This widget is disabled">
+              <PowerOff className="text-red-500 w-5 h-5" />
+            </Tooltip>
+          ) : null}
+          {value.isTest ? (
+            <Tooltip content="This is test widget">
+              <AlertOctagon className="text-warning-500 w-5 h-5" />
+            </Tooltip>
+          ) : null}
+          <TextWithEllipsis text={value.name} length={24} styling="xs" />
+        </div>
+      ),
+    }),
     columnHelper("createdAt", {
       label: "Submission Date",
       cell: ({ value }) => (
@@ -45,15 +64,15 @@ export const ProjectSubmissionsTable = (props: Props) => {
         </Typography>
       ),
     }),
-    columnHelper("email", { label: "Sender" }),
     columnHelper("widget", {
-      label: "Is Widget Active",
-      cell: ({ value }) =>
-        value ? (
-          <CheckCircle2 className="text-success-500" />
-        ) : (
-          <XCircle className="text-danger-500" />
-        ),
+      label: "Widget type",
+      cell: ({ value }) => <Typography styling="xs">{value.type}</Typography>,
+    }),
+    columnHelper("email", {
+      label: "Sender",
+      cell: ({ value }) => (
+        <TextWithEllipsis text={value} length={16} styling="xs" />
+      ),
     }),
 
     columnHelper("id", {

@@ -54,7 +54,9 @@ export const getProjectSubmissions = async (
       select: {
         id: true,
         email: true,
-        widget: { select: { name: true, type: true } },
+        widget: {
+          select: { name: true, type: true, isTest: true, isActive: true },
+        },
         createdAt: true,
       },
     });
