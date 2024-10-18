@@ -136,12 +136,21 @@ model Widget {
   @@map("widgets")
 }
 
+enum SubmissionStatus {
+  NEW
+  DECLINED
+  PROCESSED
+}
+
 model Submission {
   id String @id @default(cuid())
 
   email    String
   fullName String @default("") @map("full_name")
   phone    String @default("")
+
+  status     SubmissionStatus @default(NEW)
+  declinedAt DateTime?        @map("declined_at")
 
   widget   Widget @relation(fields: [widgetId], references: [id])
   widgetId String
