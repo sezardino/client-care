@@ -4,15 +4,15 @@ import { getProjectWidgets } from "../actions/project-widgets";
 export const PROJECT_WIDGETS_QUERY_KEY = "project-widgets-query-key";
 
 type Args = {
-  id: string;
+  projectId: string;
   page?: number;
   limit?: number;
 };
 
 export const getProjectWidgetsQuery = (args: Args) => ({
-  queryKey: [PROJECT_WIDGETS_QUERY_KEY, args.id, args.page, args.limit],
+  queryKey: [PROJECT_WIDGETS_QUERY_KEY, args.projectId, args.page, args.limit],
   queryFn: async () => getProjectWidgets(args),
-  enabled: !!args.id,
+  enabled: !!args.projectId,
 });
 
 export const useProjectWidgetsQuery = (args: Args) =>

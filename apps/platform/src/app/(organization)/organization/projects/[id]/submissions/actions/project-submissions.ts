@@ -2,7 +2,7 @@
 
 import { prisma } from "@/libs/prisma";
 import { PaginationResponse, ServerActionResponse } from "@/types/base";
-import { WidgetTable } from "@/types/table";
+import { SubmissionTable } from "@/types/table";
 import { getBackendPagination } from "@/utils/get-pagination";
 import { zodValidateAndFormatErrors } from "@/utils/zod";
 import { auth } from "@clerk/nextjs/server";
@@ -14,9 +14,9 @@ const ValidationSchema = z.object({
   limit: z.number().optional(),
 });
 
-export const getProjectWidgets = async (
+export const getProjectSubmissions = async (
   argument: unknown
-): Promise<ServerActionResponse<PaginationResponse<WidgetTable>>> => {
+): Promise<ServerActionResponse<PaginationResponse<SubmissionTable>>> => {
   const { userId } = auth();
 
   if (!userId) return { message: "Unauthorized" };
@@ -32,20 +32,13 @@ export const getProjectWidgets = async (
   const { projectId, page, limit } = validationResponse.data;
 
   try {
-    const widgetsWhereInput = {
+    const submissionsWhereInput = {
       projectId,
-      deletedAt: null,
-      organization: {
-        members: {
-          some: {
-            id: userId,
-          },
-        },
-      },
+      organization: { members: { some: { id: userId } } },
     };
 
-    const widgetsTotalCount = await prisma.widget.count({
-      where: widgetsWhereInput,
+    const widgetsTotalCount = await prisma.submission.count({
+      where: submissionsWhereInput,
     });
 
     const { skip, take, meta } = getBackendPagination({
@@ -54,26 +47,20 @@ export const getProjectWidgets = async (
       count: widgetsTotalCount,
     });
 
-    const widgets = await prisma.widget.findMany({
-      where: widgetsWhereInput,
+    const submissions = await prisma.submission.findMany({
+      where: submissionsWhereInput,
       skip,
       take,
       select: {
         id: true,
-        name: true,
-        isActive: true,
-        isTest: true,
-        type: true,
+        email: true,
+        widget: { select: { name: true, type: true } },
         createdAt: true,
-        _count: { select: { submissions: true } },
       },
     });
 
     return {
-      data: widgets.map(({ _count, ...widget }) => ({
-        ...widget,
-        submissionsCount: _count.submissions,
-      })),
+      data: submissions,
       meta,
     };
   } catch (error) {

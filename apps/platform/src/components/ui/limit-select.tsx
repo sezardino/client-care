@@ -1,6 +1,6 @@
 import {
-  DEFAULT_ITEMS_PER_PAGE,
-  DEFAULT_ITEMS_PER_PAGE_RANGE,
+  DEFAULT_PAGE_LIMIT_PAGE,
+  DEFAULT_PAGE_LIMIT_PAGE_RANGE,
 } from "@/const/base";
 import {
   Button,
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export const LimitSelect = (props: Props) => {
-  const { current = DEFAULT_ITEMS_PER_PAGE, onChange, label } = props;
+  const { current = DEFAULT_PAGE_LIMIT_PAGE, onChange, label } = props;
 
   return (
     <Dropdown>
@@ -35,7 +35,7 @@ export const LimitSelect = (props: Props) => {
         onAction={(key) => onChange(key as number)}
         aria-label={label}
       >
-        {DEFAULT_ITEMS_PER_PAGE_RANGE.map((value) => (
+        {DEFAULT_PAGE_LIMIT_PAGE_RANGE.map((value) => (
           <DropdownItem key={value}>{value}</DropdownItem>
         ))}
       </DropdownMenu>

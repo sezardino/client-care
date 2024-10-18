@@ -10,7 +10,6 @@ import { useCreateWidgetMutation } from "@/app/(organization)/organization/proje
 import { ProjectUrls } from "@/const/url";
 import { NewWidgetDto } from "@/dto/widget";
 import { useProjectSubPagesStore } from "@/store/project-sub-pages";
-import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { WidgetForm } from "../form/widget";
 import {
@@ -107,12 +106,7 @@ export const ProjectLayout = (props: Props) => {
             aria-label="Navigation on project"
           >
             {links.map((link) => (
-              <Tab
-                key={link.href}
-                as={NextLink}
-                href={link.href}
-                title={link.title}
-              />
+              <Tab key={link.href} href={link.href} title={link.title} />
             ))}
           </Tabs>
           <Button color="primary" onClick={openModal}>

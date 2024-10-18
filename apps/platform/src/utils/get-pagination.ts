@@ -1,4 +1,4 @@
-import { DEFAULT_ITEMS_PER_PAGE } from "@/const/base";
+import { DEFAULT_PAGE_LIMIT_PAGE } from "@/const/base";
 
 type Args = {
   page?: number;
@@ -7,7 +7,7 @@ type Args = {
 };
 
 export const getBackendPagination = (args: Args) => {
-  const { page = 1, limit = DEFAULT_ITEMS_PER_PAGE, count = 0 } = args;
+  const { page = 1, limit = DEFAULT_PAGE_LIMIT_PAGE, count = 0 } = args;
 
   const transformedPage = Number(page) - 1;
   const transformedLimit = Number(limit);

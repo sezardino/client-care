@@ -48,15 +48,17 @@ export const DataTable = <T extends object>(props: DataTableProps<T>) => {
   return (
     <Table {...rest} aria-label={label}>
       <TableHeader>
-        {columns.map((column) => (
-          <TableColumn key={column.key as string}>{column.label}</TableColumn>
+        {columns.map((column, index) => (
+          <TableColumn key={`${column.key as string}-${index}`}>
+            {column.label}
+          </TableColumn>
         ))}
       </TableHeader>
       <TableBody emptyContent={emptyContent} isLoading>
         {data.map((row, rowIndex) => (
           <TableRow key={rowIndex}>
-            {columns.map((column) => (
-              <TableCell key={column.key as string}>
+            {columns.map((column, index) => (
+              <TableCell key={`${column.key as string}-${index}`}>
                 {typeof column.cell === "function" &&
                   column.cell({
                     value: getKeyValue(row, column.key as string),

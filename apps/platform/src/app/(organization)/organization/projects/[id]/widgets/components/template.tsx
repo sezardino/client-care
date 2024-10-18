@@ -6,12 +6,10 @@ import { ProjectWidgetsTable } from "@/components/modules/projects/project-widge
 import { WidgetCodeSnippetModal } from "@/components/modules/projects/widget-code-snippet-modal";
 import { AlertModal } from "@/components/ui/alert-modal";
 import { ModalWithForm } from "@/components/ui/modal-with-form";
-import { DEFAULT_ITEMS_PER_PAGE } from "@/const/base";
 import { NewWidgetDto, WidgetStatusDto } from "@/dto/widget";
-import { useGenerateSearchParamsUrl } from "@/hooks/use-generate-search-params-url";
+import { useTableSearchParams } from "@/hooks/table-search-params";
 import { useProjectSubPagesStore } from "@/store/project-sub-pages";
-import { ProjectWidget } from "@/types/widget";
-import { useRouter, useSearchParams } from "next/navigation";
+import { WidgetTable } from "@/types/table";
 import { useCallback, useMemo, useState } from "react";
 import { useCreateWidgetMutation } from "../../hooks/create-widget";
 import { useChangeWidgetStatusMutation } from "../hooks/change-widget-status";
@@ -27,17 +25,12 @@ const WIDGET_STATUS_FORM_ID = "widget-status-form-id";
 
 export const ProjectWidgetsTemplate = () => {
   const projectId = useProjectSubPagesStore((store) => store.projectId);
-  const searchParams = useSearchParams();
-  const router = useRouter();
   const [action, setAction] = useState<Action | null>(null);
-
-  const limit = Number(searchParams.get("limit")) || DEFAULT_ITEMS_PER_PAGE;
-  const page = Number(searchParams.get("page")) || 1;
-
-  const generatePathname = useGenerateSearchParamsUrl();
+  const { limit, page, changeLimitHandler, changePageHandler } =
+    useTableSearchParams();
 
   const { data: projectWidgetsResponse } = useProjectWidgetsQuery({
-    id: projectId!,
+    projectId: projectId!,
     limit,
     page,
   });
@@ -53,15 +46,6 @@ export const ProjectWidgetsTemplate = () => {
     isPending: isChangingWidgetStatusPending,
   } = useChangeWidgetStatusMutation();
 
-  const onChangePage = useCallback(
-    (page: number) => router.push(generatePathname("page", page)),
-    [generatePathname, router]
-  );
-  const onChangeLimit = useCallback(
-    (limit: number) => router.push(generatePathname("limit", limit)),
-    [generatePathname, router]
-  );
-
   const deleteWidgetHandler = useCallback(async () => {
     if (!action) return;
 
@@ -73,7 +57,7 @@ export const ProjectWidgetsTemplate = () => {
     }
   }, [action, deleteWidget]);
 
-  const selectedWidget = useMemo<ProjectWidget | undefined>(() => {
+  const selectedWidget = useMemo<WidgetTable | undefined>(() => {
     if (!action) return;
     if (!["duplicate", "active"].includes(action.type)) return;
 
@@ -129,8 +113,8 @@ export const ProjectWidgetsTemplate = () => {
         currentLimit={limit}
         currentPage={page}
         totalPages={projectWidgetsResponse?.meta.totalPages || 0}
-        onPageChange={onChangePage}
-        onLimitChange={onChangeLimit}
+        onPageChange={changePageHandler}
+        onLimitChange={changeLimitHandler}
       />
 
       <AlertModal

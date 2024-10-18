@@ -1,5 +1,6 @@
-import { DEFAULT_ITEMS_PER_PAGE } from "@/const/base";
+import { LIMIT_SEARCH_PARAM, PAGE_SEARCH_PARAM } from "@/const/search-params";
 import { getQueryClientForHydration } from "@/libs/react-query";
+import { getTableSearchParams } from "@/utils/get-table-search-params";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { ProjectWidgetsTemplate } from "./components/template";
 import { getProjectWidgetsQuery } from "./hooks/project-widgets";
@@ -7,19 +8,18 @@ import { getProjectWidgetsQuery } from "./hooks/project-widgets";
 type Props = {
   params: { id: string };
   searchParams: {
-    page?: string;
-    limit?: string;
+    [PAGE_SEARCH_PARAM]?: string;
+    [LIMIT_SEARCH_PARAM]?: string;
   };
 };
 
 const Page = async (props: Props) => {
   const { params, searchParams } = props;
-  const page = Number(searchParams.page) || 1;
-  const limit = Number(searchParams.limit) || DEFAULT_ITEMS_PER_PAGE;
+  const { page, limit } = getTableSearchParams(searchParams);
 
   const queryClient = getQueryClientForHydration();
   await queryClient.prefetchQuery(
-    getProjectWidgetsQuery({ id: params.id, page, limit })
+    getProjectWidgetsQuery({ projectId: params.id, page, limit })
   );
   const dehydratedState = dehydrate(queryClient);
 

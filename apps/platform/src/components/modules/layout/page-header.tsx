@@ -1,6 +1,5 @@
 import { Typography } from "@/components/ui/typography";
 import { BreadcrumbItem, Breadcrumbs, cn } from "@nextui-org/react";
-import NextLink from "next/link";
 import { ComponentPropsWithoutRef } from "react";
 
 type Props = ComponentPropsWithoutRef<"div"> & {
@@ -23,11 +22,7 @@ export const PageHeader = (props: Props) => {
       {!!breadcrumbs.length && (
         <Breadcrumbs className="-order-1">
           {breadcrumbs.map((b, index) => (
-            <BreadcrumbItem
-              key={index}
-              as={b.href ? NextLink : undefined}
-              href={b.href}
-            >
+            <BreadcrumbItem key={index} href={b.href}>
               {b.label}
             </BreadcrumbItem>
           ))}

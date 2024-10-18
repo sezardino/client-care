@@ -1,13 +1,17 @@
 import { getQueryClientForHydration } from "@/libs/react-query";
 import "@/styles/index.css";
-import { dehydrate, HydrationBoundary, Query } from "@tanstack/react-query";
+import {
+  dehydrate,
+  FetchQueryOptions,
+  HydrationBoundary,
+} from "@tanstack/react-query";
 import { PropsWithChildren } from "react";
 
 type Props = PropsWithChildren & {
-  queries: Query[];
+  queries: FetchQueryOptions[];
 };
 
-export const HydrationBoundaryHelper = async (props: Props) => {
+export const BasicHydrationBoundary = async (props: Props) => {
   const { queries, children } = props;
 
   const queryClient = getQueryClientForHydration();

@@ -4,7 +4,7 @@ import { createColumnHelper } from "@/components/ui/data-table";
 import { TableWidget, TableWidgetProps } from "@/components/ui/table-widget";
 import { Typography } from "@/components/ui/typography";
 import { DEFAULT_DATE_FORMAT } from "@/const/base";
-import { ProjectWidget } from "@/types/widget";
+import { WidgetTable } from "@/types/table";
 import {
   Button,
   Dropdown,
@@ -16,25 +16,25 @@ import dayjs from "dayjs";
 import { CheckCircle2, MoreVertical, XCircle } from "lucide-react";
 
 type PickerProps = Pick<
-  TableWidgetProps<ProjectWidget>,
+  TableWidgetProps<WidgetTable>,
   "currentLimit" | "currentPage" | "onPageChange" | "onLimitChange"
 >;
 
 type OmittedProps = Omit<
-  TableWidgetProps<ProjectWidget>,
+  TableWidgetProps<WidgetTable>,
   "data" | "columns" | "emptyContent" | "limitLabel" | "tableLabel"
 >;
 
 type Props = PickerProps &
   OmittedProps & {
-    widgets: ProjectWidget[];
+    widgets: WidgetTable[];
     onChangeActiveStateRequest: (id: string) => void;
     onCodeRequest: (id: string) => void;
     onDeleteRequest: (id: string) => void;
     onDuplicateRequest: (id: string) => void;
   };
 
-const columnHelper = createColumnHelper<ProjectWidget>();
+const columnHelper = createColumnHelper<WidgetTable>();
 
 export const ProjectWidgetsTable = (props: Props) => {
   const {

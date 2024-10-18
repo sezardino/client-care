@@ -38,8 +38,12 @@ export async function POST(req: NextRequest) {
 
     await prisma.submission.create({
       data: {
+        fullName,
+        email,
         widget: { connect: { id: widgetId } },
-        feedback: { create: { email, fullName, message, rating } },
+        organization: { connect: { id: organizationId } },
+        project: { connect: { id: projectId } },
+        feedback: { create: { message, rating } },
       },
     });
 
@@ -47,7 +51,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     if (typeof error === "string")
       return NextResponse.json({ error }, { status: 403 });
-
+    console.log(error);
     return NextResponse.json(
       { error: "Something went wrong when try to send feedback" },
       { status: 403 }
