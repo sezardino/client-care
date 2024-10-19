@@ -10,20 +10,17 @@ export const ProjectUrls = {
 
   // organization
   dashboard: "/organization",
-  users: "/organization/users",
-  projects: "/organization/projects",
+  users: "/users",
+  projects: "/projects",
   settings: "/organization/settings",
 
-  project: (id: string) => `/organization/projects/${id}`,
-  projectSubmissions: (id: string) =>
-    `/organization/projects/${id}/submissions`,
-  projectTasks: (id: string) => `/organization/projects/${id}/tasks`,
-  projectWidgets: (id: string) => `/organization/projects/${id}/widgets`,
-  projectSettings: (id: string) => `/organization/projects/${id}/settings`,
+  project: (id: string) => `/projects/${id}`,
+  projectSubmissions: (id: string) => `/projects/${id}/submissions`,
+  projectTasks: (id: string) => `/projects/${id}/tasks`,
+  projectWidgets: (id: string) => `/projects/${id}/widgets`,
+  projectSettings: (id: string) => `/projects/${id}/settings`,
 
   userSettings: "/settings",
 };
 
-export const ProjectRoutesUrls = {
-  auth: "/api/auth",
-};
+export const ProjectRoutesUrls = {};

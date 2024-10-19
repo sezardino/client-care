@@ -1,12 +1,12 @@
 "use client";
 
-import { useProjectQuery } from "@/app/(organization)/organization/projects/[id]/hooks/project";
+import { useProjectQuery } from "@/app/(organization)/projects/[id]/hooks/project";
 import { Avatar, Button, Card, CardBody, Tab, Tabs } from "@nextui-org/react";
 import { AppWindowMac, Folder, Plus } from "lucide-react";
 import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { Typography } from "../ui/typography";
 
-import { useCreateWidgetMutation } from "@/app/(organization)/organization/projects/[id]/hooks/create-widget";
+import { useCreateWidgetMutation } from "@/app/(organization)/projects/[id]/hooks/create-widget";
 import { ProjectUrls } from "@/const/url";
 import { NewWidgetDto } from "@/dto/widget";
 import { useProjectSubPagesStore } from "@/store/project-sub-pages";
