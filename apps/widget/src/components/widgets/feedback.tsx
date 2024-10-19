@@ -47,7 +47,7 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
       ? "http://localhost:3000"
       : import.meta.env.VITE_PUBLIC_URL;
 
-    const response = await fetch(`${url}/api/feedback`, {
+    const response = await fetch(`${url}/api/widget/feedback`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
