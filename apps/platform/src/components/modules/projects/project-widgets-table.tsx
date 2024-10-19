@@ -1,10 +1,9 @@
 "use client";
 
 import { createColumnHelper } from "@/components/ui/data-table";
+import { DateBadge } from "@/components/ui/date-badge";
 import { TableWidget, TableWidgetProps } from "@/components/ui/table-widget";
 import { TextWithEllipsis } from "@/components/ui/text-with-ellipsis";
-import { Typography } from "@/components/ui/typography";
-import { DEFAULT_DATE_FORMAT } from "@/const/base";
 import { WidgetTable } from "@/types/table";
 import {
   Button,
@@ -14,13 +13,13 @@ import {
   DropdownTrigger,
   Tooltip,
 } from "@nextui-org/react";
-import dayjs from "dayjs";
 import {
   AlertOctagon,
   CheckCircle2,
   MoreVertical,
   XCircle,
 } from "lucide-react";
+import { WidgetTypeBadge } from "../../ui/project-type-badge";
 
 type PickerProps = Pick<
   TableWidgetProps<WidgetTable>,
@@ -58,12 +57,9 @@ export const ProjectWidgetsTable = (props: Props) => {
       label: "Name",
       cell: ({ value, row }) => {
         const valueJSX = (
-          <TextWithEllipsis
-            text={value}
-            level="span"
-            styling="xs"
-            length={24}
-          />
+          <TextWithEllipsis level="span" styling="xs" length={24}>
+            {value}
+          </TextWithEllipsis>
         );
 
         return row.isTest ? (
@@ -78,14 +74,13 @@ export const ProjectWidgetsTable = (props: Props) => {
         );
       },
     }),
-    columnHelper("type", { label: "Type" }),
+    columnHelper("type", {
+      label: "Type",
+      cell: ({ value }) => <WidgetTypeBadge type={value} />,
+    }),
     columnHelper("createdAt", {
       label: "Created Date",
-      cell: ({ value }) => (
-        <Typography styling="xs">
-          {dayjs(value).format(DEFAULT_DATE_FORMAT)}
-        </Typography>
-      ),
+      cell: ({ value }) => <DateBadge date={value} />,
     }),
     columnHelper("submissionsCount", { label: "Submissions" }),
     columnHelper("isActive", {

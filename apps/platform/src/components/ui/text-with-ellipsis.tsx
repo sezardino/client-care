@@ -3,18 +3,22 @@ import { Typography, TypographyProps } from "./typography";
 
 type Props = TypographyProps & {
   length?: number;
-  text: string;
 };
 
 export const TextWithEllipsis = (props: Props) => {
-  const { text, length, ...rest } = props;
+  const { children, length, ...rest } = props;
+
+  if (typeof children !== "string")
+    return <Typography {...rest}>{children}</Typography>;
 
   const formattedText =
-    length && text.length > length ? `${text.slice(0, length)}...` : text;
+    length && children.length > length
+      ? `${children.slice(0, length)}...`
+      : children;
   const inner = <Typography {...rest}>{formattedText}</Typography>;
 
-  if (length && text.length > length) {
-    return <Tooltip content={text}>{inner}</Tooltip>;
+  if (length && children.length > length) {
+    return <Tooltip content={children}>{inner}</Tooltip>;
   }
 
   return inner;

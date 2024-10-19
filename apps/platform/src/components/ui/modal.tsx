@@ -6,7 +6,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalProps,
-  Spinner,
 } from "@nextui-org/react";
 import { PropsWithChildren } from "react";
 import { Typography } from "./typography";
@@ -73,19 +72,10 @@ export const ModalFooterWithActions = (props: ModalFooterWithActionsProps) => {
       <Button
         form={form}
         type={form ? "submit" : undefined}
-        isDisabled={isActionPending}
+        isLoading={isActionPending}
         color={confirmColor ? confirmColor : "primary"}
         onPress={onConfirm}
       >
-        {isActionPending && (
-          <Spinner
-            color={
-              typeof confirmColor === "undefined" || confirmColor === "primary"
-                ? "warning"
-                : undefined
-            }
-          />
-        )}
         {confirm}
       </Button>
     </ModalFooter>

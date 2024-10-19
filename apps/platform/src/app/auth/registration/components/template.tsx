@@ -29,7 +29,7 @@ type Props = {
 const FORM_ID = "registration-form-id";
 
 export const RegistrationTemplate = (props: Props) => {
-  const { inviteValidationError, inviteId } = props;
+  const { inviteValidationError } = props;
   const [step, setStep] = useState<"idle" | "verification">("idle");
 
   const {
@@ -41,9 +41,7 @@ export const RegistrationTemplate = (props: Props) => {
     mutateAsync: registrationVerification,
     error: registrationVerificationErrors,
     isPending: isRegistrationVerificationPending,
-  } = useRegistrationVerificationMutation({
-    inviteId,
-  });
+  } = useRegistrationVerificationMutation();
 
   const registrationHandler = async (values: RegistrationDto) => {
     if (inviteValidationError) return toast.error(inviteValidationError);

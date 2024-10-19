@@ -30,7 +30,7 @@ export const getProjectSubmissions = async (
     const submissionsWhereInput: Prisma.SubmissionWhereInput = {
       projectId,
       status,
-      declinedAt: null,
+      deletedAt: null,
       organization: { members: { some: { id: userId } } },
     };
 
@@ -48,9 +48,11 @@ export const getProjectSubmissions = async (
       where: submissionsWhereInput,
       skip,
       take,
+      orderBy: { createdAt: "desc" },
       select: {
         id: true,
         email: true,
+        fullName: true,
         status: true,
         createdAt: true,
         widget: {

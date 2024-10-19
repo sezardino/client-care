@@ -1,6 +1,6 @@
 "use client";
 
-import { ProjectSubmissionsTable } from "@/components/modules/projects/project-submissions-table";
+import { ProjectSubmissionsTable } from "@/components/modules/submissions/project-submissions-table";
 import { useTableSearchParams } from "@/hooks/table-search-params";
 import { useProjectSubPagesStore } from "@/store/project-sub-pages";
 import { useState } from "react";

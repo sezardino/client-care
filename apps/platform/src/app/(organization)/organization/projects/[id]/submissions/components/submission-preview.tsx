@@ -4,7 +4,7 @@
 import {
   SubmissionPreviewModal,
   SubmissionPreviewModalProps,
-} from "@/components/modules/projects/submission-preview-modal";
+} from "@/components/modules/submissions/submission-preview-modal";
 import { AlertModal } from "@/components/ui/alert-modal";
 import { ModalBody, Select, SelectItem } from "@nextui-org/react";
 import { SubmissionStatus } from "@prisma/client";
@@ -19,7 +19,8 @@ type Props = Omit<
   | "onReDeclineRequest"
   | "onProcessRequest"
   | "submission"
-  | "isLoading"
+  | "isSubmissionLoading"
+  | "isActionPending"
 > & { submissionId: string };
 
 type SubmissionAction = "decline" | "cancel-decline";
@@ -77,9 +78,8 @@ export const SubmissionPreview = (props: Props) => {
       <SubmissionPreviewModal
         {...rest}
         submission={details}
-        isLoading={
-          isDetailsLoading || isDeclinePending || isCancelDeclinePending
-        }
+        isSubmissionLoading={isDetailsLoading}
+        isActionPending={isDeclinePending || isCancelDeclinePending}
         isClosePrevented={!!action || isDetailsLoading}
         onDeclineRequest={() => setAction("decline")}
         onReDeclineRequest={() => setAction("cancel-decline")}

@@ -1,10 +1,9 @@
 "use client";
 
 import { createColumnHelper } from "@/components/ui/data-table";
+import { DateBadge } from "@/components/ui/date-badge";
 import { TableWidget, TableWidgetProps } from "@/components/ui/table-widget";
 import { TextWithEllipsis } from "@/components/ui/text-with-ellipsis";
-import { Typography } from "@/components/ui/typography";
-import { DEFAULT_DATE_FORMAT } from "@/const/base";
 import { SubmissionTable } from "@/types/table";
 import {
   Button,
@@ -14,8 +13,9 @@ import {
   DropdownTrigger,
   Tooltip,
 } from "@nextui-org/react";
-import dayjs from "dayjs";
 import { AlertOctagon, MoreVertical, PowerOff } from "lucide-react";
+import { WidgetTypeBadge } from "../../ui/project-type-badge";
+import { SubmissionStatusBadge } from "../../ui/submission-status-badge";
 
 type PickerProps = Pick<
   TableWidgetProps<SubmissionTable>,
@@ -53,29 +53,32 @@ export const ProjectSubmissionsTable = (props: Props) => {
               <AlertOctagon className="text-warning-500 w-5 h-5" />
             </Tooltip>
           ) : null}
-          <TextWithEllipsis text={value.name} length={24} styling="xs" />
+          <TextWithEllipsis length={24} styling="xs">
+            {value.name}
+          </TextWithEllipsis>
         </div>
       ),
     }),
     columnHelper("createdAt", {
       label: "Submission Date",
-      cell: ({ value }) => (
-        <Typography styling="xs">
-          {dayjs(value).format(DEFAULT_DATE_FORMAT)}
-        </Typography>
-      ),
+      cell: ({ value }) => <DateBadge date={value} />,
     }),
     columnHelper("widget", {
       label: "Widget type",
-      cell: ({ value }) => <Typography styling="xs">{value.type}</Typography>,
+      cell: ({ value }) => <WidgetTypeBadge type={value.type} />,
     }),
     columnHelper("email", {
       label: "Sender",
-      cell: ({ value }) => (
-        <TextWithEllipsis text={value} length={16} styling="xs" />
+      cell: ({ row }) => (
+        <TextWithEllipsis length={16} styling="xs">
+          {row.fullName ? `${row.fullName} (${row.email})` : row.email}
+        </TextWithEllipsis>
       ),
     }),
-
+    columnHelper("status", {
+      label: "Status",
+      cell: ({ value }) => <SubmissionStatusBadge status={value} />,
+    }),
     columnHelper("id", {
       label: "",
       cell: ({ value, row }) => (
