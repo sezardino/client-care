@@ -21,7 +21,7 @@ export default clerkMiddleware((auth, req) => {
     );
     res.headers.append(
       "Access-Control-Allow-Headers",
-      "X-CSRF-Token, X-Requested-With, Authorisation, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+      "X-CSRF-Token, X-Requested-With, Authorization, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
     );
     return res;
   }
