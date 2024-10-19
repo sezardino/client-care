@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { getQueryClientForHydration } from "@/libs/react-query";
 import "@/styles/index.css";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import { PropsWithChildren } from "react";
 import { currentUserQuery } from "./hooks/current-user";
 import { ClientProviders } from "./providers";
@@ -42,6 +44,14 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
             {children}
           </HydrationBoundary>
         </ClientProviders>
+
+        {process.env.NODE_ENV === "production" && (
+          <>
+            {/* @ts-ignore */}
+            <feedback-widget token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0SWQiOiJjbTJhbXJzdXgwMDAwaHdlN2sya2ppOWd6Iiwib3JnYW5pemF0aW9uSWQiOiJjbTI4MDd5ZHAwMDAzZzZzNGZydGR1czNmIiwid2lkZ2V0SWQiOiJjbTJkaDAzZm0wMDAwMTE1YmhqdWd1OGFuIiwiaWF0IjoxNzI5MzI3OTQ1LCJleHAiOjMzMjU1MzcwMzQ1fQ.4D9fyEXxBO5ZOsrDQWULszZ9RRU70sN9cPN7K5KWPQA"></feedback-widget>
+            <Script src="https://client-care-widget-dev.vercel.app/widget.umd.js" />
+          </>
+        )}
       </body>
     </html>
   );
