@@ -28,3 +28,9 @@ export const GET = async (req: NextRequest) => {
     );
   }
 };
+
+export const OPTIONS = async () => {
+  return new NextResponse("", {
+    status: 200,
+  });
+};

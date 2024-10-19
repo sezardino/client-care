@@ -58,3 +58,9 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export const OPTIONS = async () => {
+  return new NextResponse("", {
+    status: 200,
+  });
+};
