@@ -30,12 +30,13 @@ type OmittedProps = Omit<
 type Props = PickerProps &
   OmittedProps & {
     submissions: SubmissionTable[];
+    onSelectSubmission: (id: string) => void;
   };
 
 const columnHelper = createColumnHelper<SubmissionTable>();
 
 export const ProjectSubmissionsTable = (props: Props) => {
-  const { submissions, ...rest } = props;
+  const { submissions, onSelectSubmission, ...rest } = props;
 
   const columns = [
     columnHelper("widget", {
@@ -77,15 +78,20 @@ export const ProjectSubmissionsTable = (props: Props) => {
 
     columnHelper("id", {
       label: "",
-      cell: ({ row }) => (
+      cell: ({ value, row }) => (
         <Dropdown aria-label={`Actions on submission with id: ${row.id}`}>
           <DropdownTrigger>
             <Button isIconOnly size="sm" variant="bordered">
               <MoreVertical className="w-4 h-4" />
             </Button>
           </DropdownTrigger>
-          <DropdownMenu aria-label="Static Actions">
-            <DropdownItem key="copy">Test</DropdownItem>
+          <DropdownMenu aria-label="Actions on selected submission">
+            <DropdownItem
+              key="details"
+              onClick={() => onSelectSubmission(value)}
+            >
+              See details
+            </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       ),

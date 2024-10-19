@@ -1,18 +1,13 @@
 "use server";
 
+import { ProjectSubmissionsDtoSchema } from "@/dto/submissions";
 import { prisma } from "@/libs/prisma";
 import { PaginationResponse, ServerActionResponse } from "@/types/base";
 import { SubmissionTable } from "@/types/table";
 import { getBackendPagination } from "@/utils/get-pagination";
 import { zodValidateAndFormatErrors } from "@/utils/zod";
 import { auth } from "@clerk/nextjs/server";
-import { z } from "zod";
-
-const ValidationSchema = z.object({
-  projectId: z.string(),
-  page: z.number().optional(),
-  limit: z.number().optional(),
-});
+import { Prisma } from "@prisma/client";
 
 export const getProjectSubmissions = async (
   argument: unknown
@@ -22,18 +17,19 @@ export const getProjectSubmissions = async (
   if (!userId) return { message: "Unauthorized" };
 
   const validationResponse = zodValidateAndFormatErrors(
-    ValidationSchema,
+    ProjectSubmissionsDtoSchema,
     argument
   );
 
   if (!validationResponse.success)
     return { message: "Invalid input", errors: validationResponse.errors };
 
-  const { projectId, page, limit } = validationResponse.data;
+  const { projectId, page, limit, status } = validationResponse.data;
 
   try {
-    const submissionsWhereInput = {
+    const submissionsWhereInput: Prisma.SubmissionWhereInput = {
       projectId,
+      status,
       organization: { members: { some: { id: userId } } },
     };
 
@@ -54,17 +50,15 @@ export const getProjectSubmissions = async (
       select: {
         id: true,
         email: true,
+        status: true,
+        createdAt: true,
         widget: {
           select: { name: true, type: true, isTest: true, isActive: true },
         },
-        createdAt: true,
       },
     });
 
-    return {
-      data: submissions,
-      meta,
-    };
+    return { data: submissions, meta };
   } catch (error) {
     console.log("error", error);
     return {

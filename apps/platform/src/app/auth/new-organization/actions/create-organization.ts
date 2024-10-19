@@ -36,17 +36,15 @@ export const createOrganization = async (
 
   const { logo, name, extra } = validationResponse.data;
 
-  const userHasNoOrganizationResponse = await checkIfUserHasNoOrganization(
-    userId
-  );
+  const userHasNoOrganizationResponse =
+    await checkIfUserHasNoOrganization(userId);
 
   if ("message" in userHasNoOrganizationResponse)
     return userHasNoOrganizationResponse;
 
   const slugFromName = stringToSlug(name);
-  const organizationExistResponse = await checkIfOrganizationExist(
-    slugFromName
-  );
+  const organizationExistResponse =
+    await checkIfOrganizationExist(slugFromName);
 
   if ("message" in organizationExistResponse) return organizationExistResponse;
 

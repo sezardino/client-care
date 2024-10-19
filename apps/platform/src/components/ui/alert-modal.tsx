@@ -1,3 +1,4 @@
+import { PropsWithChildren } from "react";
 import {
   ModalDescription,
   ModalDescriptionProps,
@@ -9,7 +10,8 @@ import {
 
 type AlertModalProps = ModalDescriptionProps &
   Omit<ModalFooterWithActionsProps, "onCancel"> &
-  Omit<ModalWrapperProps, "children"> & { onCancel?: () => void };
+  Omit<ModalWrapperProps, "children"> &
+  PropsWithChildren & { onCancel?: () => void };
 
 export const AlertModal = (props: AlertModalProps) => {
   const {
@@ -24,6 +26,7 @@ export const AlertModal = (props: AlertModalProps) => {
     confirmColor,
     isActionPending,
     isClosePrevented,
+    children,
     ...rest
   } = props;
 
@@ -41,6 +44,8 @@ export const AlertModal = (props: AlertModalProps) => {
       size="lg"
     >
       <ModalDescription title={title} description={description} />
+
+      {children}
 
       <ModalFooterWithActions
         isActionPending={isActionPending}

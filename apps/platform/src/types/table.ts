@@ -5,6 +5,9 @@ export type WidgetTable = Pick<
   "id" | "name" | "isActive" | "isTest" | "type" | "createdAt"
 > & { submissionsCount: number };
 
-export type SubmissionTable = Pick<Submission, "id" | "email" | "createdAt"> & {
+export type SubmissionTable = Pick<
+  Submission,
+  "id" | "email" | "createdAt" | "status"
+> & {
   widget: Pick<Widget, "type" | "name" | "isActive" | "isTest">;
 };
