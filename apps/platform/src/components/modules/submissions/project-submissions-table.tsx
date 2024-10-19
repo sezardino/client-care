@@ -60,8 +60,8 @@ export const ProjectSubmissionsTable = (props: Props) => {
       ),
     }),
     columnHelper("createdAt", {
-      label: "Submission Date",
-      cell: ({ value }) => <DateBadge date={value} />,
+      label: "Submission Time",
+      cell: ({ value }) => <DateBadge date={value} isTimeIncluded />,
     }),
     columnHelper("widget", {
       label: "Widget type",
