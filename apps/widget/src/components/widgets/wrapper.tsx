@@ -2,19 +2,20 @@ import { PropsWithChildren, useEffect, useState } from "react";
 
 type Props = PropsWithChildren & {
   token: string;
-  isDev?: boolean;
+  dev?: "true";
 };
 
 export const WidgetWrapper = (props: Props) => {
-  const { isDev, token, children } = props;
+  const { dev, token, children } = props;
   const [isWidgetActive, setIsWidgetActive] = useState(false);
-  console.log({ isDev });
+
   useEffect(() => {
     const checkWidgetStatus = async () => {
       try {
-        const url = isDev
-          ? "http://localhost:3000"
-          : import.meta.env.VITE_PUBLIC_URL;
+        const url =
+          dev === "true"
+            ? "http://localhost:3000"
+            : import.meta.env.VITE_PUBLIC_URL;
 
         const response = await fetch(`${url}/api/widget/status`, {
           method: "GET",

@@ -16,14 +16,14 @@ import { WidgetWrapper } from "./wrapper";
 
 export type FeedbackWidgetProps = {
   token: string;
-  isDev?: boolean;
+  dev?: "true";
 };
 
 export const FeedbackWidget = (props: FeedbackWidgetProps) => {
-  const { isDev, token } = props;
+  const { dev, token } = props;
   const [rating, setRating] = useState(3);
   const [submitted, setSubmitted] = useState(false);
-  console.log({ isDev, props });
+
   const onSelectStar = (index: number) => {
     setRating(index + 1);
   };
@@ -43,9 +43,10 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
       message: form.feedback.value,
     };
 
-    const url = isDev
-      ? "http://localhost:3000"
-      : import.meta.env.VITE_PUBLIC_URL;
+    const url =
+      dev === "true"
+        ? "http://localhost:3000"
+        : import.meta.env.VITE_PUBLIC_URL;
 
     const response = await fetch(`${url}/api/widget/feedback`, {
       method: "POST",
@@ -63,7 +64,7 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
   };
 
   return (
-    <WidgetWrapper isDev={isDev} token={token}>
+    <WidgetWrapper dev={dev} token={token}>
       <style>{tailwindStyles}</style>
       <div className="widget fixed bottom-4 right-4 z-50">
         <Popover>
