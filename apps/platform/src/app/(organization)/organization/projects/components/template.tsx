@@ -27,14 +27,12 @@ const FORM_ID = "create-project-form-id";
 export const OrganizationProjectsTemplate = () => {
   const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
 
-  const { data: projectsResponse, isLoading: isProjectsLoading } =
-    useOrganizationProjectsQuery();
+  const { data: projectsResponse } = useOrganizationProjectsQuery();
   const { mutateAsync: createNewProject } = useCreateNewProjectMutation();
 
-  const canCreateMoreProjects =
-    !isProjectsLoading &&
-    (projectsResponse?.projects.length || MAX_ORGANIZATION_PROJECTS_COUNT) <
-      MAX_ORGANIZATION_PROJECTS_COUNT;
+  const canCreateMoreProjects = projectsResponse
+    ? projectsResponse?.projects.length < MAX_ORGANIZATION_PROJECTS_COUNT
+    : false;
 
   const createNewProjectHandler = useCallback(
     async (values: NewProjectDto) => {

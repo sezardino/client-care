@@ -43,6 +43,6 @@ export const createUser = async (
     )
       return { message: "Email already in use" };
 
-    return { message: "There was error when try to create user" };
+    return { message: "There was error when try to create " };
   }
 };
