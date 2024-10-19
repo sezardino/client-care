@@ -16,10 +16,11 @@ import { WidgetWrapper } from "./wrapper";
 
 export type FeedbackWidgetProps = {
   token: string;
+  isDev?: boolean;
 };
 
 export const FeedbackWidget = (props: FeedbackWidgetProps) => {
-  const { token } = props;
+  const { isDev, token } = props;
   const [rating, setRating] = useState(3);
   const [submitted, setSubmitted] = useState(false);
 
@@ -42,18 +43,19 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
       message: form.feedback.value,
     };
 
-    const response = await fetch(
-      `${import.meta.env.VITE_PUBLIC_URL}/api/feedback`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    const url = isDev
+      ? "http://localhost:3000"
+      : import.meta.env.VITE_PUBLIC_URL;
+
+    const response = await fetch(`${url}/api/feedback`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     const content = await response.json();
     console.log(content);
 
