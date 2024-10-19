@@ -4,6 +4,7 @@ import { useSignUp } from "@clerk/nextjs";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { useMutation } from "@tanstack/react-query";
 import { useCallback } from "react";
+import { createUser } from "../action/create-user";
 
 export const useRegistrationMutation = () => {
   const { isLoaded, signUp } = useSignUp();
@@ -15,6 +16,8 @@ export const useRegistrationMutation = () => {
       const { email, password } = values;
 
       try {
+        await createUser(values.email);
+
         await signUp.create({
           emailAddress: email,
           password,
