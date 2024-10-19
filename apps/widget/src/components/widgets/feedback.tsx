@@ -63,7 +63,7 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
   };
 
   return (
-    <WidgetWrapper token={token}>
+    <WidgetWrapper isDev={isDev} token={token}>
       <style>{tailwindStyles}</style>
       <div className="widget fixed bottom-4 right-4 z-50">
         <Popover>
