@@ -1,6 +1,6 @@
 import { prisma } from "@/libs/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { verifyAuthToken } from "../helpers/auth-token";
+import { verifyAuthToken } from "../../helpers/auth-token";
 
 export const GET = async (req: NextRequest) => {
   const authTokenWithBearer = req.headers.get("Authorization") || "";

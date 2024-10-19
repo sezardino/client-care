@@ -2,7 +2,7 @@ import { FeedbackWidgetDtoSchema } from "@/dto/feedback";
 import { prisma } from "@/libs/prisma";
 import { zodValidateAndFormatErrors } from "@/utils/zod";
 import { NextRequest, NextResponse } from "next/server";
-import { verifyAuthToken } from "../helpers/auth-token";
+import { verifyAuthToken } from "../../helpers/auth-token";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
