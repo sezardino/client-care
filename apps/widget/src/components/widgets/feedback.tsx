@@ -100,6 +100,7 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
                       <Input
                         id="email"
                         type="email"
+                        required
                         placeholder="Enter your email"
                       />
                     </div>
