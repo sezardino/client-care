@@ -23,7 +23,7 @@ export const FeedbackWidget = (props: FeedbackWidgetProps) => {
   const { isDev, token } = props;
   const [rating, setRating] = useState(3);
   const [submitted, setSubmitted] = useState(false);
-
+  console.log({ isDev, props });
   const onSelectStar = (index: number) => {
     setRating(index + 1);
   };

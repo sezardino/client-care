@@ -8,7 +8,7 @@ type Props = PropsWithChildren & {
 export const WidgetWrapper = (props: Props) => {
   const { isDev, token, children } = props;
   const [isWidgetActive, setIsWidgetActive] = useState(false);
-
+  console.log({ isDev });
   useEffect(() => {
     const checkWidgetStatus = async () => {
       try {
