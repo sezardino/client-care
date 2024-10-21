@@ -1,11 +1,16 @@
-import { Select, SelectItem, SelectProps } from "@nextui-org/react";
+import {
+  Select,
+  SelectItem,
+  SelectProps,
+  SharedSelection,
+} from "@nextui-org/react";
 import { SubmissionStatus } from "@prisma/client";
 
-type OmittedProps = Omit<SelectProps, "children">;
+type OmittedProps = Omit<SelectProps, "children" | "onSelectionChange">;
 
 type Props = OmittedProps & {
   selectedKeys?: Set<SubmissionStatus> | undefined;
-  onSelectionChange: (value: Set<SubmissionStatus>) => void;
+  onSelectionChange: (value: SubmissionStatus[]) => void;
   excludedStatuses?: SubmissionStatus[];
 };
 
@@ -22,14 +27,22 @@ const text: Record<SubmissionStatus, string> = {
 };
 
 export const SubmissionStatusSelect = (props: Props) => {
-  const { excludedStatuses = [], ...rest } = props;
+  const { excludedStatuses = [], onSelectionChange, ...rest } = props;
 
   const statusesForRender = allStatuses.filter(
     (s) => !excludedStatuses.includes(s)
   );
 
+  const changeHandler = (selection: SharedSelection) => {
+    if (selection === "all") return allStatuses;
+
+    const statuses = Array.from(selection) as SubmissionStatus[];
+
+    onSelectionChange(statuses);
+  };
+
   return (
-    <Select {...rest}>
+    <Select {...rest} onSelectionChange={changeHandler}>
       {statusesForRender.map((status) => (
         <SelectItem key={status}>{text[status]}</SelectItem>
       ))}

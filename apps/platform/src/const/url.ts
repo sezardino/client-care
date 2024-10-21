@@ -10,7 +10,7 @@ export const ProjectUrls = {
 
   // organization
   dashboard: "/organization",
-  users: "/users",
+  // users: "/users",
   projects: "/projects",
   settings: "/organization/settings",
 

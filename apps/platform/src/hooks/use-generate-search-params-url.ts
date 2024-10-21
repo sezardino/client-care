@@ -11,7 +11,10 @@ export const useGenerateSearchParamsUrl = () => {
     (paramName: string, value: string | number) => {
       const params = new URLSearchParams(searchParams);
 
-      params.set(paramName, value.toString());
+      params.set(
+        paramName,
+        typeof value === "undefined" ? "" : value.toString()
+      );
 
       return `${pathname}?${params.toString()}`;
     },

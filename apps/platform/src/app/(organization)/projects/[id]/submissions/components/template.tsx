@@ -6,7 +6,6 @@ import { SubmissionStatusSelect } from "@/components/ui/submission-status-select
 import { useTableSearchParams } from "@/hooks/table-search-params";
 import { useProjectSubPagesStore } from "@/store/project-sub-pages";
 import { isSubmissionStatus } from "@/utils/is-submission-status";
-import { SubmissionStatus } from "@prisma/client";
 import { useState } from "react";
 import {
   SUBMISSION_SEARCH_FILTER_PARAM_NAME,
@@ -44,14 +43,10 @@ export const ProjectSubmissionsTemplate = () => {
             label="Filter by status"
             size="sm"
             placeholder="Choose a status"
-            disallowEmptySelection
             defaultSelectedKeys={status ? [status] : undefined}
             className="max-w-40"
             onSelectionChange={(keys) =>
-              changeParamHandler(
-                "status",
-                Array.from(keys)[0] as SubmissionStatus
-              )
+              changeParamHandler("status", Array.from(keys)[0])
             }
           />
           <SearchForm

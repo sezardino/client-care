@@ -21,7 +21,6 @@ import {
   LogOut,
   LucideProps,
   Settings,
-  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -47,7 +46,7 @@ type SidebarLink = LinkInner;
 const mainLinks: SidebarLink[] = [
   { label: "Dashboard", href: ProjectUrls.dashboard, icon: Grid },
   { label: "Projects", href: ProjectUrls.projects, icon: Folder },
-  { label: "Users", href: ProjectUrls.users, icon: Users },
+  // { label: "Users", href: ProjectUrls.users, icon: Users },
   { label: "Settings", href: ProjectUrls.settings, icon: Settings },
 ];
 

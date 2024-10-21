@@ -34,9 +34,8 @@ type AcceptedAfterDeclineStatuses =
 
 export const SubmissionPreview = (props: Props) => {
   const { submissionId, ...rest } = props;
-  const [cancelDeclineStatus, setCancelDeclineStatus] = useState<
-    Set<AcceptedAfterDeclineStatuses>
-  >(new Set([SubmissionStatus.NEW]));
+  const [cancelDeclineStatus, setCancelDeclineStatus] =
+    useState<AcceptedAfterDeclineStatuses>(SubmissionStatus.NEW);
   const [action, setAction] = useState<SubmissionAction | null>(null);
 
   const { data: details, isFetching: isDetailsLoading } =
@@ -58,11 +57,11 @@ export const SubmissionPreview = (props: Props) => {
       if (action === "cancel-decline")
         await cancelDeclineHandler({
           id: submissionId,
-          status: Array.from(cancelDeclineStatus)[0],
+          status: cancelDeclineStatus,
         });
 
       setAction(null);
-      setCancelDeclineStatus(new Set([SubmissionStatus.NEW]));
+      setCancelDeclineStatus(SubmissionStatus.NEW);
     } catch (error) {
       console.log(error);
     }
@@ -116,10 +115,10 @@ export const SubmissionPreview = (props: Props) => {
             placeholder="Choose a status"
             disallowEmptySelection
             description="Please select the status you want to assign to this submission after canceling the decline."
-            selectedKeys={cancelDeclineStatus}
+            defaultSelectedKeys={[SubmissionStatus.NEW]}
             excludedStatuses={[SubmissionStatus.DECLINED]}
             onSelectionChange={(keys) =>
-              setCancelDeclineStatus(keys as Set<AcceptedAfterDeclineStatuses>)
+              setCancelDeclineStatus(keys[0] as AcceptedAfterDeclineStatuses)
             }
           />
         </ModalBody>
