@@ -1,10 +1,10 @@
+import { createOrganization } from "@/actions/organizations/create-organization";
 import { ToastInner } from "@/components/ui/toast-inner";
 import { ProjectUrls } from "@/const/url";
 import { NewOrganizationDto } from "@/dto/organization";
 import { useServerMutation } from "@/libs/react-query/helpers";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { createOrganization } from "../actions/create-organization";
 
 export const useCreateOrganizationMutation = () => {
   const router = useRouter();

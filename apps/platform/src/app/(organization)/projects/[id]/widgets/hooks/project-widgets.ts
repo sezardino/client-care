@@ -1,5 +1,5 @@
+import { getProjectWidgets } from "@/actions/widgets/project-widgets";
 import { useServerQuery } from "@/libs/react-query/helpers";
-import { getProjectWidgets } from "../actions/project-widgets";
 
 export const PROJECT_WIDGETS_QUERY_KEY = "project-widgets-query-key";
 

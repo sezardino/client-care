@@ -1,10 +1,10 @@
+import { createUser } from "@/actions/users/create-user";
 import { RegistrationDto } from "@/dto/auth";
 import { CustomError } from "@/types/base";
 import { useSignUp } from "@clerk/nextjs";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { useMutation } from "@tanstack/react-query";
 import { useCallback } from "react";
-import { createUser } from "../action/create-user";
 
 export const useRegistrationMutation = () => {
   const { isLoaded, signUp } = useSignUp();

@@ -1,5 +1,5 @@
+import { getWidgetCodeSnippet } from "@/actions/widgets/widget-code-snippet";
 import { useServerQuery } from "@/libs/react-query/helpers";
-import { getWidgetCodeSnippet } from "../actions/widget-code-snippet";
 
 export const WIDGET_CODE_SNIPPET = "project-widgets-query-key";
 

@@ -1,4 +1,4 @@
-import { getCurrentUserData } from "@/app/actions/current-user";
+import { getCurrentUserData } from "@/actions/users/current-user";
 import { ProjectUrls } from "@/const/url";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";

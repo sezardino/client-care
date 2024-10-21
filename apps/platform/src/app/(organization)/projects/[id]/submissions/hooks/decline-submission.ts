@@ -1,6 +1,6 @@
+import { declineSubmission } from "@/actions/submissions/decline-submission";
 import { useServerMutation } from "@/libs/react-query/helpers";
 import { toast } from "sonner";
-import { declineSubmission } from "../actions/decline-submission";
 import { PROJECT_SUBMISSIONS_QUERY_KEY } from "./project-submissions";
 import { SUBMISSION_DETAILS_QUERY_KEY } from "./submission-details";
 

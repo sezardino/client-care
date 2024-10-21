@@ -1,8 +1,8 @@
+import { deleteProfileUserAvatar } from "@/actions/users/delete-profile-avatar";
 import { CURRENT_USER_QUERY_KEY } from "@/app/hooks/current-user";
 import { ToastInner } from "@/components/ui/toast-inner";
 import { useServerMutation } from "@/libs/react-query/helpers";
 import { toast } from "sonner";
-import { deleteProfileUserAvatar } from "../actions/delete-profile-avatar";
 
 export const useDeleteProfileAvatarMutation = () => {
   return useServerMutation({

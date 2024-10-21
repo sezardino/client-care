@@ -1,7 +1,7 @@
+import { cancelDeclineSubmission } from "@/actions/submissions/cancel-decline-submission";
 import { CancelDeclineSubmissionDto } from "@/dto/submissions";
 import { useServerMutation } from "@/libs/react-query/helpers";
 import { toast } from "sonner";
-import { cancelDeclineSubmission } from "../actions/cancel-decline-submission";
 import { PROJECT_SUBMISSIONS_QUERY_KEY } from "./project-submissions";
 import { SUBMISSION_DETAILS_QUERY_KEY } from "./submission-details";
 

@@ -16,7 +16,7 @@ import {
 import { ArrowLeft, Loader2 } from "lucide-react";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
-import { useLogin } from "../use-login";
+import { useLogin } from "../hooks/use-login";
 
 const LOGIN_FORM_ID = "login-form";
 

@@ -1,5 +1,5 @@
+import { getCurrentUserData } from "@/actions/users/current-user";
 import { useServerQuery } from "@/libs/react-query/helpers";
-import { getCurrentUserData } from "../actions/current-user";
 
 export const CURRENT_USER_QUERY_KEY = "current-user-query-key";
 

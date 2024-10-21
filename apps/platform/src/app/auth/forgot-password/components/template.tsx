@@ -17,13 +17,13 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata, NextPage } from "next";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
-import { useForgotPassword } from "../use-forgot-password";
+import { useForgotPassword } from "../hooks/use-forgot-password";
 
 const FORGOT_PASSWORD_FORM_ID = "forgot-password-form-id";
 
 export const metadata: Metadata = { title: "Forgot password" };
 
-export const ForgotPasswordPageWrapper: NextPage = () => {
+export const ForgotPasswordPageTemplate: NextPage = () => {
   const router = useRouter();
   const { isSignedIn } = useAuth();
   const { isLoaded } = useSignIn();

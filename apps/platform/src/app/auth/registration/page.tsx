@@ -1,6 +1,6 @@
+import { checkUserInvite } from "@/actions/users/check-invition";
 import { USER_INVITE_SEARCH_PARAMETER } from "@/const/search-params";
 import { Metadata } from "next";
-import { checkUserInvite } from "../actions/check-invition";
 import { RegistrationTemplate } from "./components/template";
 
 export const metadata: Metadata = { title: "Registration" };
@@ -15,14 +15,16 @@ const Page = async (props: Props) => {
     : null;
 
   return (
-    <RegistrationTemplate
-      inviteId={inviteId}
-      inviteValidationError={
-        checkInvitingResponse && "message" in checkInvitingResponse
-          ? checkInvitingResponse.message
-          : undefined
-      }
-    />
+    <main>
+      <RegistrationTemplate
+        inviteId={inviteId}
+        inviteValidationError={
+          checkInvitingResponse && "message" in checkInvitingResponse
+            ? checkInvitingResponse.message
+            : undefined
+        }
+      />
+    </main>
   );
 };
 

@@ -3,4 +3,12 @@ import { LoginPageTemplate } from "./components/template";
 
 export const metadata: Metadata = { title: "Login" };
 
-export default LoginPageTemplate;
+const Page = () => {
+  return (
+    <main>
+      <LoginPageTemplate />
+    </main>
+  );
+};
+
+export default Page;

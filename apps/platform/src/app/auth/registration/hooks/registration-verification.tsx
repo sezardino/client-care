@@ -1,3 +1,4 @@
+import { setUserId } from "@/actions/users/set-user-id";
 import { ProjectUrls } from "@/const/url";
 import { VerificationDto } from "@/dto/auth";
 import { CustomError } from "@/types/base";
@@ -7,7 +8,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { toast } from "sonner";
-import { setUserId } from "../action/set-user-id";
 
 export const useRegistrationVerificationMutation = () => {
   const { isLoaded, signUp, setActive } = useSignUp();

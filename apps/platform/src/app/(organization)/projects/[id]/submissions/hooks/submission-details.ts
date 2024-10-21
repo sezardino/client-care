@@ -1,5 +1,5 @@
+import { getSubmissionDetails } from "@/actions/submissions/submission";
 import { useServerQuery } from "@/libs/react-query/helpers";
-import { getSubmissionDetails } from "../actions/submission";
 
 export const SUBMISSION_DETAILS_QUERY_KEY = "submission-details-query-key";
 

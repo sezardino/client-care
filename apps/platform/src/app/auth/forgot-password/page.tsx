@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
-import { ForgotPasswordPageWrapper } from "./components/wrapper";
+import { ForgotPasswordPageTemplate } from "./components/template";
 
 export const metadata: Metadata = { title: "Forgot password" };
 
-export default ForgotPasswordPageWrapper;
+const Page = () => {
+  return (
+    <main>
+      <ForgotPasswordPageTemplate />
+    </main>
+  );
+};
+
+export default Page;

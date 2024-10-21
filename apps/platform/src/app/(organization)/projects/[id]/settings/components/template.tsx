@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/edition-difference-modal";
 import { Typography } from "@/components/ui/typography";
 import { ProfileDto } from "@/dto/profile";
-import { getChangedFields } from "@/utils/get-changed-fields";
 import { useCallback, useState } from "react";
 
 export const ProjectSettingsTemplate = () => {
@@ -31,23 +30,23 @@ export const ProjectSettingsTemplate = () => {
     }
   }, []);
 
-  const submitProfileData = useCallback(
-    (values: ProfileDto) => {
-      if (!currentUserData) return;
+  // const submitProfileData = useCallback(
+  //   (values: ProfileDto) => {
+  //     if (!currentUserData) return;
 
-      const { firstName, lastName, position } = currentUserData;
+  //     const { firstName, lastName, position } = currentUserData;
 
-      const changedFields = getChangedFields(
-        { firstName, lastName, position },
-        values
-      );
+  //     const changedFields = getChangedFields(
+  //       { firstName, lastName, position },
+  //       values
+  //     );
 
-      if (Object.keys(changedFields).length === 0) return;
+  //     if (Object.keys(changedFields).length === 0) return;
 
-      setChangedProfileData(changedFields);
-    },
-    [currentUserData]
-  );
+  //     setChangedProfileData(changedFields);
+  //   },
+  //   [currentUserData]
+  // );
 
   const updateProfileDataHandler = useCallback(async () => {
     if (!changedProfileData) return;

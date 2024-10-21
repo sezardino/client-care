@@ -1,8 +1,8 @@
+import { getCurrentUserData } from "@/actions/users/current-user";
 import { OrganizationLayout } from "@/components/layout/organization";
 import { ProjectUrls } from "@/const/url";
 import { redirect } from "next/navigation";
 import { PropsWithChildren } from "react";
-import { getCurrentUserData } from "../actions/current-user";
 
 const Layout = async ({ children }: PropsWithChildren) => {
   const user = await getCurrentUserData();

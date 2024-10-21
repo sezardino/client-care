@@ -1,5 +1,5 @@
+import { getProjectData } from "@/actions/projects/project";
 import { useServerQuery } from "@/libs/react-query/helpers";
-import { getProjectData } from "../actions/project";
 
 export const PROJECT_QUERY_KEY = "project-query-key";
 
