@@ -1,5 +1,11 @@
+import { ProjectSettingsTemplate } from "./components/template";
+
 const Page = () => {
-  return <main>Settings</main>;
+  return (
+    <main>
+      <ProjectSettingsTemplate />
+    </main>
+  );
 };
 
 export default Page;

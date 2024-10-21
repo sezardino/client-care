@@ -10,15 +10,31 @@ const MAX_PROJECT_NAME_LENGTH = 50;
 const MAX_PROJECT_URL_LENGTH = 50;
 const MAX_PROJECT_DESCRIPTION_LENGTH = 100;
 
+const nameSchema = z
+  .string({
+    required_error: "Project name is required",
+  })
+  .min(1, { message: "Name must not be empty" })
+  .max(MAX_PROJECT_NAME_LENGTH, {
+    message: "Name must not exceed 50 characters",
+  });
+
+const urlSchema = z
+  .string({ required_error: "Url is required" })
+  .url("Invalid url")
+  .max(
+    MAX_PROJECT_URL_LENGTH,
+    `Max length of this field is ${MAX_PROJECT_URL_LENGTH} characters`
+  );
+const descriptionSchema = z
+  .string({ required_error: "Description is required" })
+  .min(1, "Description is required")
+  .max(
+    MAX_PROJECT_DESCRIPTION_LENGTH,
+    `Max length of this field is ${MAX_PROJECT_DESCRIPTION_LENGTH} characters`
+  );
 export const NewProjectDtoSchema = z.object({
-  name: z
-    .string({
-      required_error: "Project name is required",
-    })
-    .min(1, { message: "Name must not be empty" })
-    .max(MAX_PROJECT_NAME_LENGTH, {
-      message: "Name must not exceed 50 characters",
-    }),
+  name: nameSchema,
   logo: z
     .instanceof(File, { message: "Logo is required" })
     .refine(
@@ -29,22 +45,16 @@ export const NewProjectDtoSchema = z.object({
       (file) => file.size <= MAX_FILE_SIZE,
       `File size must be less than ${MAX_AVATAR_SIZE_MB}MB.`
     ),
-  url: z
-    .string({ required_error: "Url is required" })
-    .url("Invalid url")
-    .max(
-      MAX_PROJECT_URL_LENGTH,
-      `Max length of this field is ${MAX_PROJECT_URL_LENGTH} characters`
-    )
-    .optional(),
-  description: z
-    .string({ required_error: "Description is required" })
-    .min(1, "Description is required")
-    .max(
-      MAX_PROJECT_DESCRIPTION_LENGTH,
-      `Max length of this field is ${MAX_PROJECT_DESCRIPTION_LENGTH} characters`
-    )
-    .optional(),
+  url: urlSchema.optional(),
+  description: descriptionSchema.optional(),
 });
 
 export type NewProjectDto = z.infer<typeof NewProjectDtoSchema>;
+
+export const ProjectSettingsDtoSchema = z.object({
+  name: nameSchema.optional(),
+  url: urlSchema.optional(),
+  description: descriptionSchema.optional(),
+});
+
+export type ProjectSettingsDto = z.infer<typeof ProjectSettingsDtoSchema>;

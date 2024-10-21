@@ -4,37 +4,72 @@ import {
   Building,
   Folder,
   Image as ImageIcon,
+  LucideProps,
   Trash2,
   User,
 } from "lucide-react";
-import { ChangeEvent, ReactNode, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  ForwardRefExoticComponent,
+  RefAttributes,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import { Noop } from "react-hook-form";
 import { FormItem, FormMessage } from "./form";
 
 type PlaceholderType = "folder" | "user" | "building";
+type FieldSizes = "lg" | "md";
 
-type Props = {
+export type ImageFormFieldProps = {
   initialUrl?: string;
   placeholderType?: PlaceholderType;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onDelete: () => void;
+  size?: FieldSizes;
   onBlur: Noop;
   className?: string;
+  inputId?: string;
 };
 
-const defaultPlaceholder = <ImageIcon className="w-16 h-16" />;
-const placeholders: Record<PlaceholderType, ReactNode> = {
-  building: <Building className="w-16 h-16" />,
-  folder: <Folder className="w-16 h-16" />,
-  user: <User className="w-16 h-16" />,
+const defaultPlaceholder = ImageIcon;
+const placeholders: Record<
+  PlaceholderType,
+  ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+  >
+> = {
+  building: Building,
+  folder: Folder,
+  user: User,
 };
 
-const INPUT_ID = "file-input-id";
+const circleSizes: Record<FieldSizes, string> = {
+  lg: "w-32 h-32",
+  md: "w-24 h-24",
+};
 
-export const ImageFormField = (props: Props) => {
-  const { onChange, placeholderType, onDelete, onBlur, initialUrl, className } =
-    props;
+const iconsSizes: Record<FieldSizes, string> = {
+  lg: "w-16 h-16",
+  md: "w-12 h-12",
+};
+
+export const ImageFormField = (props: ImageFormFieldProps) => {
+  const {
+    size = "lg",
+    onChange,
+    placeholderType,
+    onDelete,
+    onBlur,
+    initialUrl,
+    inputId: id,
+    className,
+  } = props;
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const generatedId = useId();
+  const inputId = id ? id : generatedId;
+
   const [imagePreview, setImagePreview] = useState<string | null>(
     initialUrl || null
   );
@@ -61,7 +96,7 @@ export const ImageFormField = (props: Props) => {
     resetInput();
   };
 
-  const fallback = placeholderType
+  const Fallback = placeholderType
     ? placeholders[placeholderType]
     : defaultPlaceholder;
 
@@ -69,12 +104,12 @@ export const ImageFormField = (props: Props) => {
     <FormItem className={cn(className)}>
       <div className="flex justify-center items-center relative">
         <Avatar
-          htmlFor={INPUT_ID}
+          htmlFor={inputId}
           as="label"
           size="lg"
           src={imagePreview || undefined}
-          fallback={fallback}
-          className="cursor-pointer w-32 h-32"
+          fallback={<Fallback className={iconsSizes[size]} />}
+          className={cn("cursor-pointer", circleSizes[size])}
         />
         {imagePreview && (
           <Tooltip content="Delete">
@@ -95,7 +130,7 @@ export const ImageFormField = (props: Props) => {
       <input
         ref={inputRef}
         name="logo"
-        id={INPUT_ID}
+        id={inputId}
         type="file"
         accept={ACCEPTED_IMAGE_TYPES.join(",")}
         className="sr-only"

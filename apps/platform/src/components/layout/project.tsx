@@ -80,7 +80,7 @@ export const ProjectLayout = (props: Props) => {
 
   return (
     <>
-      <header className="flex flex-col gap-4 pb-4">
+      <header className="flex flex-col gap-4 pb-4 border-b">
         <PageHeader as="div" breadcrumbs={breadcrumbs}>
           <div className="grid grid-cols-[auto_1fr] gap-3 items-center">
             <PageHeaderDescription

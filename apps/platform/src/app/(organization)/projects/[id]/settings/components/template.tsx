@@ -2,7 +2,7 @@
 
 import { useCurrentUserQuery } from "@/app/hooks/current-user";
 import { ImageForm } from "@/components/form/image";
-import { ProfileForm } from "@/components/form/profile";
+import { ProjectForm } from "@/components/form/project";
 import { AlertModal } from "@/components/ui/alert-modal";
 import {
   EditionDifferenceModal,
@@ -12,11 +12,8 @@ import { Typography } from "@/components/ui/typography";
 import { ProfileDto } from "@/dto/profile";
 import { getChangedFields } from "@/utils/get-changed-fields";
 import { useCallback, useState } from "react";
-import { useDeleteProfileAvatarMutation } from "../hooks/delete-profile-avatar";
-import { useSetProfileAvatarMutation } from "../hooks/set-profile-avatar";
-import { useUpdateProfileDataMutation } from "../hooks/update-profile-data";
 
-export const UserProfileSettingsTemplate = () => {
+export const ProjectSettingsTemplate = () => {
   const [isDeleteInitialAvatarModalOpen, setIsDeleteInitialAvatarModalOpen] =
     useState(false);
   const [changedProfileData, setChangedProfileData] =
@@ -24,19 +21,15 @@ export const UserProfileSettingsTemplate = () => {
 
   const { data: currentUserData } = useCurrentUserQuery();
 
-  const { mutateAsync: setProfileAvatar } = useSetProfileAvatarMutation();
-  const { mutateAsync: deleteProfileAvatar } = useDeleteProfileAvatarMutation();
-  const { mutateAsync: updateProfileData } = useUpdateProfileDataMutation();
-
   const deleteCurrentImageHandler = useCallback(async () => {
     try {
-      await deleteProfileAvatar(undefined);
+      // await deleteProfileAvatar(undefined);
 
       setIsDeleteInitialAvatarModalOpen(false);
     } catch (error) {
       console.log(error);
     }
-  }, [deleteProfileAvatar]);
+  }, []);
 
   const submitProfileData = useCallback(
     (values: ProfileDto) => {
@@ -60,12 +53,12 @@ export const UserProfileSettingsTemplate = () => {
     if (!changedProfileData) return;
 
     try {
-      await updateProfileData(changedProfileData);
+      // await updateProfileData(changedProfileData);
       setChangedProfileData(null);
     } catch (error) {
       console.log(error);
     }
-  }, [changedProfileData, updateProfileData]);
+  }, [changedProfileData]);
 
   if (!currentUserData) return null;
 
@@ -73,24 +66,20 @@ export const UserProfileSettingsTemplate = () => {
     <>
       <section className="grid gap-5">
         <Typography level="h1" styling="h3" weight="medium" className="sr-only">
-          Change user profile data
+          Change project data
         </Typography>
         <ImageForm
-          imagePlaceholderType="user"
           key={currentUserData.avatarUrl || ""}
+          imagePlaceholderType="folder"
           initialImageUrl={currentUserData?.avatarUrl || undefined}
           onTryToDeleteImage={() => setIsDeleteInitialAvatarModalOpen(true)}
-          onFormSubmit={setProfileAvatar}
+          onFormSubmit={async () => undefined}
         />
-        <ProfileForm
+        <ProjectForm
           key={`${currentUserData.firstName}-${currentUserData.lastName}-${currentUserData.position}`}
-          initialValues={{
-            firstName: currentUserData.firstName,
-            lastName: currentUserData.lastName,
-            position: currentUserData.position,
-          }}
+          initialValues={{}}
           className="max-w-2xl"
-          onFormSubmit={submitProfileData}
+          onFormSubmit={() => undefined}
         />
       </section>
 
