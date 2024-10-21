@@ -1,1 +1,2 @@
 export const SUBMISSION_STATUS_FILTER_PARAM_NAME = "status";
+export const SUBMISSION_SEARCH_FILTER_PARAM_NAME = "search";

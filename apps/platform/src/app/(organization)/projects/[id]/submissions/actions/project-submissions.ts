@@ -24,7 +24,7 @@ export const getProjectSubmissions = async (
   if (!validationResponse.success)
     return { message: "Invalid input", errors: validationResponse.errors };
 
-  const { projectId, page, limit, status } = validationResponse.data;
+  const { projectId, page, limit, status, search } = validationResponse.data;
 
   try {
     const submissionsWhereInput: Prisma.SubmissionWhereInput = {
@@ -32,6 +32,17 @@ export const getProjectSubmissions = async (
       status,
       deletedAt: null,
       organization: { members: { some: { id: userId } } },
+      AND: search
+        ? [
+            {
+              OR: [
+                { widget: { name: { contains: search, mode: "insensitive" } } },
+                { fullName: { contains: search, mode: "insensitive" } },
+                { email: { contains: search, mode: "insensitive" } },
+              ],
+            },
+          ]
+        : undefined,
     };
 
     const widgetsTotalCount = await prisma.submission.count({

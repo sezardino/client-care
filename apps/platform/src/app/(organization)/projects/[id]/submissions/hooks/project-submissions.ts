@@ -10,6 +10,8 @@ export const getProjectSubmissionsQuery = (args: ProjectSubmissionsDto) => ({
     args.projectId,
     args.page,
     args.limit,
+    args.status,
+    args.search,
   ],
   queryFn: async () => getProjectSubmissions(args),
   enabled: !!args.projectId,

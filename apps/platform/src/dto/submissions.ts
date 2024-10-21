@@ -15,6 +15,7 @@ export const ProjectSubmissionsDtoSchema = z.object({
   page: z.number().optional(),
   limit: z.number().optional(),
   status: z.nativeEnum(SubmissionStatus).optional(),
+  search: z.string().optional(),
 });
 
 export type ProjectSubmissionsDto = z.infer<typeof ProjectSubmissionsDtoSchema>;
