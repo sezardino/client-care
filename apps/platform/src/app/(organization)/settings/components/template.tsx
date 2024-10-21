@@ -71,31 +71,26 @@ export const UserProfileSettingsTemplate = () => {
 
   return (
     <>
-      <div className="p-2 md:p-4">
-        <div className="w-full px-6 pb-8 mt-8 sm:max-w-xl sm:rounded-lg">
-          <Typography level="h2" styling="h3" weight="medium">
-            User Profile
-          </Typography>
-
-          <div className="grid max-w-2xl gap-5 mx-auto mt-4">
-            <ImageForm
-              key={currentUserData.avatarUrl || ""}
-              initialImageUrl={currentUserData?.avatarUrl || undefined}
-              onTryToDeleteImage={() => setIsDeleteInitialAvatarModalOpen(true)}
-              onFormSubmit={setProfileAvatar}
-            />
-            <ProfileForm
-              key={`${currentUserData.firstName}-${currentUserData.lastName}-${currentUserData.position}`}
-              initialValues={{
-                firstName: currentUserData.firstName,
-                lastName: currentUserData.lastName,
-                position: currentUserData.position,
-              }}
-              onFormSubmit={submitProfileData}
-            />
-          </div>
-        </div>
-      </div>
+      <section className="grid max-w-2xl gap-5 mx-auto">
+        <Typography level="h1" styling="h3" weight="medium" className="sr-only">
+          Change user profile data
+        </Typography>
+        <ImageForm
+          key={currentUserData.avatarUrl || ""}
+          initialImageUrl={currentUserData?.avatarUrl || undefined}
+          onTryToDeleteImage={() => setIsDeleteInitialAvatarModalOpen(true)}
+          onFormSubmit={setProfileAvatar}
+        />
+        <ProfileForm
+          key={`${currentUserData.firstName}-${currentUserData.lastName}-${currentUserData.position}`}
+          initialValues={{
+            firstName: currentUserData.firstName,
+            lastName: currentUserData.lastName,
+            position: currentUserData.position,
+          }}
+          onFormSubmit={submitProfileData}
+        />
+      </section>
 
       <AlertModal
         isOpen={isDeleteInitialAvatarModalOpen}
