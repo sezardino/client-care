@@ -11,7 +11,7 @@ export const NewWidgetDtoSchema = z.object({
     .max(MAX_WIDGET_NAME_LENGTH, {
       message: `Name must not exceed ${MAX_WIDGET_NAME_LENGTH} characters`,
     }),
-  isTest: z.boolean({
+  isActive: z.boolean({
     required_error: "This field is required",
   }),
 });

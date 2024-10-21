@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ComponentPropsWithoutRef } from "react";
 import { useForm } from "react-hook-form";
 
+import { MAX_PROJECT_ACTIVE_WIDGETS_COUNT } from "@/const/limits";
 import { NewWidgetDto, NewWidgetDtoSchema } from "@/dto/widget";
 import { cn, Input } from "@nextui-org/react";
 import { Form, FormField, FormItem, FormMessage } from "../ui/form";
@@ -27,9 +28,9 @@ export const WidgetForm = (props: WidgetFormProps) => {
             ? `${initialValues.name} Copy`
             : initialValues.name
           : "",
-      isTest:
-        typeof initialValues?.isTest !== "undefined"
-          ? initialValues.isTest
+      isActive:
+        typeof initialValues?.isActive !== "undefined"
+          ? initialValues.isActive
           : false,
     },
   });
@@ -63,14 +64,14 @@ export const WidgetForm = (props: WidgetFormProps) => {
 
         <FormField
           control={form.control}
-          name="isTest"
+          name="isActive"
           render={({ field: { value, ...field } }) => (
             <FormItem>
               <SwitchBox
                 {...field}
                 isSelected={value}
-                title="Is this a test widget?"
-                description="Test widgets have limited submissions but can be used on any domain for testing purposes. Non-test widgets work only on specific domains and have unlimited submissions."
+                title="Activate this widget?"
+                description={`You can activate up to ${MAX_PROJECT_ACTIVE_WIDGETS_COUNT} widgets at the same time. Active widgets work on specific domains and have unlimited submissions.`}
               />
               <FormMessage />
             </FormItem>

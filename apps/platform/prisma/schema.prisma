@@ -119,7 +119,6 @@ model Widget {
   type WidgetType
 
   isActive Boolean @default(false) @map("is_active")
-  isTest   Boolean @default(false) @map("is_test")
 
   organizationId String       @map("organization_id")
   organization   Organization @relation(fields: [organizationId], references: [id])

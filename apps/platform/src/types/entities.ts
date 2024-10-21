@@ -12,7 +12,7 @@ export type SubmissionDetails = Pick<
   Submission,
   "id" | "email" | "status" | "createdAt" | "phone" | "fullName"
 > & {
-  widget: Pick<Widget, "name" | "type" | "isTest" | "isActive">;
+  widget: Pick<Widget, "name" | "type" | "isActive">;
   feedback: Pick<Feedback, "message" | "rating"> | null;
   report:
     | (Pick<Report, "message"> & {

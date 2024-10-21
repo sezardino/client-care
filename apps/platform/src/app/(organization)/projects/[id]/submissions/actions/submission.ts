@@ -44,7 +44,7 @@ export const getSubmissionDetails = async (
         contact: { select: { message: true, subject: true } },
 
         widget: {
-          select: { name: true, type: true, isTest: true, isActive: true },
+          select: { name: true, type: true, isActive: true },
         },
       },
     });

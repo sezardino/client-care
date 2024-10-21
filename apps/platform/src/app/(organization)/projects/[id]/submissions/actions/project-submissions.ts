@@ -67,7 +67,7 @@ export const getProjectSubmissions = async (
         status: true,
         createdAt: true,
         widget: {
-          select: { name: true, type: true, isTest: true, isActive: true },
+          select: { name: true, type: true, isActive: true },
         },
       },
     });

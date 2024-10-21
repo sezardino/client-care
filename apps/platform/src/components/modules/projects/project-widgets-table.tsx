@@ -11,14 +11,8 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Tooltip,
 } from "@nextui-org/react";
-import {
-  AlertOctagon,
-  CheckCircle2,
-  MoreVertical,
-  XCircle,
-} from "lucide-react";
+import { CheckCircle2, MoreVertical, XCircle } from "lucide-react";
 import { WidgetTypeBadge } from "../../ui/project-type-badge";
 
 type PickerProps = Pick<
@@ -55,24 +49,11 @@ export const ProjectWidgetsTable = (props: Props) => {
   const columns = [
     columnHelper("name", {
       label: "Name",
-      cell: ({ value, row }) => {
-        const valueJSX = (
-          <TextWithEllipsis level="span" styling="xs" length={24}>
-            {value}
-          </TextWithEllipsis>
-        );
-
-        return row.isTest ? (
-          <div className="flex items-center gap-2">
-            <Tooltip content="This is test widget">
-              <AlertOctagon className="text-warning-400 w-5 h-5" />
-            </Tooltip>
-            {valueJSX}
-          </div>
-        ) : (
-          valueJSX
-        );
-      },
+      cell: ({ value }) => (
+        <TextWithEllipsis level="span" styling="xs" length={24}>
+          {value}
+        </TextWithEllipsis>
+      ),
     }),
     columnHelper("type", {
       label: "Type",

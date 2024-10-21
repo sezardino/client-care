@@ -13,7 +13,7 @@ import {
   DropdownTrigger,
   Tooltip,
 } from "@nextui-org/react";
-import { AlertOctagon, MoreVertical, PowerOff } from "lucide-react";
+import { MoreVertical, PowerOff } from "lucide-react";
 import { WidgetTypeBadge } from "../../ui/project-type-badge";
 import { SubmissionStatusBadge } from "../../ui/submission-status-badge";
 
@@ -44,16 +44,12 @@ export const ProjectSubmissionsTable = (props: Props) => {
       label: "Widget",
       cell: ({ value }) => (
         <div className="flex items-center gap-2">
-          {!value.isTest && !value.isActive ? (
+          {!value.isActive ? (
             <Tooltip content="This widget is disabled">
               <PowerOff className="text-red-500 w-5 h-5" />
             </Tooltip>
           ) : null}
-          {value.isTest ? (
-            <Tooltip content="This is test widget">
-              <AlertOctagon className="text-warning-500 w-5 h-5" />
-            </Tooltip>
-          ) : null}
+
           <TextWithEllipsis length={24} styling="xs">
             {value.name}
           </TextWithEllipsis>

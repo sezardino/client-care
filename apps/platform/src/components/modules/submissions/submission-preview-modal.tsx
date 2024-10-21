@@ -16,7 +16,7 @@ import {
   Skeleton,
   Tooltip,
 } from "@nextui-org/react";
-import { AlertOctagon, PowerOff } from "lucide-react";
+import { PowerOff } from "lucide-react";
 import { Fragment, useMemo } from "react";
 import { WidgetTypeBadge } from "../../ui/project-type-badge";
 import { SubmissionStatusBadge } from "../../ui/submission-status-badge";
@@ -88,11 +88,6 @@ export const SubmissionPreviewModal = (props: SubmissionPreviewModalProps) => {
           <CardHeader>
             <Typography level="h3" weight="medium" styling="large">
               Submission information
-              {submission?.widget.isTest && (
-                <Tooltip content="Submitted from test widget">
-                  <AlertOctagon className="w-4 h-4 inline-block ml-1 text-warning-500" />
-                </Tooltip>
-              )}
               {!submission?.widget.isActive && (
                 <Tooltip content="Submitted from disabled widget">
                   <PowerOff className="w-4 h-4 inline-block ml-1 text-red-500" />

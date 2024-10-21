@@ -57,7 +57,7 @@ export const getProjectData = async (
     if (!project) return { message: "Project not found" };
 
     const testWidgetsCount = await prisma.widget.count({
-      where: { projectId: project.id, deletedAt: null, isTest: true },
+      where: { projectId: project.id, deletedAt: null },
     });
     const activeWidgetsCount = await prisma.widget.count({
       where: { projectId: project.id, deletedAt: null, isActive: true },

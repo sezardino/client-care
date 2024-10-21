@@ -62,7 +62,6 @@ export const getProjectWidgets = async (
         id: true,
         name: true,
         isActive: true,
-        isTest: true,
         type: true,
         createdAt: true,
         _count: { select: { submissions: true } },
