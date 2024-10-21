@@ -25,7 +25,7 @@ export const ProjectSubmissionsTemplate = () => {
   const [selectedSubmissionId, setSelectedSubmissionId] = useState<
     string | null
   >(null);
-  console.log(getParam(SUBMISSION_SEARCH_FILTER_PARAM_NAME));
+
   const { data: submissionsResponse, isLoading: isSubmissionsLoading } =
     useProjectSubmissionsQuery({
       projectId: projectId!,
