@@ -88,8 +88,6 @@ model Project {
   name String
   url  String @default("")
 
-  domains String[]
-
   description String @default("")
 
   widgets     Widget[]
@@ -119,6 +117,8 @@ model Widget {
   id   String     @id @default(cuid())
   name String
   type WidgetType
+
+  domains String[]
 
   isActive Boolean @default(false) @map("is_active")
 

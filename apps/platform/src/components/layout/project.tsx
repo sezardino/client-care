@@ -1,17 +1,7 @@
 "use client";
 
 import { useProjectQuery } from "@/app/(organization)/projects/[id]/hooks/project";
-import {
-  Avatar,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Link,
-  Tab,
-  Tabs,
-} from "@nextui-org/react";
+import { Avatar, Button, Card, CardBody, Tab, Tabs } from "@nextui-org/react";
 import { AppWindowMac, Folder, Plus } from "lucide-react";
 import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { Typography } from "../ui/typography";
@@ -27,7 +17,6 @@ import {
   PageHeaderDescription,
 } from "../modules/layout/page-header";
 import { WidgetCodeSnippetModal } from "../modules/projects/widget-code-snippet-modal";
-import { Alert } from "../ui/alert";
 import { ModalWithForm } from "../ui/modal-with-form";
 
 const WIDGET_FORM_ID = "layout-widget-form-id";
@@ -91,31 +80,6 @@ export const ProjectLayout = (props: Props) => {
 
   return (
     <>
-      {projectData.domains.length === 0 && (
-        <Alert color="warning" className="mb-5">
-          <CardHeader className="flex items-center justify-between flex-wrap">
-            <Typography level="h3" styling="h4" weight="medium">
-              Domain not configured for this project
-            </Typography>
-            <Typography styling="small">
-              To ensure the widgets work correctly, you need to add a domain to
-              this project. This limitation affects all active widgets that
-              require domain binding.{" "}
-              <Link
-                href={ProjectUrls.projectSettingsSecurity(projectId)}
-                size="sm"
-              >
-                Add a domain
-              </Link>
-            </Typography>
-          </CardHeader>
-          <CardFooter>
-            <p className="text-xs mt-2">
-              You can add one or more domains on the project settings page.
-            </p>
-          </CardFooter>
-        </Alert>
-      )}
       <header className="flex flex-col gap-4 pb-4">
         <PageHeader as="div" breadcrumbs={breadcrumbs}>
           <div className="grid grid-cols-[auto_1fr] gap-3 items-center">
