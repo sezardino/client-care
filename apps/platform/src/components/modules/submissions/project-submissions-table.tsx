@@ -22,21 +22,22 @@ type PickerProps = Pick<
   "currentLimit" | "currentPage" | "onPageChange" | "onLimitChange"
 >;
 
-type OmittedProps = Omit<
+type OmittedTableWidgetProps = Omit<
   TableWidgetProps<SubmissionTable>,
   "data" | "columns" | "emptyContent" | "limitLabel" | "tableLabel"
 >;
 
 type Props = PickerProps &
-  OmittedProps & {
+  OmittedTableWidgetProps & {
     submissions: SubmissionTable[];
+    emptyContent?: string;
     onSelectSubmission: (id: string) => void;
   };
 
 const columnHelper = createColumnHelper<SubmissionTable>();
 
 export const ProjectSubmissionsTable = (props: Props) => {
-  const { submissions, onSelectSubmission, ...rest } = props;
+  const { submissions, emptyContent, onSelectSubmission, ...rest } = props;
 
   const columns = [
     columnHelper("widget", {
@@ -107,7 +108,9 @@ export const ProjectSubmissionsTable = (props: Props) => {
       columns={columns}
       data={submissions}
       tableLabel="Table with all submissions what included in current project"
-      emptyContent="There are no submissions to display"
+      emptyContent={
+        emptyContent ? emptyContent : "There are no submissions to display"
+      }
       limitLabel="Change how many submissions can you preview on page"
     />
   );

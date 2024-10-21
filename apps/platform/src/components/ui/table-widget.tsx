@@ -5,7 +5,10 @@ import { LimitSelect } from "./limit-select";
 
 export type TableWidgetProps<T extends object> =
   ComponentPropsWithoutRef<"div"> &
-    Pick<DataTableProps<T>, "data" | "columns" | "emptyContent"> & {
+    Pick<
+      DataTableProps<T>,
+      "data" | "columns" | "emptyContent" | "isLoading"
+    > & {
       currentPage: number;
       totalPages: number;
       currentLimit: number;
@@ -25,6 +28,7 @@ export const TableWidget = <T extends object>(props: TableWidgetProps<T>) => {
     onPageChange,
     data,
     emptyContent,
+    isLoading,
     tableLabel,
     limitLabel,
     ...rest
@@ -36,6 +40,7 @@ export const TableWidget = <T extends object>(props: TableWidgetProps<T>) => {
         data={data}
         columns={columns}
         emptyContent={emptyContent}
+        isLoading={isLoading}
         label={tableLabel}
       />
 

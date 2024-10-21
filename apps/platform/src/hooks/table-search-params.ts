@@ -26,6 +26,37 @@ export const useTableSearchParams = (args?: Args) => {
 
   const generatePathname = useGenerateSearchParamsUrl();
 
+  const changeParamHandler = useCallback(
+    (param: "limit" | "page" | string, value: string | number) => {
+      const paramName =
+        param === "limit" && limitSearchParam
+          ? limitSearchParam
+          : param === "page" && pageSearchParam
+            ? pageSearchParam
+            : param;
+
+      router.push(generatePathname(paramName, value));
+    },
+    [generatePathname, limitSearchParam, pageSearchParam, router]
+  );
+
+  const getParam = useCallback(
+    <T extends string | number>(
+      key: string,
+      defaultValue?: T
+    ): T | undefined => {
+      const value = searchParams.get(key);
+
+      if (value === null) return defaultValue as T;
+
+      if (typeof defaultValue === "number")
+        return (Number(value) || defaultValue) as T;
+
+      return (value || defaultValue) as T;
+    },
+    [searchParams]
+  );
+
   const changePageHandler = useCallback(
     (page: number) => router.push(generatePathname(pageSearchParam, page)),
     [generatePathname, pageSearchParam, router]
@@ -36,5 +67,12 @@ export const useTableSearchParams = (args?: Args) => {
     [generatePathname, limitSearchParam, router]
   );
 
-  return { page, limit, changeLimitHandler, changePageHandler };
+  return {
+    page,
+    limit,
+    getParam,
+    changeLimitHandler,
+    changePageHandler,
+    changeParamHandler,
+  };
 };

@@ -1,0 +1,1 @@
+export const SUBMISSION_STATUS_FILTER_PARAM_NAME = "status";

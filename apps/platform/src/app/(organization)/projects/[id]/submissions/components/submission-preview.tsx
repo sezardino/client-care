@@ -6,7 +6,8 @@ import {
   SubmissionPreviewModalProps,
 } from "@/components/modules/submissions/submission-preview-modal";
 import { AlertModal } from "@/components/ui/alert-modal";
-import { ModalBody, Select, SelectItem } from "@nextui-org/react";
+import { SubmissionStatusSelect } from "@/components/ui/submission-status-select";
+import { ModalBody } from "@nextui-org/react";
 import { SubmissionStatus } from "@prisma/client";
 import { useCallback, useState } from "react";
 import { useCancelDeclineSubmissionMutation } from "../hooks/cancel-decline-submission";
@@ -109,20 +110,18 @@ export const SubmissionPreview = (props: Props) => {
         onConfirm={alertHandler}
       >
         <ModalBody>
-          <Select
+          <SubmissionStatusSelect
             label="Select New Status"
             variant="bordered"
             placeholder="Choose a status"
             disallowEmptySelection
-            selectedKeys={cancelDeclineStatus}
             description="Please select the status you want to assign to this submission after canceling the decline."
-            // @ts-ignore
-            onSelectionChange={(keys) => setCancelDeclineStatus(keys)}
-          >
-            {acceptedAfterDeclineStatuses.map((status) => (
-              <SelectItem key={status}>{status}</SelectItem>
-            ))}
-          </Select>
+            selectedKeys={cancelDeclineStatus}
+            excludedStatuses={[SubmissionStatus.DECLINED]}
+            onSelectionChange={(keys) =>
+              setCancelDeclineStatus(keys as Set<AcceptedAfterDeclineStatuses>)
+            }
+          />
         </ModalBody>
       </AlertModal>
     </>

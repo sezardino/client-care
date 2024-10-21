@@ -29,11 +29,12 @@ export const ProjectWidgetsTemplate = () => {
   const { limit, page, changeLimitHandler, changePageHandler } =
     useTableSearchParams();
 
-  const { data: projectWidgetsResponse } = useProjectWidgetsQuery({
-    projectId: projectId!,
-    limit,
-    page,
-  });
+  const { data: widgetsResponse, isLoading: isWidgetsLoading } =
+    useProjectWidgetsQuery({
+      projectId: projectId!,
+      limit,
+      page,
+    });
   const { data: widgetCodeSnippet, isFetching: isSnippetFetching } =
     useWidgetCodeSnippetQuery(action?.type === "code" ? action.id : undefined!);
 
@@ -61,12 +62,10 @@ export const ProjectWidgetsTemplate = () => {
     if (!action) return;
     if (!["duplicate", "active"].includes(action.type)) return;
 
-    const neededWidget = projectWidgetsResponse?.data.find(
-      (w) => w.id === action?.id
-    );
+    const neededWidget = widgetsResponse?.data.find((w) => w.id === action?.id);
 
     return neededWidget;
-  }, [action, projectWidgetsResponse?.data]);
+  }, [action, widgetsResponse?.data]);
 
   const createWidgetHandler = useCallback(
     async (values: NewWidgetDto) => {
@@ -105,14 +104,15 @@ export const ProjectWidgetsTemplate = () => {
   return (
     <>
       <ProjectWidgetsTable
-        widgets={projectWidgetsResponse?.data || []}
+        widgets={widgetsResponse?.data || []}
         onChangeActiveStateRequest={(id) => setAction({ type: "active", id })}
         onCodeRequest={(id) => setAction({ type: "code", id })}
         onDeleteRequest={(id) => setAction({ type: "delete", id })}
         onDuplicateRequest={(id) => setAction({ type: "duplicate", id })}
         currentLimit={limit}
+        isLoading={isWidgetsLoading}
         currentPage={page}
-        totalPages={projectWidgetsResponse?.meta.totalPages || 0}
+        totalPages={widgetsResponse?.meta.totalPages || 0}
         onPageChange={changePageHandler}
         onLimitChange={changeLimitHandler}
       />
