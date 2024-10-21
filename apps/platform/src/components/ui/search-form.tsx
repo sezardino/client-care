@@ -2,7 +2,7 @@ import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { useWatchEffect } from "@/hooks/use-watch-effect";
 import { Button, cn, Input } from "@nextui-org/react";
 import { Slot } from "@radix-ui/react-slot";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import {
   ComponentPropsWithoutRef,
   FormEvent,
@@ -83,11 +83,13 @@ export const SearchForm = (props: Props) => {
         id={id}
         type="text"
         placeholder={placeholder}
+        value={value}
         onValueChange={(value) => setValue(value)}
         // @ts-expect-error // eslint-disable-line @typescript-eslint/ban-ts-comment
         onKeyDown={keydownHandler}
         endContent={
           <Button
+            type="submit"
             isIconOnly
             size="sm"
             color="primary"
@@ -96,6 +98,21 @@ export const SearchForm = (props: Props) => {
           >
             <Search className="w-4 h-4" />
           </Button>
+        }
+        startContent={
+          value ? (
+            <Button
+              type="button"
+              isIconOnly
+              size="sm"
+              color="danger"
+              variant="light"
+              aria-label="Clear"
+              onClick={() => setValue("")}
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          ) : null
         }
       />
     </Comp>
