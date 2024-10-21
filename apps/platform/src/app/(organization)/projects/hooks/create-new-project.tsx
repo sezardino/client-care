@@ -16,8 +16,8 @@ export const useCreateNewProjectMutation = () => {
       const formData = new FormData();
       formData.set("name", name);
       formData.set("logo", logo);
-      formData.set("description", description);
-      formData.set("url", url);
+      if (description) formData.set("description", description);
+      if (url) formData.set("url", url);
 
       return createNewProject(formData);
     },

@@ -35,14 +35,16 @@ export const NewProjectDtoSchema = z.object({
     .max(
       MAX_PROJECT_URL_LENGTH,
       `Max length of this field is ${MAX_PROJECT_URL_LENGTH} characters`
-    ),
+    )
+    .optional(),
   description: z
     .string({ required_error: "Description is required" })
     .min(1, "Description is required")
     .max(
       MAX_PROJECT_DESCRIPTION_LENGTH,
       `Max length of this field is ${MAX_PROJECT_DESCRIPTION_LENGTH} characters`
-    ),
+    )
+    .optional(),
 });
 
 export type NewProjectDto = z.infer<typeof NewProjectDtoSchema>;
