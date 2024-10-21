@@ -19,6 +19,7 @@ export const ProjectUrls = {
   projectTasks: (id: string) => `/projects/${id}/tasks`,
   projectWidgets: (id: string) => `/projects/${id}/widgets`,
   projectSettings: (id: string) => `/projects/${id}/settings`,
+  projectSettingsSecurity: (id: string) => `/projects/${id}/settings/security`,
 
   userSettings: "/settings",
 };

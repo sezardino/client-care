@@ -11,7 +11,7 @@ const ValidationSchema = z.object({
   id: z.string(),
 });
 
-type ReturnType = Pick<Project, "id" | "name"> & {
+type ReturnType = Pick<Project, "id" | "name" | "domains"> & {
   logoUrl: string | null;
   widgets: {
     total: number;
@@ -49,6 +49,7 @@ export const getProjectData = async (
       select: {
         id: true,
         name: true,
+        domains: true,
         logo: { select: { publicPath: true } },
         _count: { select: { widgets: { where: { deletedAt: null } } } },
       },

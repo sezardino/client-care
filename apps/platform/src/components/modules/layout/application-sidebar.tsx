@@ -65,6 +65,7 @@ export const ApplicationSidebar = (props: ApplicationSidebarProps) => {
     <Card
       as="div"
       id={id}
+      radius="none"
       className={cn("h-screen px-0.5 flex flex-col", className)}
     >
       <CardHeader className="p-2 border-b">
