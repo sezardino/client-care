@@ -88,6 +88,8 @@ model Project {
   name String
   url  String @default("")
 
+  domains String[]
+
   description String @default("")
 
   widgets     Widget[]
