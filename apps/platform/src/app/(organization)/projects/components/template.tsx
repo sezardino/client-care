@@ -28,7 +28,8 @@ export const OrganizationProjectsTemplate = () => {
   const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
 
   const { data: projectsResponse } = useOrganizationProjectsQuery();
-  const { mutateAsync: createNewProject } = useCreateNewProjectMutation();
+  const { mutateAsync: createNewProject, isPending: isCreatingNewProject } =
+    useCreateNewProjectMutation();
 
   const canCreateMoreProjects = projectsResponse
     ? projectsResponse?.projects.length < MAX_ORGANIZATION_PROJECTS_COUNT
@@ -100,6 +101,8 @@ export const OrganizationProjectsTemplate = () => {
         description="Set up a new project by providing the necessary details. Once created, you can start adding widgets to your project."
         confirm="Create Project"
         cancel="Cancel"
+        isActionPending={isCreatingNewProject}
+        isClosePrevented={isCreatingNewProject}
         isOpen={isNewProjectModalOpen}
         onClose={() => setIsNewProjectModalOpen(false)}
         formId={FORM_ID}

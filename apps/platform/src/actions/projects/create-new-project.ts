@@ -22,8 +22,8 @@ export const createNewProject = async (
   const dataToValidate = {
     name: args.get("name"),
     logo: args.get("logo"),
-    url: args.get("url"),
-    description: args.get("description"),
+    url: args.get("url") || undefined,
+    description: args.get("description") || undefined,
   };
 
   const validationResponse = zodValidateAndFormatErrors(
