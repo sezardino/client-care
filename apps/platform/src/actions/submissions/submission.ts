@@ -1,7 +1,7 @@
 "use server";
 
-import { DtoWithIdSchema } from "@/dto/common";
 import { prisma } from "@/libs/prisma";
+import { DtoWithIdSchema } from "@/schemas/dto/common";
 import { ServerActionResponse } from "@/types/base";
 import { SubmissionDetails } from "@/types/entities";
 import { zodValidateAndFormatErrors } from "@/utils/zod";

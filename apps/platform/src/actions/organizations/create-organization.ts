@@ -1,9 +1,9 @@
 "use server";
 
-import { NewOrganizationDtoSchema } from "@/dto/organization";
 import { prisma } from "@/libs/prisma";
 import { uploadOrganizationLogoToStorage } from "@/libs/supabase/handlers";
 import { getFilePublicPath } from "@/libs/supabase/storage";
+import { NewOrganizationDtoSchema } from "@/schemas/dto/organization";
 import { ServerActionResponse, SuccessResponse } from "@/types/base";
 import { stringToSlug } from "@/utils/string-to-slug";
 import { zodValidateAndFormatErrors } from "@/utils/zod";

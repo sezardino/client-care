@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import {
   PasswordResetRequestDto,
   PasswordResetRequestDtoSchema,
-} from "@/dto/auth";
+} from "@/schemas/dto/auth";
 import { cn, Input } from "@nextui-org/react";
 import { Form, FormField } from "../ui/form";
 import { Typography } from "../ui/typography";

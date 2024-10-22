@@ -1,6 +1,6 @@
 import { getProjectSubmissions } from "@/actions/submissions/project-submissions";
-import { ProjectSubmissionsDto } from "@/dto/submissions";
 import { useServerQuery } from "@/libs/react-query/helpers";
+import { ProjectSubmissionsDto } from "@/schemas/dto/submissions";
 
 export const PROJECT_SUBMISSIONS_QUERY_KEY = "project-submissions-query-key";
 

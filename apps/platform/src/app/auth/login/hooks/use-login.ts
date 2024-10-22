@@ -1,5 +1,5 @@
 import { ProjectUrls } from "@/const/url";
-import { LoginDto } from "@/dto/auth";
+import { LoginDto } from "@/schemas/dto/auth";
 import { useSignIn } from "@clerk/nextjs";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { ClerkAPIError } from "@clerk/types";

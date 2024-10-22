@@ -1,8 +1,8 @@
 "use server";
 
 import { ProjectUrls } from "@/const/url";
-import { ProfileDtoSchema } from "@/dto/profile";
 import { prisma } from "@/libs/prisma";
+import { ProfileDtoSchema } from "@/schemas/dto/profile";
 import { zodValidateAndFormatErrors } from "@/utils/zod";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";

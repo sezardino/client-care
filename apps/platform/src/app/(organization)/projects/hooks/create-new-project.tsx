@@ -1,7 +1,7 @@
 import { createNewProject } from "@/actions/projects/create-new-project";
 import { ProjectUrls } from "@/const/url";
-import { NewProjectDto } from "@/dto/project";
 import { useServerMutation } from "@/libs/react-query/helpers";
+import { NewProjectDto } from "@/schemas/dto/project";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 

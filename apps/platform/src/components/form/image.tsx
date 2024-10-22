@@ -1,6 +1,6 @@
 "use client";
 
-import { ImageDto, ImageDtoSchema } from "@/dto/image";
+import { ImageDto, ImageDtoSchema } from "@/schemas/dto/image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, cn, Spinner } from "@nextui-org/react";
 import { ComponentPropsWithoutRef } from "react";

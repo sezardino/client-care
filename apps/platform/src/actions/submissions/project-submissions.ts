@@ -1,7 +1,7 @@
 "use server";
 
-import { ProjectSubmissionsDtoSchema } from "@/dto/submissions";
 import { prisma } from "@/libs/prisma";
+import { ProjectSubmissionsDtoSchema } from "@/schemas/dto/submissions";
 import { PaginationResponse, ServerActionResponse } from "@/types/base";
 import { SubmissionTable } from "@/types/table";
 import { getBackendPagination } from "@/utils/get-pagination";

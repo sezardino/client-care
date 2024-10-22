@@ -4,7 +4,7 @@ import { RegistrationForm } from "@/components/form/registration";
 import { VerificationForm } from "@/components/form/verification";
 import { Typography } from "@/components/ui/typography";
 import { ProjectUrls } from "@/const/url";
-import { RegistrationDto } from "@/dto/auth";
+import { RegistrationDto } from "@/schemas/dto/auth";
 import {
   Button,
   Card,

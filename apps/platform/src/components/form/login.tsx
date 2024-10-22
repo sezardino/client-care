@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ComponentPropsWithoutRef } from "react";
 import { useForm } from "react-hook-form";
 
-import { LoginDto, LoginDtoSchema } from "@/dto/auth";
+import { LoginDto, LoginDtoSchema } from "@/schemas/dto/auth";
 import { cn, Input } from "@nextui-org/react";
 import { Form, FormField } from "../ui/form";
 import { Typography } from "../ui/typography";

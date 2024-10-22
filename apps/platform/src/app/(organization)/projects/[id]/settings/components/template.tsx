@@ -9,7 +9,7 @@ import {
   editionDifferenceModalStringDifferenceRenderFunction,
 } from "@/components/ui/edition-difference-modal";
 import { Typography } from "@/components/ui/typography";
-import { ProfileDto } from "@/dto/profile";
+import { ProfileDto } from "@/schemas/dto/profile";
 import { useCallback, useState } from "react";
 
 export const ProjectSettingsTemplate = () => {

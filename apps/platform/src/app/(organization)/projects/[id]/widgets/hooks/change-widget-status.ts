@@ -1,6 +1,6 @@
 import { changeWidgetStatus } from "@/actions/widgets/change-widget-status";
-import { WidgetStatusDtoWithProjectId } from "@/dto/widget";
 import { useServerMutation } from "@/libs/react-query/helpers";
+import { WidgetStatusDtoWithProjectId } from "@/schemas/dto/widget";
 import { toast } from "sonner";
 import { PROJECT_WIDGETS_QUERY_KEY } from "./project-widgets";
 

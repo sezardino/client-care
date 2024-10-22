@@ -1,5 +1,5 @@
-import { FeedbackWidgetDtoSchema } from "@/dto/feedback";
 import { prisma } from "@/libs/prisma";
+import { FeedbackWidgetDtoSchema } from "@/schemas/dto/feedback";
 import { zodValidateAndFormatErrors } from "@/utils/zod";
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAuthToken } from "../../helpers/auth-token";

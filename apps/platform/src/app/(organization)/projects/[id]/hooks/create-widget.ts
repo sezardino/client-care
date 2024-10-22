@@ -1,6 +1,6 @@
 import { createWidget } from "@/actions/widgets/create-widget";
-import { NewWidgetDtoWithProjectId } from "@/dto/widget";
 import { useServerMutation } from "@/libs/react-query/helpers";
+import { CreateWidgetDto } from "@/schemas/dto/widget";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { PROJECT_WIDGETS_QUERY_KEY } from "../widgets/hooks/project-widgets";
@@ -11,8 +11,7 @@ export const useCreateWidgetMutation = () => {
   const client = useQueryClient();
 
   return useServerMutation({
-    mutationFn: async (values: NewWidgetDtoWithProjectId) =>
-      createWidget(values),
+    mutationFn: async (values: CreateWidgetDto) => createWidget(values),
     onSuccess: (res) => {
       client.setQueryData([WIDGET_CODE_SNIPPET, res.id], {
         snippet: res.snippet,

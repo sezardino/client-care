@@ -1,6 +1,6 @@
 "use client";
 
-import { RegistrationDto, RegistrationDtoSchema } from "@/dto/auth";
+import { RegistrationDto, RegistrationDtoSchema } from "@/schemas/dto/auth";
 
 import { CustomError } from "@/types/base";
 import { zodResolver } from "@hookform/resolvers/zod";

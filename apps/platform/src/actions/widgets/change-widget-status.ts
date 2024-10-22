@@ -1,8 +1,8 @@
 "use server";
 
 import { MAX_PROJECT_ACTIVE_WIDGETS_COUNT } from "@/const/limits";
-import { WidgetStatusDtoSchemaWithProjectId } from "@/dto/widget";
 import { prisma } from "@/libs/prisma";
+import { WidgetStatusDtoSchemaWithProjectId } from "@/schemas/dto/widget";
 import { ServerActionResponse, SuccessResponse } from "@/types/base";
 import { zodValidateAndFormatErrors } from "@/utils/zod";
 import { auth } from "@clerk/nextjs/server";

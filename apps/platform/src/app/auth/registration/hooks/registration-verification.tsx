@@ -1,6 +1,6 @@
 import { setUserId } from "@/actions/users/set-user-id";
 import { ProjectUrls } from "@/const/url";
-import { VerificationDto } from "@/dto/auth";
+import { VerificationDto } from "@/schemas/dto/auth";
 import { CustomError } from "@/types/base";
 import { useSignUp } from "@clerk/nextjs";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";

@@ -1,6 +1,6 @@
 "use client";
 
-import { PasswordResetDto, PasswordResetDtoSchema } from "@/dto/auth";
+import { PasswordResetDto, PasswordResetDtoSchema } from "@/schemas/dto/auth";
 import { ClerkAPIError } from "@clerk/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn, Input } from "@nextui-org/react";

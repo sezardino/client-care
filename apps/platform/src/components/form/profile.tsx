@@ -1,6 +1,6 @@
 "use client";
 
-import { ProfileDto, ProfileDtoSchema } from "@/dto/profile";
+import { ProfileDto, ProfileDtoSchema } from "@/schemas/dto/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, cn, Input } from "@nextui-org/react";
 import { ComponentPropsWithoutRef } from "react";

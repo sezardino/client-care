@@ -1,7 +1,7 @@
 "use server";
 
-import { CancelDeclineSubmissionDtoSchema } from "@/dto/submissions";
 import { prisma, PRISMA_ERRORS } from "@/libs/prisma";
+import { CancelDeclineSubmissionDtoSchema } from "@/schemas/dto/submissions";
 import { ServerActionResponse, SuccessResponse } from "@/types/base";
 import { zodValidateAndFormatErrors } from "@/utils/zod";
 import { auth } from "@clerk/nextjs/server";

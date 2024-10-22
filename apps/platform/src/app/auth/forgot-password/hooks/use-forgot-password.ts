@@ -1,5 +1,5 @@
 import { ProjectUrls } from "@/const/url";
-import { PasswordResetDto, PasswordResetRequestDto } from "@/dto/auth";
+import { PasswordResetDto, PasswordResetRequestDto } from "@/schemas/dto/auth";
 import { useSignIn } from "@clerk/nextjs";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { ClerkAPIError } from "@clerk/types";

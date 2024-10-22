@@ -8,7 +8,7 @@ import { Typography } from "../ui/typography";
 
 import { useCreateWidgetMutation } from "@/app/(organization)/projects/[id]/hooks/create-widget";
 import { ProjectUrls } from "@/const/url";
-import { NewWidgetDto } from "@/dto/widget";
+import { WidgetFormValues } from "@/schemas/form/widget";
 import { useProjectSubPagesStore } from "@/store/project-sub-pages";
 import { usePathname } from "next/navigation";
 import { WidgetForm } from "../form/widget";
@@ -55,7 +55,7 @@ export const ProjectLayout = (props: Props) => {
   }, [projectId]);
 
   const createWidgetHandler = useCallback(
-    async (values: NewWidgetDto) => {
+    async (values: WidgetFormValues) => {
       try {
         const response = await createWidget({ ...values, projectId });
 

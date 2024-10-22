@@ -1,8 +1,8 @@
 import { createOrganization } from "@/actions/organizations/create-organization";
 import { ToastInner } from "@/components/ui/toast-inner";
 import { ProjectUrls } from "@/const/url";
-import { NewOrganizationDto } from "@/dto/organization";
 import { useServerMutation } from "@/libs/react-query/helpers";
+import { NewOrganizationDto } from "@/schemas/dto/organization";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 

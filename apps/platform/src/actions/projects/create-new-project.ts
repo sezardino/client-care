@@ -1,10 +1,10 @@
 "use server";
 
 import { MAX_ORGANIZATION_PROJECTS_COUNT } from "@/const/limits";
-import { NewProjectDtoSchema } from "@/dto/project";
 import { prisma } from "@/libs/prisma";
 import { uploadProjectLogoToStorage } from "@/libs/supabase/handlers";
 import { getFilePublicPath } from "@/libs/supabase/storage";
+import { NewProjectDtoSchema } from "@/schemas/dto/project";
 import { ServerActionResponse } from "@/types/base";
 import { stringToSlug } from "@/utils/string-to-slug";
 import { zodValidateAndFormatErrors } from "@/utils/zod";

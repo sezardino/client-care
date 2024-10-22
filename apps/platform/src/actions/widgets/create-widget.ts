@@ -1,8 +1,8 @@
 "use server";
 
 import { MAX_PROJECT_ACTIVE_WIDGETS_COUNT } from "@/const/limits";
-import { NewWidgetDtoSchemaWithProjectId } from "@/dto/widget";
 import { prisma } from "@/libs/prisma";
+import { CreateWidgetDtoSchema } from "@/schemas/dto/widget";
 import { ServerActionResponse } from "@/types/base";
 import { generateWidgetCodeSnippet } from "@/utils/generate-widget-code-snippet";
 import { zodValidateAndFormatErrors } from "@/utils/zod";
@@ -17,7 +17,7 @@ export const createWidget = async (
   if (!userId) return { message: "Unauthorized" };
 
   const validationResponse = zodValidateAndFormatErrors(
-    NewWidgetDtoSchemaWithProjectId,
+    CreateWidgetDtoSchema,
     args
   );
 

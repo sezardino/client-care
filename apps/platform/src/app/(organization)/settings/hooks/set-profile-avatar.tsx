@@ -1,8 +1,8 @@
 import { setProfileAvatar } from "@/actions/users/set-profile-avatar";
 import { CURRENT_USER_QUERY_KEY } from "@/app/hooks/current-user";
 import { ToastInner } from "@/components/ui/toast-inner";
-import { ImageDto } from "@/dto/image";
 import { useServerMutation } from "@/libs/react-query/helpers";
+import { ImageDto } from "@/schemas/dto/image";
 import { toast } from "sonner";
 
 export const useSetProfileAvatarMutation = () => {

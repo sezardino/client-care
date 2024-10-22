@@ -1,6 +1,9 @@
 "use client";
 
-import { ProjectSettingsDto, ProjectSettingsDtoSchema } from "@/dto/project";
+import {
+  ProjectSettingsDto,
+  ProjectSettingsDtoSchema,
+} from "@/schemas/dto/project";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, cn, Input, Textarea } from "@nextui-org/react";
 import { ComponentPropsWithoutRef } from "react";

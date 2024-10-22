@@ -1,5 +1,5 @@
 import { createUser } from "@/actions/users/create-user";
-import { RegistrationDto } from "@/dto/auth";
+import { RegistrationDto } from "@/schemas/dto/auth";
 import { CustomError } from "@/types/base";
 import { useSignUp } from "@clerk/nextjs";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";

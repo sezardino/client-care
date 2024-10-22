@@ -6,8 +6,9 @@ import { ProjectWidgetsTable } from "@/components/modules/projects/project-widge
 import { WidgetCodeSnippetModal } from "@/components/modules/projects/widget-code-snippet-modal";
 import { AlertModal } from "@/components/ui/alert-modal";
 import { ModalWithForm } from "@/components/ui/modal-with-form";
-import { NewWidgetDto, WidgetStatusDto } from "@/dto/widget";
 import { useTableSearchParams } from "@/hooks/table-search-params";
+import { WidgetStatusDto } from "@/schemas/dto/widget";
+import { WidgetFormValues } from "@/schemas/form/widget";
 import { useProjectSubPagesStore } from "@/store/project-sub-pages";
 import { WidgetTable } from "@/types/table";
 import { useCallback, useMemo, useState } from "react";
@@ -68,7 +69,7 @@ export const ProjectWidgetsTemplate = () => {
   }, [action, widgetsResponse?.data]);
 
   const createWidgetHandler = useCallback(
-    async (values: NewWidgetDto) => {
+    async (values: WidgetFormValues) => {
       if (!projectId) return;
       if (!action) return;
       if (action.type !== "duplicate") return;

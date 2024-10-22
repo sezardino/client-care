@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import {
   NewOrganizationDto,
   NewOrganizationDtoSchema,
-} from "@/dto/organization";
+} from "@/schemas/dto/organization";
 import { cn, Input } from "@nextui-org/react";
 import { Form, FormField, FormItem, FormMessage } from "../ui/form";
 import { ImageFormField } from "../ui/image-field";

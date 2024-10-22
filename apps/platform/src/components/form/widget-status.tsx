@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ComponentPropsWithoutRef } from "react";
 import { useForm } from "react-hook-form";
 
-import { WidgetStatusDto, WidgetStatusDtoSchema } from "@/dto/widget";
+import { WidgetStatusDto, WidgetStatusDtoSchema } from "@/schemas/dto/widget";
 import { cn } from "@nextui-org/react";
 import { Form, FormField, FormItem, FormMessage } from "../ui/form";
 import { SwitchBox } from "../ui/switch-box";

@@ -1,6 +1,6 @@
 "use client";
 
-import { VerificationDto, VerificationDtoSchema } from "@/dto/auth";
+import { VerificationDto, VerificationDtoSchema } from "@/schemas/dto/auth";
 import { CustomError } from "@/types/base";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@nextui-org/react";

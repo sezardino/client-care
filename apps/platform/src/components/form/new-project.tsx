@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ComponentPropsWithoutRef } from "react";
 import { useForm } from "react-hook-form";
 
-import { NewProjectDto, NewProjectDtoSchema } from "@/dto/project";
+import { NewProjectDto, NewProjectDtoSchema } from "@/schemas/dto/project";
 import { cn, Input, Textarea } from "@nextui-org/react";
 import {
   Form,

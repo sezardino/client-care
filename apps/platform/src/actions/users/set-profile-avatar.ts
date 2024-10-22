@@ -1,13 +1,13 @@
 "use server";
 
 import { ProjectUrls } from "@/const/url";
-import { ImageDtoSchema } from "@/dto/image";
 import { prisma } from "@/libs/prisma";
 import { uploadUserAvatarToStorage } from "@/libs/supabase/handlers";
 import {
   deleteFileFromStorage,
   getFilePublicPath,
 } from "@/libs/supabase/storage";
+import { ImageDtoSchema } from "@/schemas/dto/image";
 import { ServerActionResponse, SuccessResponse } from "@/types/base";
 import { zodValidateAndFormatErrors } from "@/utils/zod";
 import { auth } from "@clerk/nextjs/server";

@@ -10,7 +10,7 @@ import { ModalWithForm } from "@/components/ui/modal-with-form";
 import { Typography } from "@/components/ui/typography";
 import { MAX_ORGANIZATION_PROJECTS_COUNT } from "@/const/limits";
 import { ProjectUrls } from "@/const/url";
-import { NewProjectDto } from "@/dto/project";
+import { NewProjectDto } from "@/schemas/dto/project";
 import { Card, CardBody, Tooltip } from "@nextui-org/react";
 import { PlusCircle } from "lucide-react";
 import { useCallback, useState } from "react";
